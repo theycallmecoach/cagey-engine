@@ -1,0 +1,1 @@
+add_library(CageyConstantsTest ConstantsTest.cc)
