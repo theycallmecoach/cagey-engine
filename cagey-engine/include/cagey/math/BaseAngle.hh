@@ -28,26 +28,22 @@
 #ifndef CAGEY_MATH_BASEANGLE_HH_
 #define CAGEY_MATH_BASEANGLE_HH_
 
-/**
- * hmm
- */
+#include "cagey/math/Constants.hh"
+#include "cagey/math/Util.hh"
+
 namespace cagey { 
-/**
- * ahhh
- */
 namespace math { 
 
-//#include <numeric> //for std::numeric_limits
-//#include <iostream> //for std::ostream
-//#include "cagey/math/Math.hh"
-#include "cagey/math/Constants.hh"
 
 /**
  * Base for Angle representation classes.
  *
  * @tparam T Underlying type
  */
-template<template<typename> class Derived, typename T> class BaseAngle {
+template<template<typename> class D, typename T> class BaseAngle {
+
+  template<template<typename> class, typename> friend class BaseAngle;
+  
 public:
 
   ///Underlying type
@@ -72,7 +68,7 @@ public:
    * @tparam U a underlying type
    * @param value a BaseAngle to convert to this
    */
-  template<typename U> constexpr explicit BaseAngle(BaseAngle<Derived, U> value): value(T(value.value)) {}
+  template<typename U> constexpr explicit BaseAngle(BaseAngle<D, U> other): value(T(other.value)) {}
 
   /**
    * Explicit conversion operator to raw value
@@ -87,22 +83,36 @@ public:
    *
    * @param other an other instance of BaseAngle
    */
-  constexpr auto operator+=(BaseAngle<Derived, T> const & other) -> BaseAngle<Derived, T> & {
+  constexpr auto operator+=(BaseAngle<D, T> const & other) -> BaseAngle<D, T> & {
     value += other.value;
     return *this;
   }
-/*
-  constexpr auto operator-=(BaseAngle<Derived, T> & const other) -> BaseAngle<Derived, T> & {
+
+  /**
+   * Substract Assign Operator.  The value in the given BaseAngle is subtracted
+   * from the value of this BaseAngle.
+   *
+   * @param other an other instance of BaseAngle
+   */
+  constexpr auto operator-=(BaseAngle<D, T> const & other) -> BaseAngle<D, T> & {
     value -= other.value;
     return *this;
   }
+  
 
-  constexpr auto operator*=(T val) -> BaseAngle<Derived, T> & {
+  /**
+   * Multiplication Assign Operator.  The value of this BaseAngle is multiplied
+   * by the given value.
+   *
+   * @param val the scaling factor
+   */
+  constexpr auto operator*=(T val) -> BaseAngle<D, T> & {
     value *= val;
     return *this;
   }
-
-  constexpr auto operator/=(T val) -> BaseAngle<Derived, T> & {
+  
+/*
+  constexpr auto operator/=(T val) -> BaseAngle<D, T> & {
     value /= val;
     return *this;
   }
@@ -116,62 +126,96 @@ public:
    * @param lhs the left hand side of the addition
    * @param rhs the right hand side of the addition
    */
-  friend constexpr auto operator+(BaseAngle<Derived, T> lhs, BaseAngle<Derived, T> const & rhs) -> BaseAngle<Derived, T> {
+  friend constexpr auto operator+(BaseAngle<D, T> lhs, BaseAngle<D, T> const & rhs) -> BaseAngle<D, T> {
     return lhs += rhs;
+  }
+
+  /**
+   * Subtraction Operator.  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side of the subtraction
+   * @param rhs the right hand side of the subtraction
+   */
+  friend constexpr auto operator-(BaseAngle<D, T> lhs, BaseAngle<D, T> const & rhs) -> BaseAngle<D, T> {
+    return lhs -= rhs;
   }
   
 /*
-  friend constexpr auto operator-(BaseAngle<Derived, T> lhs, BaseAngle<Derived, T> const & rhs) -> BaseAngle<Derived, T> {
-    return lhs -= rhs;
-  }
-
-  friend constexpr auto operator==(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+  friend constexpr auto operator==(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return lhs.value = rhs.value;
   }
 
-  friend constexpr auto operator!=(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+  friend constexpr auto operator!=(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return !(lhs==rhs);
   }
 
-  friend constexpr auto operator<(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+  friend constexpr auto operator<(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return lhs.value < rhs.value;
   }
 
-  friend constexpr auto operator>(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+  friend constexpr auto operator>(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return rhs < lhs;
   }
 
-  friend constexpr auto operator<=(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+  friend constexpr auto operator<=(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return !(lhs>rhs);
   }
 
-  friend constexpr auto operator>=(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+  friend constexpr auto operator>=(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return !(lhs<rhs);
   }
 
-  friend constexpr auto operator-(BaseAngle<Derived, T> const & lhs) -> BaseAngle<Derived, T> {
-    return BaseAngle<Derived, T>{-lhs.value};
+  friend constexpr auto operator-(BaseAngle<D, T> const & lhs) -> BaseAngle<D, T> {
+    return BaseAngle<D, T>{-lhs.value};
   }
+*/
 
-  friend constexpr auto operator*(BaseAngle<Derived, T> lhs, T val) -> BaseAngle<Derived, T> {
+  
+  /**
+   * Multiplication Operator.  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side of the multiplication
+   * @param val the amount to scale by
+   */
+  friend constexpr auto operator*(BaseAngle<D, T> lhs, T val) -> BaseAngle<D, T> {
     return lhs *= val;
   }
 
-  friend constexpr auto operator*(T val, BaseAngle<Derived, T> rhs) -> BaseAngle<Derived, T> {
+  /**
+   * Multiplication Operator.  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param rhs the rhs hand side of the multiplication
+   * @param val the amount to scale by
+   */
+  friend constexpr auto operator*(T val, BaseAngle<D, T> rhs) -> BaseAngle<D, T> {
     return rhs *= val;
   }
 
-  friend constexpr auto operator/(BaseAngle<Derived, T> lhs, T val) -> BaseAngle<Derived, T> {
+  friend constexpr auto equals(BaseAngle<D, T> const & rhs,BaseAngle<D, T> const & lhs) {
+    return equals(rhs.value, lhs.value);
+  }
+
+/*
+  friend constexpr auto operator/(BaseAngle<D, T> lhs, T val) -> BaseAngle<D, T> {
     return lhs /= val;
   }
 
-  friend constexpr auto operator/(BaseAngle<Derived, T> lhs, BaseAngle<Derived, T> const & rhs) -> BaseAngle<Derived, T> {
+  friend constexpr auto operator/(BaseAngle<D, T> lhs, BaseAngle<D, T> const & rhs) -> BaseAngle<D, T> {
     return lhs /= rhs.value;
   }
 */
-public:
+private:
   Type value;
 };
+
+
+
 
 } // namespace math
 } // namespace cagey
