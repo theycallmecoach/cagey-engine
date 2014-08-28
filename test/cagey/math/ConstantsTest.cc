@@ -1,6 +1,6 @@
 #include <cagey/math/Constants.hh>
+
 #include <gtest/gtest.h>
-#include <cstdint>
 
 using namespace cagey::math;
 
@@ -31,3 +31,4 @@ INSTANTIATE_TYPED_TEST_CASE_P(Cagey, ConstantTestFixture, SupportedTypes);
 //TEST(Vector, Pi) {
 //  EXPECT_EQ(3, constants::pi<int>);
 //}
+
