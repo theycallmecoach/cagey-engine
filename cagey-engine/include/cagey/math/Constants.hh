@@ -34,6 +34,8 @@ namespace constants {
 
   /**
    * The mystical value of pi (3.14....) to the accuracy of T.
+   *
+   * @tparam T the desired type of Pi
    */
   template<typename T>
   constexpr T pi = T(3.141592653589793238462643383279502884);
@@ -41,6 +43,8 @@ namespace constants {
   /**
    * Value to convert between degrees and radians.
    * Equivalent to pi / 180
+   
+   * @tparam T the desired type of converstion value
    */
   template <typename T>
   constexpr T degToRad = pi<T> / T(180.0);
@@ -48,6 +52,8 @@ namespace constants {
   /**
    * Value to convert between radians and degrees.
    * Equivalent to 180 / pi
+   *
+   * @tparam T the desired type of converstion value
    */
   template <typename T>
   constexpr T radToDeg = T(180.0) / pi<T>;

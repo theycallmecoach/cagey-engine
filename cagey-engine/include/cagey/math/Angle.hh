@@ -25,14 +25,120 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_MATH_ANGLE_HH_
-#define CAGEY_MATH_ANGLE_HH_
+#ifndef CAGEY_MATH_BASEANGLE_HH_
+#define CAGEY_MATH_BASEANGLE_HH_
 
+/**
+ * hmm
+ */
 namespace cagey { 
+/**
+ * ha
+ */
 namespace math { 
 
+#include <cmath>
+#include <numeric> //for std::numeric_limits
+#include <iostream> //for std::ostream
+#include "cagey/math/Math.hh"
+#include "cagey/math/Constants.hh"
+
+/**
+ * Base for BaseAngle classes.
+ *
+ * @tparam T Underlying type
+ */
+template<template<typename> class Derived, typename T> class BaseAngle {
+public:
+
+  ///Underlying type
+  using Type = T; 
+
+  constexpr BaseAngle(): value{0} {}
+  constexpr explicit BaseAngle(T value) : value{value} {}
+  
+  template<class U> constexpr explicit BaseAngle(BaseAngle<Derived, U> value): value(T(value.value)) {}
+
+  constexpr explicit operator T() const { return value; }
+
+
+  constexpr auto operator+=(BaseAngle<Derived, T> & other) -> BaseAngle<Derived, T> & {
+    value += other.value;
+    return *this;
+  }
+
+  constexpr auto operator-=(BaseAngle<Derived, T> & other) -> BaseAngle<Derived, T> & {
+    value -= other.value;
+    return *this;
+  }
+
+  constexpr auto operator*=(T val) -> BaseAngle<Derived, T> & {
+    value *= val;
+    return *this;
+  }
+
+  constexpr auto operator/=(T val) -> BaseAngle<Derived, T> & {
+    value /= val;
+    return *this;
+  }
+
+  friend constexpr auto operator+(BaseAngle<Derived, T> lhs, BaseAngle<Derived, T> const & rhs) -> BaseAngle<Derived, T> {
+    return lhs += rhs;
+  }
+
+  friend constexpr auto operator-(BaseAngle<Derived, T> lhs, BaseAngle<Derived, T> const & rhs) -> BaseAngle<Derived, T> {
+    return lhs -= rhs;
+  }
+
+  friend constexpr auto operator==(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+    return lhs.value = rhs.value;
+  }
+
+  friend constexpr auto operator!=(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+    return !(lhs==rhs);
+  }
+
+  friend constexpr auto operator<(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+    return lhs.value < rhs.value;
+  }
+
+  friend constexpr auto operator>(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+    return rhs < lhs;
+  }
+
+  friend constexpr auto operator<=(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+    return !(lhs>rhs);
+  }
+
+  friend constexpr auto operator>=(BaseAngle<Derived, T> const & lhs, BaseAngle<Derived, T> const & rhs) -> bool {
+    return !(lhs<rhs);
+  }
+
+  friend constexpr auto operator-(BaseAngle<Derived, T> const & lhs) -> BaseAngle<Derived, T> {
+    return BaseAngle<Derived, T>{-lhs.value};
+  }
+
+  friend constexpr auto operator*(BaseAngle<Derived, T> lhs, T val) -> BaseAngle<Derived, T> {
+    return lhs *= val;
+  }
+
+  friend constexpr auto operator*(T val, BaseAngle<Derived, T> rhs) -> BaseAngle<Derived, T> {
+    return rhs *= val;
+  }
+
+  friend constexpr auto operator/(BaseAngle<Derived, T> lhs, T val) -> BaseAngle<Derived, T> {
+    return lhs /= val;
+  }
+
+  friend constexpr auto operator/(BaseAngle<Derived, T> lhs, BaseAngle<Derived, T> const & rhs) -> BaseAngle<Derived, T> {
+    return lhs /= rhs.value;
+  }
+
+public:
+  Type value;
+};
 
 } // namespace math
 } // namespace cagey
 
-#endif /* CAGEY_MATH_ANGLE_HH_ */
+#endif /* CAGEY_MATH_BASEANGLE_HH_ */
