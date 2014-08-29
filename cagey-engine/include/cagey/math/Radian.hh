@@ -28,7 +28,9 @@
 #ifndef CAGEY_MATH_RADIAN_HH_
 #define CAGEY_MATH_RADIAN_HH_
 
+#include <cagey/math/MathFwd.hh>
 #include <cagey/math/BaseAngle.hh>
+#include <cagey/math/Constants.hh>
 
 namespace cagey { 
 namespace math { 
@@ -61,8 +63,14 @@ public:
    */
   template<typename U>
   constexpr explicit Radian(BaseAngle<math::Radian, U> val) : BaseAngle<math::Radian, T>{val} {}
-  
-  /*constexpr Radian(Angle<Degree, T> val);*/
+
+  /**
+   * Convert Degree to Radian
+   * 
+   * @param val Degree to convert to a Radian
+   */
+  constexpr explicit Radian(BaseAngle<Degree, T> val) : BaseAngle<math::Degree, T>{T{val}*constants::degToRad<T>}{}
+
 };
 
 /**
