@@ -1,5 +1,6 @@
 
 #include <cagey/math/Degree.hh>
+#include <cagey/math/Radian.hh>
 #include <gtest/gtest.h>
 
 using namespace cagey::math;
@@ -36,6 +37,12 @@ TEST(Degree, CopyAssignmentConstructor) {
   d2 = d;
 
   EXPECT_FLOAT_EQ(45.0f, float(d2));
+}
+
+TEST(Degree, RadianConversionConstructor) {
+  Radian<float> d{1.0f};
+  Degree<float> d2{d};
+  EXPECT_TRUE(equals(float(d2),57.295776f));
 }
 
 TEST(Degree, AddAssignOperator) {

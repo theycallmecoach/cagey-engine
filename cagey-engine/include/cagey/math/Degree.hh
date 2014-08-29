@@ -28,7 +28,9 @@
 #ifndef CAGEY_MATH_DEGREE_HH_
 #define CAGEY_MATH_DEGREE_HH_
 
+#include <cagey/math/MathFwd.hh>
 #include <cagey/math/BaseAngle.hh>
+#include <cagey/math/Constants.hh>
 
 namespace cagey { 
 namespace math { 
@@ -62,7 +64,12 @@ public:
   template<typename U>
   constexpr explicit Degree(BaseAngle<math::Degree, U> val) : BaseAngle<math::Degree, T>{val} {}
   
-  /*constexpr Degree(Angle<Radian, T> val);*/
+  /**
+   * Convert Radian to Degree.
+   * 
+   * @param val radian to convert to a Degree
+   */
+  constexpr explicit Degree(BaseAngle<math::Radian, T> val) : BaseAngle<math::Degree, T>{T{val}*constants::radToDeg<T>}{}
 };
 
 /**
@@ -74,6 +81,7 @@ constexpr Degree<double> operator "" _deg(long double value) { return Degree<dou
  * Literal Operator. Converts a float to a Degree
  */
 constexpr Degree<float> operator "" _degf(long double value) { return Degree<float>(value); }
+
 
 
 
