@@ -30,6 +30,14 @@ TEST(Degree, CopyConstructor) {
   EXPECT_FLOAT_EQ(45.0f, float(d2));
 }
 
+TEST(Degree, CopyAssignmentConstructor) {
+  Degree<float> d{45};
+  Degree<float> d2{20};
+  d2 = d;
+
+  EXPECT_FLOAT_EQ(45.0f, float(d2));
+}
+
 TEST(Degree, AddAssignOperator) {
   Degree<float> d{45.0f};
   Degree<float> d2{45.0f};
@@ -51,6 +59,13 @@ TEST(Degree, MultiplicationAssignOperator) {
   d *= 3.0f;
 
   EXPECT_FLOAT_EQ(135.0f, float(d));
+}
+
+TEST(Degree, DivideAssignOperator) {
+  Degree<float> d{45.0f};
+  d /= 3.0f;
+
+  EXPECT_FLOAT_EQ(15.0f, float(d));
 }
 
 TEST(Degree, AddOperator) {
@@ -76,6 +91,66 @@ TEST(Degree, MultiplicationOperator) {
 
   EXPECT_FLOAT_EQ(135.0f, float(d2));
   EXPECT_FLOAT_EQ(90.0f, float(d3));
+}
+
+
+TEST(Degree, DivideOperator) {
+  Degree<float> d{45.0f};
+  auto d2 = d / 2.0f;
+
+  EXPECT_FLOAT_EQ(22.5f, float(d2));
+}
+
+TEST(Degree, EqualityOperator) {
+  Degree<int> d{45};
+  Degree<int> d2{45};
+
+  EXPECT_TRUE(d == d2);
+}
+
+TEST(Degree, InequalityOperator) {
+  Degree<int> d{45};
+  Degree<int> d3{30};
+
+  EXPECT_TRUE(d != d3);
+}
+
+TEST(Degree, LessThanOperator) {
+  Degree<int> d{45};
+  Degree<int> d3{30};
+
+  EXPECT_TRUE(d3 < d);
+}
+
+TEST(Degree, LessThanEqualOperator) {
+  Degree<int> d{45};
+  Degree<int> d3{30};
+
+  EXPECT_TRUE(d3 <= d);
+  EXPECT_TRUE(d <= d);
+}
+
+TEST(Degree, GreaterThanOperator) {
+  Degree<int> d{45};
+  Degree<int> d3{30};
+
+  EXPECT_TRUE(d > d3);
+}
+
+TEST(Degree, GreaterThanEqualOperator) {
+  Degree<int> d{45};
+  Degree<int> d3{30};
+
+  EXPECT_TRUE(d >= d3);
+  EXPECT_TRUE(d >= d);
+}
+
+TEST(Degree, LiteralOperator) {
+  auto a = 45.0_deg;
+  auto b = 45.3_degf;
+
+  EXPECT_FLOAT_EQ(45.0, double(a));
+  EXPECT_TRUE(equals(45.3f, float(b)));
 }
 
 TEST(Degree, equals) {

@@ -33,18 +33,46 @@
 namespace cagey { 
 namespace math { 
 
+/**
+ * Represents an Angle using Degrees
+ *
+ * @tparam T Underlying type
+ */
 template<typename T> class Degree : public BaseAngle<Degree, T> {
 public:
-  constexpr Degree() {}
-  constexpr explicit Degree(T val) : BaseAngle<math::Degree, T>{val} {}
-  constexpr Degree(BaseAngle<math::Degree, T> const & val) : BaseAngle<math::Degree, T>{val} {}
-
+  /**
+   * Default constructor.  Initializes values to 0
+   */
+  constexpr Degree() = default;
+  
+  /**
+   * Value Constructor.  Initializes the angle to the given value
+   *
+   * @param val the value for this degree
+   */
+  constexpr explicit Degree(T const val) : BaseAngle<math::Degree, T>{val} {}
+  
+  /**
+   * Conversion Constructor.  Initializes this Degree using the value from the
+   * given Degree
+   *
+   * @tparam U an arithmatic type
+   * @param val the Degree to copy
+   */
   template<typename U>
   constexpr explicit Degree(BaseAngle<math::Degree, U> val) : BaseAngle<math::Degree, T>{val} {}
+  
   /*constexpr Degree(Angle<Radian, T> val);*/
 };
 
+/**
+ * Literal Operator. Converts a double to a Degree
+ */
 constexpr Degree<double> operator "" _deg(long double value) { return Degree<double>(value); }
+
+/**
+ * Literal Operator. Converts a float to a Degree
+ */
 constexpr Degree<float> operator "" _degf(long double value) { return Degree<float>(value); }
 
 

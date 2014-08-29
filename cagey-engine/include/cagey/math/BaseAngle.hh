@@ -49,26 +49,29 @@ public:
   ///Underlying type
   using Type = T; 
 
+protected:
   /** 
    * Default Constructor. Initialize to 0
    */
-  constexpr BaseAngle(): value{0} {}
+  constexpr BaseAngle() = default;
   
   /**
    * Explicit conversion constructor from raw value
    *
    * @param value a unitless value
    */
-  constexpr explicit BaseAngle(T value) : value{value} {}
+  constexpr explicit BaseAngle(T const value) : value{value} {}
   
   /**
-   * Conversion constructor.  Constructs a BaseAngle from one with a different 
-   * underlying type
+   * Copy constructor creates a BaseAngle from one with possibly different 
+   * underlying type.
    * 
    * @tparam U a underlying type
    * @param value a BaseAngle to convert to this
    */
-  template<typename U> constexpr explicit BaseAngle(BaseAngle<D, U> other): value(T(other.value)) {}
+  template<typename U> constexpr explicit BaseAngle(BaseAngle<D, U> const & other): value(T(other.value)) {}
+
+public:
 
   /**
    * Explicit conversion operator to raw value
@@ -106,17 +109,23 @@ public:
    *
    * @param val the scaling factor
    */
-  constexpr auto operator*=(T val) -> BaseAngle<D, T> & {
+  constexpr auto operator*=(T const val) -> BaseAngle<D, T> & {
     value *= val;
     return *this;
   }
   
-/*
-  constexpr auto operator/=(T val) -> BaseAngle<D, T> & {
+
+  /**
+   * Division Assign Operator.  The value of this BaseAngle is divided
+   * by the given value.
+   *
+   * @param val the scaling factor
+   */
+  constexpr auto operator/=(T const val) -> BaseAngle<D, T> & {
     value /= val;
     return *this;
   }
-*/
+
 
   /**
    * Addition Operator.  
@@ -142,36 +151,101 @@ public:
     return lhs -= rhs;
   }
   
-/*
+
+  /**
+   * Equality Operator. Checks BaseAngles for exact equality.  Not really 
+   * useful with floating point based angles
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side of the equality operation
+   * @param rhs the right hand side of the equality operation
+   */
   friend constexpr auto operator==(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
-    return lhs.value = rhs.value;
+    return lhs.value == rhs.value;
   }
 
+  /**
+   * Inequality Operator. Checks BaseAngles for inequality.  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side of the inequality operation
+   * @param rhs the right hand side of the inequality operation
+   */
   friend constexpr auto operator!=(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return !(lhs==rhs);
   }
+  
+  
 
+  /**
+   * LessThan Operator. Checks if the lhs BaseAngle is less than the rhs 
+   * BaseAngle  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side BaseAngle
+   * @param rhs the right hand side BaseAngle
+   */
   friend constexpr auto operator<(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return lhs.value < rhs.value;
   }
 
+  /**
+   * GreaterThan Operator. Checks if the lhs BaseAngle is greater than the rhs 
+   * BaseAngle  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side BaseAngle
+   * @param rhs the right hand side BaseAngle
+   */
   friend constexpr auto operator>(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return rhs < lhs;
   }
 
+  /**
+   * LessThanEqual Operator. Checks if the lhs BaseAngle is less or equal 
+   * than the rhs BaseAngle  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side BaseAngle
+   * @param rhs the right hand side BaseAngle
+   */
   friend constexpr auto operator<=(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return !(lhs>rhs);
   }
 
+  /**
+   * GreaterThanEqual Operator. Checks if the lhs BaseAngle is greater than or 
+   * equal to the rhs BaseAngle  
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side BaseAngle
+   * @param rhs the right hand side BaseAngle
+   *
+   * @return true if the lhs value is greater than or equal to rhs value
+   */
   friend constexpr auto operator>=(BaseAngle<D, T> const & lhs, BaseAngle<D, T> const & rhs) -> bool {
     return !(lhs<rhs);
   }
 
+  /**
+   * Negation Operator.  Returns a   
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param lhs the left hand side BaseAngle
+   * @param rhs the right hand side BaseAngle
+   *
+   * @return a negative angle equal in magnatude to this
+   */
   friend constexpr auto operator-(BaseAngle<D, T> const & lhs) -> BaseAngle<D, T> {
     return BaseAngle<D, T>{-lhs.value};
   }
-*/
-
   
   /**
    * Multiplication Operator.  
@@ -197,24 +271,46 @@ public:
     return rhs *= val;
   }
 
+  /**
+   * Divison Operator.  Divide an angle by a value
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param rhs the rhs hand side of the division
+   * @param val the amount to scale by
+   */
+  friend constexpr auto operator/(BaseAngle<D, T> lhs, T const val) -> BaseAngle<D, T> {
+    return lhs /= val;
+  }
+
+  /**
+   * Divison Operator. Return the ratio between the two angles
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param rhs the rhs hand side of the division
+   * @param lhs the lhs hand side of the division
+   */
+  friend constexpr auto operator/(BaseAngle<D, T> lhs, BaseAngle<D, T> const & rhs) -> T {
+    return lhs.value / rhs.value;
+  }
+
+  /** 
+   * Fuzzy Equals for BaseAngles
+   *
+   * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
+   *
+   * @param rhs a BaseAngle
+   * @param lhs a BaseAngle
+   */
   friend constexpr auto equals(BaseAngle<D, T> const & rhs,BaseAngle<D, T> const & lhs) {
     return equals(rhs.value, lhs.value);
   }
 
-/*
-  friend constexpr auto operator/(BaseAngle<D, T> lhs, T val) -> BaseAngle<D, T> {
-    return lhs /= val;
-  }
 
-  friend constexpr auto operator/(BaseAngle<D, T> lhs, BaseAngle<D, T> const & rhs) -> BaseAngle<D, T> {
-    return lhs /= rhs.value;
-  }
-*/
 private:
   Type value;
 };
-
-
 
 
 } // namespace math
