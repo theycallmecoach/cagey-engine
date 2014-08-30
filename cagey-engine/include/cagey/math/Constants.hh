@@ -28,6 +28,8 @@
 #ifndef CAGEY_MATH_CONSTANTS_HH_
 #define CAGEY_MATH_CONSTANTS_HH_
 
+#include <type_traits>
+
 namespace cagey { 
 namespace math { 
 namespace constants {
@@ -38,7 +40,7 @@ namespace constants {
    * @tparam T the desired type of Pi
    */
   template<typename T>
-  constexpr T pi = T(3.141592653589793238462643383279502884);
+  constexpr typename std::enable_if<std::is_arithmetic<T>::value, T>::type pi = T(3.141592653589793238462643383279502884);
 
   /**
    * Value to convert between degrees and radians.
@@ -47,7 +49,7 @@ namespace constants {
    * @tparam T the desired type of converstion value
    */
   template <typename T>
-  constexpr T degToRad = pi<T> / T(180.0);
+  constexpr typename std::enable_if<std::is_arithmetic<T>::value, T>::type degToRad = pi<T> / T(180.0);
 
   /**
    * Value to convert between radians and degrees.
@@ -56,7 +58,7 @@ namespace constants {
    * @tparam T the desired type of converstion value
    */
   template <typename T>
-  constexpr T radToDeg = T(180.0) / pi<T>;
+  constexpr typename std::enable_if<std::is_arithmetic<T>::value, T>::type radToDeg = T(180.0) / pi<T>;
 
 }  // namespace constants
 }  // namespace math 

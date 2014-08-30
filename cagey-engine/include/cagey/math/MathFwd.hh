@@ -28,6 +28,8 @@
 #ifndef CAGEY_MATH_MATH_HH_
 #define CAGEY_MATH_MATH_HH_
 
+#include <cstddef>
+
 namespace cagey { 
 namespace math { 
 
@@ -40,6 +42,25 @@ template<typename T> using Degd = Degree<double>;
 template<typename T> using Radf = Radian<float>;
 template<typename T> using Radd = Radian<double>;
 
+template<typename, std::size_t> class Vector;
+template<typename T> using Vec2 = Vector<T,2>;
+template<typename T> using Vec3 = Vector<T,3>;
+template<typename T> using Vec4 = Vector<T,4>;
+
+using Vec2u = Vector<unsigned, 2>;
+using Vec2i = Vector<int, 2>;
+using Vec2f = Vector<float, 2>;
+using Vec2d = Vector<double, 2>;
+
+using Vec3u = Vector<unsigned, 3>;
+using Vec3i = Vector<int, 3>;
+using Vec3f = Vector<float, 3>;
+using Vec3d = Vector<double, 3>;
+
+using Vec4u = Vector<unsigned, 4>;
+using Vec4i = Vector<int, 4>;
+using Vec4f = Vector<float, 4>;
+using Vec4d = Vector<double, 4>;
 
 } // namespace math
 } // namespace cagey

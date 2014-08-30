@@ -46,6 +46,8 @@ template<template<typename> class D, typename T> class BaseAngle {
   
 public:
 
+  static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+
   ///Underlying type
   using Type = T; 
 
