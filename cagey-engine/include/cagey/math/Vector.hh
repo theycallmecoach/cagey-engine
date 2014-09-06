@@ -42,6 +42,9 @@ namespace cagey
 namespace math
 {
 
+/**
+ * Vector class
+ */
 template<typename T, std::size_t N>
 class Vector
 {
@@ -99,6 +102,9 @@ public:
 };
 
 
+/**
+ * Vector two element specialization
+ */
 template<typename T>
 class Vector<T,2>
 {
@@ -158,6 +164,9 @@ public:
 
 };
 
+/**
+ * Vector three element specialization
+ */
 template<typename T> class Vector<T, 3>
 {
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
@@ -226,6 +235,9 @@ public:
   };
 };
 
+/**
+ * Vector four element specialization
+ */
 template<typename T> class Vector<T, 4>
 {
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
@@ -321,27 +333,68 @@ auto length(Vector<T, S> const & rhs) -> T {
   return sqrt(dot(rhs, rhs));
 }
 
+/**
+ * Perform a fuzzy equals between the given Vectors
+ *
+ * @param lhs a Vector
+ * @param rhs a Vector
+ */
 template<typename T, std::size_t S>
-auto equals(Vector<T, S> const & lhs, Vector<T, S> const & rhs, T const epsilon = std::numeric_limits<T>::epsilon()) -> bool {
-  return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
-      [epsilon] (T r, T l) { using std::abs; return static_cast<T>(abs(l - r)) <= epsilon; });
+auto equals(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> bool {
+  return std::equal(lhs.begin(), rhs.begin(), rhs.begin(), [] (T r, T l) { 
+    return math::equals(l,r); 
+  });
 }
 
+
+//template<typename T, std::size_t S>
+//auto equals(Vector<T, S> const & lhs, Vector<T, S> const & rhs, T const epsilon = std::numeric_limits<T>::epsilon()) -> bool {
+//  return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
+//      [epsilon] (T r, T l) { using std::abs; return static_cast<T>(abs(l - r)) <= epsilon; });
+//}
+
+/**
+ * Return the dot product between the given Vectors
+ * 
+ * @param lhs a vector
+ * @param rhs a vector
+ */
 template<typename T, std::size_t S>
 auto dot(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> T {
   return std::inner_product(lhs.begin(), rhs.begin(), rhs.begin(), T{0});
 }
 
+
+/**
+ * Return the absolute value of the dot product between the given Vectors
+ * 
+ * @param lhs a vector
+ * @param rhs a vector
+ */
 template<typename T, std::size_t S>
 auto dotAbsolute(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> T {
   std::inner_product(lhs.begin(), lhs.end(), lhs.begin(), T{0}, std::plus<T>(), [](T l, T r) -> T { return std::abs(l * r);});
 }
 
+/**
+ * Return the cross product of the given Vectors. Specialized for Vec2
+ *
+ * @param lhs a vector
+ * @param rhs a vector
+ * @return the value representing the cross product of the given Vectors
+ */
 template<typename T>
 auto cross(Vec2<T> const rhs, Vec2<T> const & lhs) -> T {
   return lhs.x*rhs.y-lhs.y*rhs.x;
 }
 
+/**
+ * Return the cross product of the given Vectors. Specialized for Vec3
+ *
+ * @param lhs a vector
+ * @param rhs a vector
+ * @return a vector which is the cross product of the given Vectors
+ */
 template<typename T>
 auto cross(Vec3<T> const rhs, Vec3<T> const & lhs) -> Vector<T,3> {
   return Vec3<T>{lhs.y*rhs.z-lhs.z*rhs.y,
@@ -351,10 +404,11 @@ auto cross(Vec3<T> const rhs, Vec3<T> const & lhs) -> Vector<T,3> {
 }
 
 /**
- * Normalize the given vector or make a unit vector.
- * If the length is zero returns the given vector unmodified
+ * Normalize the given Vector or make a unit ector.
+ * If the length is zero returns the given Vector unmodified
  *
- * @param the vector to normalize
+ * @param vec the vector to normalize
+ * @return a normalized copy of the given vector
  */
 template<typename T, std::size_t S>
 auto normalize(Vector<T, S> const vec) -> Vector<T, S> {
@@ -368,48 +422,93 @@ auto normalize(Vector<T, S> const vec) -> Vector<T, S> {
 }
 
 /**
- * Swap the contents of the two vectors
+ * Swap the contents of the two Vectors
  */
 template<typename T, std::size_t S>
 auto swap(Vector<T, S> & rhs, Vector<T, S> & lhs) -> void {
   std::swap(rhs.data, lhs.data);
 }
 
-
+/**
+ * Returns true if the given Vector has zero length.
+ *
+ * @param vec the Vector to check for zero length
+ * @return true if the given Vector is zero length
+ */
 template<typename T, std::size_t S>
 inline auto isZeroLength(Vector<T, S> const & vec) -> bool {
   T epsilon = std::numeric_limits<T>::epsilon();
   return std::abs(lengthSquared(vec)) < (epsilon * epsilon);
 }
 
+/** 
+ * Returns the length of the given vector squared.  use this
+ * when you want to avoid a sqrt
+ * 
+ * @param vec the Vector to determine the length
+ * @return the squared length of the given Vector
+ */
 template<typename T, std::size_t S>
 inline auto lengthSquared(Vector<T,S> const & vec) -> T {
   return cagey::math::dot(vec,vec);
 }
 
+/**
+ * Returns the smallest element in the given Vector
+ * 
+ * @param vec the Vector to search for a small element
+ * @return the smallest element of the given Vector
+ */
 template<typename T, std::size_t S>
 inline auto min(Vector<T, S> const & vec) -> T {
   return *std::min_element(std::begin(vec), std::end(vec));
 }
 
+/**
+ * Returns the largest element in the given Vector
+ * 
+ * @param vec the Vector to search for a large element
+ * @return the largest element in the given Vector
+ */
 template<typename T, std::size_t S>
 inline auto max(Vector<T, S> const & vec) -> T {
   return *std::max_element(std::begin(vec), std::end(vec));
 }
 
+/**
+ * Returns the sum of all the elements in the given Vector
+ * 
+ * @param vec the Vector to search for a large element
+ * @return the num of all of the elements of the given Vector
+ */
 template<typename T, std::size_t S>
 inline auto sum(Vector<T, S> const & vec) -> T {
   return std::accumulate(std::begin(vec), std::end(vec), T(0));
 }
 
+/**
+ * Returns the distance between the given vectors.  Note this method
+ * involves a square root
+ * 
+ * @param lhs a Vector
+ * @param rhs a Vector
+ * @return the distance between the given Vectors
+ */
 template<typename T, std::size_t S>
 inline auto distance(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> T {
-  return length(lhs -rhs);
+  return length(lhs - rhs);
 }
 
+/**
+ * Returns the distance between the given vectors squared.  
+ * 
+ * @param lhs a Vector
+ * @param rhs a Vector
+ * @return the distance between the given Vectors, squared.
+ */
 template<typename T, std::size_t S>
 inline auto distanceSquared(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> T {
-  return lengthSquared(lhs -rhs);
+  return lengthSquared(lhs - rhs);
 }
 
 

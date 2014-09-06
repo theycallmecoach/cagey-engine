@@ -35,6 +35,12 @@
 namespace cagey { 
 namespace math {
 
+/**
+ * Performs fuzzy equals between the given values, use for floating point types
+ * @tparam T an arithmetic type, only floating point as been tested
+ * @param x value to be tested
+ * @param y value to be tested
+ */
 template<typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, bool>::type equals(T const x, T const y) {
   //values are actually equal
@@ -57,8 +63,6 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type equals(T const
   //relative error
   return diff / (xx + yy) < ep;
 }
-
-
 
 } // namespace cagey
 } // namespace math

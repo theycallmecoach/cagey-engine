@@ -82,9 +82,6 @@ constexpr Degree<double> operator "" _deg(long double value) { return Degree<dou
  */
 constexpr Degree<float> operator "" _degf(long double value) { return Degree<float>(value); }
 
-
-
-
 } // namespace math
 } // namespace cagey
 

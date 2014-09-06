@@ -70,7 +70,6 @@ public:
    * @param val Degree to convert to a Radian
    */
   constexpr explicit Radian(BaseAngle<Degree, T> val) : BaseAngle<math::Degree, T>{T{val}*constants::degToRad<T>}{}
-
 };
 
 /**
