@@ -49,8 +49,10 @@ template<typename T, std::size_t N>
 class Vector
 {
 public:
+  /** @cond doxygen has some issues with static assert */  
   static_assert(N != 0, "Vector cannot have zero elements");
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 
   /// The underlying type of this Vector
   using Type = T;
@@ -82,15 +84,55 @@ public:
    */
   constexpr explicit Vector(std::array<T, Size> const & vals);
 
+  /**
+   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+   * underlying type.  Only simple type conversion is performed
+   */
   template <typename U, typename I = std::make_index_sequence<Size>>
   explicit Vector(Vector<U, Size> const & other);
 
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) -> T&;
+
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) const -> T&;
 
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() noexcept -> T*;
+
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() const noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() const noexcept -> T*;
 
 private:
@@ -98,6 +140,7 @@ private:
   constexpr explicit Vector(Vector<U, Size> const & other, std::index_sequence<I...>);
 
 public:
+  ///Array containing Vector elements
   std::array<T, N> data;
 };
 
@@ -108,7 +151,9 @@ public:
 template<typename T>
 class Vector<T,2>
 {
+  /** @cond doxygen has issues with static_assert */
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 public:
   /// The underlying type of this Vector
   using Type = T;
@@ -145,21 +190,68 @@ public:
    */
   constexpr explicit Vector(std::array<T, Size> const & vals);
 
+  /**
+   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+   * underlying type.  Only simple type conversion is performed
+   */
   template <typename U, typename I = std::make_index_sequence<Size>>
   explicit Vector(Vector<U, Size> const & other);
 
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) -> T&;
+
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) const -> T&;
 
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() noexcept -> T*;
+
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() const noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() const noexcept -> T*;
 public:
+  /**
+   * Anonymous union to allow access to members using different names
+   */
   union
   {
+    ///Data represented as a std::array
     std::array<T, 2> data;
-    struct { T x, y; };
+    struct { 
+      T x; ///< The first element
+      T y; ///<The second element
+    };
   };
 
 };
@@ -169,7 +261,10 @@ public:
  */
 template<typename T> class Vector<T, 3>
 {
+  /** @cond doxygen has issues with static_assert */
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
+
 public:
   /// The underlying type of this Vector
   using Type = T;
@@ -208,29 +303,78 @@ public:
    */
   constexpr explicit Vector(std::array<T, Size> const & vals);
 
+  /**
+   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+   * underlying type.  Only simple type conversion is performed
+   */
   template <typename U, typename I = std::make_index_sequence<Size>>
   explicit Vector(Vector<U, Size> const & other);
 
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) -> T&;
+
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) const -> T&;
 
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() noexcept -> T*;
+
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() const noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() const noexcept -> T*;
 
 public:
+  /**
+   * Anonymous union to allow access to members using different names
+   */
   union
   {
+    ///All elements of the array
     std::array<T, 3> data;
     struct
     {
-      T x, y, z;
+      T x, ///< First element
+      T y, ///< Second element
+      T z; ///< Third element
     };
     struct
     {
-      T r, g, b;
+      T r, ///< First element
+      T g, ///< Second element
+      T b; ///< Third element
     };
+    ///The first two elements
     Vector<T, 2> xy;
   };
 };
@@ -240,7 +384,9 @@ public:
  */
 template<typename T> class Vector<T, 4>
 {
+  /** @cond doxygen has issues with static_assert */
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 public:
   /// The underlying type of this Vector
   using Type = T;
@@ -287,31 +433,85 @@ public:
    */
   constexpr Vector(Vector<T, 3> v, T scalar) noexcept;
 
+  /**
+   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+   * underlying type.  Only simple type conversion is performed
+   */
   template <typename U, typename I = std::make_index_sequence<Size>>
   explicit Vector(Vector<U, Size> const & other);
 
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) -> T&;
+
+  /**
+   * Index operator
+   *
+   * @param i index into this Vector
+   * @return a reference to the element at index i
+   */
   constexpr auto operator[](std::size_t i) const -> T&;
 
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() noexcept -> T*;
+
+  /**
+   * Return an iterator to the first element of this Vector
+   * 
+   * @return an iterator pointing to the begining of this Vector
+   */
   constexpr auto begin() const noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() noexcept -> T*;
+
+  /**
+   * Return an iterator to the end of this Vector.
+   * 
+   * @return an iterator pointing to the end of this Vector
+   */
   constexpr auto end() const noexcept -> T*;
 
 public:
+  /**
+   * Anonymous union to allow access to members using different names
+   */
   union
   {
+    ///All elements of the array    
     std::array<T, 4> data;
     struct
     {
-      T x, y, z, w;
+      T x; ///< First Element
+      T y; ///< Second Element
+      T z; ///< Third Element
+      T w; ///< Fourth Element
     };
+    //Allow access to elements with a different name
     struct
     {
-      T r, g, b, a;
+      T r; ///< First Element
+      T g; ///< Second Element
+      T b; ///< Third Element
+      T a; ///< Fourth Element
     };
+    ///The first two elements
     Vector<T, 2> xy;
+    ///The first three Elements
     Vector<T, 3> xyz;
+    ///The first Three Elements
     Vector<T, 3> rgb;
   };
 };

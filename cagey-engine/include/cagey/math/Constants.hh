@@ -32,6 +32,9 @@
 
 namespace cagey { 
 namespace math { 
+/**
+ * Common Math constants like pi.
+ */
 namespace constants {
 
   /**

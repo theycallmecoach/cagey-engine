@@ -64,8 +64,11 @@ enum class IdentityTag { Identity };
  */
 template<typename T, std::size_t R, std::size_t C>
 class Matrix {
+  /** @cond doxygen has an issue with static assert */
   static_assert(C*R > 0, "Cannot have a zero sized matrix");
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
+
 
 public:
   /// The Underlying type of this matrix
@@ -80,7 +83,6 @@ public:
   /**
    * Default constructor.  Initializes to the identity matrix
    * 
-   * @param IdentityTag type to identify this constructor
    */
   constexpr explicit Matrix(IdentityTag = IdentityTag::Identity);
 
@@ -189,7 +191,9 @@ public:
  */
 template<typename T>
 class Matrix<T, 2, 2> {
+  /** @cond doxygen has an issue with static assert */  
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 
 public:
   /// The Underlying type of this matrix
@@ -312,7 +316,9 @@ public:
  */
 template<typename T>
 class Matrix<T, 3, 3> {
+  /** @cond doxygen has an issue with static assert */  
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 
 public:
   /// The Underlying type of this matrix
@@ -434,7 +440,9 @@ public:
  * 4X4 Matrix specialization
  */template<typename T>
 class Matrix<T, 4, 4> {
+  /** @cond doxygen has an issue with static assert */  
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 
 public:
   /// The Underlying type of this matrix
@@ -585,7 +593,9 @@ constexpr auto getElementArray(std::index_sequence<I...>) -> std::array<T, R*C> 
  */
 template<typename T, std::size_t R, std::size_t C, typename Indices = std::make_index_sequence<R*C>>
 constexpr auto makeIdentityArray() -> std::array<T, R*C> {
+  /** @cond doxygen has an issue with static assert */  
   static_assert(R*C>0, "Identity Matrix cannot have zero size");
+  /** @endcond */
   return getElementArray<T, R, C>(Indices());
 }
 
@@ -662,40 +672,40 @@ template <typename U, typename I>
 constexpr Matrix<T, R, C>::Matrix(Matrix<U, Rows, Cols> const & other)
  : Matrix(other, I()) {}
 
-template <typename T, std::size_t R, std::size_t C>
-template <typename U, std::size_t... I>
-constexpr Matrix<T, R, C>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
- : data {{(T(other.data[I]))...}} {}
+//template <typename T, std::size_t R, std::size_t C>
+//template <typename U, std::size_t... I>
+//constexpr Matrix<T, R, C>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+// : data {{(T(other.data[I]))...}} {}
 
-template <typename T>
-template <typename U, typename I>
-constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other)
- : Matrix(other, I()) {}
+//template <typename T>
+//template <typename U, typename I>
+//constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other)
+// : Matrix(other, I()) {}
 
-template <typename T>
-template <typename U, std::size_t... I>
-constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
- : data {{(T(other.data[I]))...}} {}
+//template <typename T>
+//template <typename U, std::size_t... I>
+//constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+// : data {{(T(other.data[I]))...}} {}
 
-template <typename T>
-template <typename U, typename I>
-constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other)
-  : Matrix(other, I()) {}
+//template <typename T>
+//template <typename U, typename I>
+//constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other)
+//  : Matrix(other, I()) {}
 
-template <typename T>
-template <typename U, std::size_t... I>
-constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
-  : data {{(T(other.data[I]))...}} {}
+//template <typename T>
+//template <typename U, std::size_t... I>
+//constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+//  : data {{(T(other.data[I]))...}} {}
 
-template <typename T>
-template <typename U, typename I>
-constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other)
-  : Matrix(other, I()) {}
+//template <typename T>
+//template <typename U, typename I>
+//constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other)
+//  : Matrix(other, I()) {}
 
-template <typename T>
-template <typename U, std::size_t... I>
-constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
-  : data {{(T(other.data[I]))...}} {}
+//template <typename T>
+//template <typename U, std::size_t... I>
+//constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+//  : data {{(T(other.data[I]))...}} {}
 
 
 
@@ -802,7 +812,12 @@ constexpr auto Mat3<T>::operator()(std::size_t r, std::size_t c) const -> T cons
 template<typename T>
 constexpr auto Mat4<T>::operator()(std::size_t r, std::size_t c) const -> T const & { return data[r+(Cols*c)]; }
 
-
+/**
+ * Add two Matrices componentwise
+ * @param lhs the matrix to alter
+ * @param rhs the Matrix to add to lhs
+ * @return the result of adding rhs to lhs
+ */
 template<typename T, std::size_t R, std::size_t C>
 auto operator+=(Matrix<T, R, C> & lhs, Matrix<T, R, C> const & rhs) -> Matrix<T, R, C> & {
   std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), std::plus<T>());
@@ -882,11 +897,17 @@ auto operator*(Matrix<T, R1, C1> const & lhs, Matrix<T, R1, C2> const & rhs) -> 
   return ret;
 }
 
+/**
+ * Return the determinant of the given matrix.  
+ */
 template<typename T>
 constexpr auto det(Mat2<T> const & mat) -> T {
   return mat[0]*mat[3] - mat[2]*mat[1];
 }
 
+/**
+ * Return the determinant of the given matrix.  
+ */
 template<typename T>
 constexpr auto det(Mat3<T> const & mat) -> T {
   return mat[0]*(mat[4]*mat[8] - mat[7]*mat[5]) -
@@ -894,6 +915,9 @@ constexpr auto det(Mat3<T> const & mat) -> T {
          mat[6]*(mat[1]*mat[5] - mat[4]*mat[2]);
 }
 
+/**
+ * Return the determinant of the given matrix.  
+ */
 template<typename T>
 constexpr auto det(Mat4<T> const & mat) -> T {
   //cofactor expansion
@@ -905,12 +929,17 @@ constexpr auto det(Mat4<T> const & mat) -> T {
          (mat[2]*mat[7] - mat[3]*mat[6]) * (mat[8]*mat[13] - mat[9]*mat[12]);
 }
 
-
+/** 
+ * Return the adjugate matrix of the given matrix 
+ */
 template <typename T>
 constexpr auto adjugate(Mat2<T> const & mat) -> Mat2<T> {
   return Mat2<T> {{{mat[3], -mat[1], -mat[2], mat[0]}}};
 }
 
+/**
+ * Return the adjufate of the given matrix 
+ */
 template <typename T>
 constexpr auto adjugate(Mat3<T> const & mat) -> Mat3<T> {
   return Mat3<T> {{{
@@ -925,6 +954,9 @@ constexpr auto adjugate(Mat3<T> const & mat) -> Mat3<T> {
     mat[0] * mat[4] - mat[1] * mat[3]}}};
 }
 
+/**
+ * Calculate the adjugate of the given matrix and return it in a Mat3
+ */
 template <typename T>
 constexpr auto adjugate(Mat4<T> const & mat) -> Mat3<T> {
   //Common co-factors
@@ -962,9 +994,15 @@ constexpr auto adjugate(Mat4<T> const & mat) -> Mat3<T> {
 }
 
 
+/**
+ * Return a Matrix containing the inverse of the given matrix
+ */
 template <typename T, std::size_t S>
 constexpr auto inverse(Matrix<T, S, S> const & mat) -> Matrix<T, S, S> {
+  /** @cond */
   static_assert(S==2 | S == 3 | S == 4, "Only matrices of 2,3 or 4 are supported");
+  /** @endcond */
+
   // Using formula:
   //
   //            1
@@ -979,6 +1017,9 @@ constexpr auto inverse(Matrix<T, S, S> const & mat) -> Matrix<T, S, S> {
   return static_cast<T> (1.0 / d) * adjugate(mat);
 }
 
+/** 
+ * Return a transposed copy of the given Matrix
+ */
 template <typename T, std::size_t R, std::size_t C>
 auto transpose(Matrix<T, R, C> const & mat) -> Matrix<T, C, R> {
   Matrix<T, C, R> ret;
@@ -990,11 +1031,19 @@ auto transpose(Matrix<T, R, C> const & mat) -> Matrix<T, C, R> {
   return mat;
 }
 
+/**
+ * Transpose the given 2x2 matrix
+ */
 template <typename T>
 constexpr auto transpose(Mat2<T> const & mat) -> Mat2<T> {
   return Mat2<T>{{{mat[0],mat[2], mat[1], mat[3]}}};
 }
 
+/**
+ * Fuzzy equals.
+ * 
+ * @todo switch to better equals
+ */
 template<typename T, std::size_t R, std::size_t C>
 auto equal(Matrix<T, R, C> const & lhs, Matrix<T, R, C> const & rhs, T const epsilon = std::numeric_limits<T>::epsilon())
 {
@@ -1003,7 +1052,9 @@ auto equal(Matrix<T, R, C> const & lhs, Matrix<T, R, C> const & rhs, T const eps
 } //equals
 
 
-
+/**
+ * Output the given matrix to the given output stream
+ */
 template<typename T, std::size_t R, std::size_t C>
 auto operator<<(std::ostream & os, Matrix<T, R, C> const & mat) -> std::ostream & {
   for (std::size_t i = 0; i < R; ++i) {
@@ -1018,6 +1069,9 @@ auto operator<<(std::ostream & os, Matrix<T, R, C> const & mat) -> std::ostream 
 }// operator <<
 
 
+/**
+ * Read a matrix from the input stream to the given Matrix
+ */
 template<typename T, std::size_t R, std::size_t C>
 auto operator>>(std::istream &is, Matrix<T, R, C> & mat) -> std::istream & {
   if (!is.good()) {
@@ -1053,21 +1107,33 @@ auto operator>>(std::istream &is, Matrix<T, R, C> & mat) -> std::istream & {
   return is;
 } // operator >>
 
+/**
+ * Construct a translation Matrix
+ */
 template<typename T>
 auto makeTranslation(T const x, T const y, T const z) -> Mat4<T>{
   return Mat4<T>{{{1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, x, y, z, 1.0f}}};
 }
 
+/**
+ * Construct a translation Matrix
+ */
 template<typename T>
 auto makeTranslation(Vec3<T> const & vec) -> Mat4<T>{
   return makeTranslation(vec.x, vec.y, vec.z);
 }
 
+/**
+ * Construct a Scaling Matrix
+ */
 template<typename T>
 auto makeScale(T const x, T const y, T const z) -> Mat4<T> {
   return Mat4<T>{{{x, 0.0f, 0.0f, 0.0f, 0.0f, y, 0.0f, 0.0f, 0.0f, 0.0f, z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f}}};
 }
 
+/**
+ * Construct a scaling Matrix
+ */
 template<typename T>
 auto makeScale(Vec3<T> const & vec) -> Mat4<T>{
   return makeTranslation(vec.x, vec.y, vec.z);

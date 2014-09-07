@@ -46,7 +46,9 @@ template<template<typename> class D, typename T> class BaseAngle {
   
 public:
 
+  /** @cond doxygen has some issues with static assert */  
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 
   ///Underlying type
   using Type = T; 
@@ -69,7 +71,7 @@ protected:
    * underlying type.
    * 
    * @tparam U a underlying type
-   * @param value a BaseAngle to convert to this
+   * @param other a BaseAngle to convert to this
    */
   template<typename U> constexpr explicit BaseAngle(BaseAngle<D, U> const & other): value(T(other.value)) {}
 
@@ -78,7 +80,7 @@ public:
   /**
    * Explicit conversion operator to raw value
    *
-   * @param value a unitless value
+   * @return a unitless value
    */
   constexpr explicit operator T() const { return value; }
 
@@ -236,12 +238,11 @@ public:
   }
 
   /**
-   * Negation Operator.  Returns a   
+   * Negation Operator.  Returns a negative copy of the given element  
    *
    * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
    *
    * @param lhs the left hand side BaseAngle
-   * @param rhs the right hand side BaseAngle
    *
    * @return a negative angle equal in magnatude to this
    */
@@ -278,7 +279,7 @@ public:
    *
    * Note: implemented as a friend function defined within the template, makes invisible to non-ADL lookup.
    *
-   * @param rhs the rhs hand side of the division
+   * @param lhs the lhs hand side of the division
    * @param val the amount to scale by
    */
   friend constexpr auto operator/(BaseAngle<D, T> lhs, T const val) -> BaseAngle<D, T> {
