@@ -672,40 +672,40 @@ template <typename U, typename I>
 constexpr Matrix<T, R, C>::Matrix(Matrix<U, Rows, Cols> const & other)
  : Matrix(other, I()) {}
 
-//template <typename T, std::size_t R, std::size_t C>
-//template <typename U, std::size_t... I>
-//constexpr Matrix<T, R, C>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
-// : data {{(T(other.data[I]))...}} {}
+template <typename T, std::size_t R, std::size_t C>
+template <typename U, std::size_t... I>
+constexpr Matrix<T, R, C>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+ : data {{(T(other.data[I]))...}} {}
 
-//template <typename T>
-//template <typename U, typename I>
-//constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other)
-// : Matrix(other, I()) {}
+template <typename T>
+template <typename U, typename I>
+constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other)
+ : Matrix(other, I()) {}
 
-//template <typename T>
-//template <typename U, std::size_t... I>
-//constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
-// : data {{(T(other.data[I]))...}} {}
+template <typename T>
+template <typename U, std::size_t... I>
+constexpr Mat2<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+ : data {{(T(other.data[I]))...}} {}
 
-//template <typename T>
-//template <typename U, typename I>
-//constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other)
-//  : Matrix(other, I()) {}
+template <typename T>
+template <typename U, typename I>
+constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other)
+  : Matrix(other, I()) {}
 
-//template <typename T>
-//template <typename U, std::size_t... I>
-//constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
-//  : data {{(T(other.data[I]))...}} {}
+template <typename T>
+template <typename U, std::size_t... I>
+constexpr Mat3<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+  : data {{(T(other.data[I]))...}} {}
 
-//template <typename T>
-//template <typename U, typename I>
-//constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other)
-//  : Matrix(other, I()) {}
+template <typename T>
+template <typename U, typename I>
+constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other)
+  : Matrix(other, I()) {}
 
-//template <typename T>
-//template <typename U, std::size_t... I>
-//constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
-//  : data {{(T(other.data[I]))...}} {}
+template <typename T>
+template <typename U, std::size_t... I>
+constexpr Mat4<T>::Matrix(Matrix<U, Rows, Cols> const & other, std::index_sequence<I...>)
+  : data {{(T(other.data[I]))...}} {}
 
 
 

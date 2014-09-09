@@ -364,14 +364,14 @@ public:
     std::array<T, 3> data;
     struct
     {
-      T x, ///< First element
-      T y, ///< Second element
+      T x; ///< First element
+      T y; ///< Second element
       T z; ///< Third element
     };
     struct
     {
-      T r, ///< First element
-      T g, ///< Second element
+      T r; ///< First element
+      T g; ///< Second element
       T b; ///< Third element
     };
     ///The first two elements
