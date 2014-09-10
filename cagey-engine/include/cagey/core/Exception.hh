@@ -38,7 +38,7 @@ namespace core {
 typedef boost::error_info<struct TagThrowMsg, char const*> ThrowMsg;
 
 class Exception : public virtual boost::exception, public virtual std::exception {
-  virtual auto what() const -> const char* override {
+  virtual const char* what() const noexcept override {
     return diagnostic_information_what(*this); 
   }
 };
@@ -47,7 +47,7 @@ class DivideByZeroException : public virtual Exception {};
 class IOException : public virtual Exception{};
 class IndexOutOfBoundsException : public virtual Exception{};
 class FileNotFoundException : public virtual IOException{};
-
+class InvalidArgumentException :public virtual Exception{};
 
 } // namespace core
 } // namespace cagey

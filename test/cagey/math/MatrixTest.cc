@@ -75,6 +75,12 @@ TEST(Matrix, operatorScale) {
   EXPECT_EQ(8, ma(1,1));
 }
 
+TEST(Matrix, operatorDivide) {
+  Mat2f ma{{{1.0, 2.0, 3.0, 4.0}}};
+  EXPECT_THROW(ma/=0.0f, cagey::core::DivideByZeroException);
+}
+
+
 TEST(Matrix, operatorNegate) {
   Mat2f ma{{{1.0, 2.0, 3.0, 4.0}}};
   ma = -ma;

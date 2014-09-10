@@ -11,7 +11,7 @@ else()
   message(STATUS "The compiler ${CMAKE_CXX_COMPILER} does not support C++14. Please use a different C++ compiler.")
 endif()
 
-find_package(Boost 1.53.0 REQUIRED  )
+find_package(Boost 1.53.0 REQUIRED )
 
 
 enable_testing()

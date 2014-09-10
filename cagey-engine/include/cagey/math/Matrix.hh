@@ -39,7 +39,9 @@
 #include <utility>
 #include <iostream>
 
+
 #include "cagey/math/Vector.hh"
+#include "cagey/core/Exception.hh"
 
 namespace cagey {
 namespace math {
@@ -153,25 +155,25 @@ public:
 
   /**
    * Return an iterator to the first element of the data array
-   * @return an interator
+   * @return an iterator
    */
   constexpr auto begin()  noexcept-> T*;
 
   /**
    * Return an iterator to the first element of the data array
-   * @return an interator
+   * @return an iterator
    */
   constexpr auto begin() const noexcept -> T const *;
 
   /**
    * Return an iterator to the end of the data array
-   * @return an interator (one-past-the-end)
+   * @return an iterator (one-past-the-end)
    */
   constexpr auto end()  noexcept-> T*;
 
   /**
    * Return an iterator to the end of the data array
-   * @return an interator (one-past-the-end)   */
+   * @return an iterator (one-past-the-end)   */
   constexpr auto end() const noexcept -> T const *;
 
 private:
@@ -845,6 +847,9 @@ auto operator-(Matrix<T, R, C> mat) -> Matrix<T, R, C> {
 
 template<typename T, std::size_t R, std::size_t C>
 auto operator/=(Matrix<T, R, C> & lhs, T const val) -> Matrix<T, R, C> & {
+  if (val == 0) {
+    BOOST_THROW_EXCEPTION(core::DivideByZeroException() << core::ThrowMsg("Attempting to divide by zero"));
+  }
   std::for_each(lhs.begin(), lhs.end(), [val](T& v) {v/=val;});
   return lhs;
 }
