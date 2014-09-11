@@ -48,7 +48,7 @@ class IOException : public virtual Exception{};
 class IndexOutOfBoundsException : public virtual Exception{};
 class FileNotFoundException : public virtual IOException{};
 class InvalidArgumentException :public virtual Exception{};
-
+class SingularMatrixException : public virtual Exception{};
 } // namespace core
 } // namespace cagey
 

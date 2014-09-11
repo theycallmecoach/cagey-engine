@@ -848,7 +848,7 @@ auto operator-(Matrix<T, R, C> mat) -> Matrix<T, R, C> {
 template<typename T, std::size_t R, std::size_t C>
 auto operator/=(Matrix<T, R, C> & lhs, T const val) -> Matrix<T, R, C> & {
   if (val == 0) {
-    BOOST_THROW_EXCEPTION(core::DivideByZeroException() << core::ThrowMsg("Attempting to divide by zero"));
+    BOOST_THROW_EXCEPTION(core::DivideByZeroException() << core::ThrowMsg("Attempting to divide Matrix by zero"));
   }
   std::for_each(lhs.begin(), lhs.end(), [val](T& v) {v/=val;});
   return lhs;
@@ -861,7 +861,7 @@ auto operator==(Matrix<T, R, C> const & lhs, Matrix<T, R, C> const & rhs) -> boo
 
 template<typename T, std::size_t R, std::size_t C>
 auto operator!=(Matrix<T, R, C> const & lhs, Matrix<T, R, C> const & rhs) -> bool {
-  return !(lhs ==rhs);
+  return !(lhs == rhs);
 }
 
 template<typename T, std::size_t R, std::size_t C>
@@ -886,7 +886,7 @@ auto operator*(T val, Matrix<T, R, C> rhs) -> Matrix<T, R, C> {
 
 template<typename T, std::size_t R, std::size_t C>
 auto operator/(Matrix<T, R, C> lhs, T val) -> Matrix<T, R, C> {
-  return lhs *= val;
+  return lhs /= val;
 }
 
 template<typename T, std::size_t R1, std::size_t C1, std::size_t C2>
@@ -1016,8 +1016,9 @@ constexpr auto inverse(Matrix<T, S, S> const & mat) -> Matrix<T, S, S> {
   //
   T d = det(mat);
 
+  //if d is close enough to zero might as well treat it as 0
   if (std::abs(d) < std::numeric_limits<T>::epsilon()) {
-    //@todo throw exception?
+    throw BOOST_THROW_EXCEPTION(core::SingularMatrixException() << core::ThrowMsg("Matrix is not invertible"));
   }
   return static_cast<T> (1.0 / d) * adjugate(mat);
 }
