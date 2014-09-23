@@ -24,34 +24,27 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#ifndef CAGEY_INPUT_KEYBOARD_HH_
+#define CAGEY_INPUT_KEYBOARD_HH_
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#include "cagey/input/Device.hh"
 
 namespace cagey {
-namespace window {
+namespace input {
 
-class VideoMode {
+class Keyboard : public Device {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+  Keyboard() = default;
+  virtual ~Keyboard() = default;
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
+protected:
 
 private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
+
 };
 
 
-} //namespace window
+} //namespace input
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif //CAGEY_INPUT_KEYBOARD_HH_

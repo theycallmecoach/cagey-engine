@@ -24,34 +24,42 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#ifndef CAGEY_INPUT_DEVICE_HH_
+#define CAGEY_INPUT_DEVICE_HH_
 
 namespace cagey {
-namespace window {
+namespace input {
 
-class VideoMode {
+//Forward declarations
+class IInputSystem;
+
+class Device {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
+  /**
+  * Construct a Device with a non-owning reference to the InputSystem
+  * that created it.
+  *
+  * @param inSys a pointer to the device to which this device belongs
+  */
+  explicit Device(IInputSystem const * inSys) : mInputSystem{inSys} {}
+
+  /**
+  * Destructor
+  */
+  virtual ~Device() = default;
+
+  /**
+  * Return a pointer to the input system that created this device
+  */
+  auto getInputSystem() -> IInputSystem const * { return mInputSystem; }
 
 private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
+  /// a reference to the input system that owns this device;
+  IInputSystem const * mInputSystem;
 };
 
-
-} //namespace window
+} //namespace input
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif //CAGEY_INPUT_DEVICE_HH_

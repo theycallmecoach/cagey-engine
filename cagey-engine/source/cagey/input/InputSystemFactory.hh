@@ -25,33 +25,21 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#ifndef CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_
+#define CAGEY_INPUT_IINPUTSYSTEMFACTORY_HH_
+
+#include <string>
+#include <memory>
 
 namespace cagey {
-namespace window {
+namespace input {
 
-class VideoMode {
+class InputSystemFactory {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
-
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
-
-private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
+  static auto create(ParamMap const & param) -> std::unique_ptr<IInputSystem>;
 };
 
-
-} //namespace window
+} //namespace input
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif // CAGEY_INPUT_IINPUTSYSTEM_HH_

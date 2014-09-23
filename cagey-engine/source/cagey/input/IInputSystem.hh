@@ -25,33 +25,34 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#ifndef CAGEY_INPUT_IINPUTSYSTEM_HH_
+#define CAGEY_INPUT_IINPUTSYSTEM_HH_
+
+#include <string>
+#include <memory>
 
 namespace cagey {
-namespace window {
+namespace input {
 
-class VideoMode {
+class Device;
+
+using InputSystemParamMap = std::map<std::string, std::string>;
+
+class IInputSystem {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
+  enum class DeviceType {
+    Keyboard,
+    Mouse
+  };
 
-private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
+  virtual ~IInputSystem() = default;
+  virtual auto getName() const -> std::string = 0;
+
+  virtual auto createDevice(DeviceType const & type) -> std::weak_ptr<Device> = 0;
 };
 
-
-} //namespace window
+} //namespace input
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif // CAGEY_INPUT_IINPUTSYSTEM_HH_

@@ -25,33 +25,20 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#include <cagey/window/Window.hh>
 
 namespace cagey {
 namespace window {
+namespace impl {
 
-class VideoMode {
+class WindowImpl {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+  virtual ~WindowImpl(){};
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
-
-private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
+  virtual auto getTitle() const -> std::string = 0;
+  virtual auto setTitle(std::string const & newTitle) const -> std::
 };
 
-
-} //namespace window
-} //namespace cagey
-
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+} // namespace impl
+} // namespace window
+} // namespace cagey

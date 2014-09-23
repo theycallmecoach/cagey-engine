@@ -25,33 +25,18 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#include "cagey/input/InputManager.hh"
 
 namespace cagey {
-namespace window {
+namespace input {
 
-class VideoMode {
-public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+InputManager::InputManager() {
+#ifdef FOO
+  mInputSystem = std::make_unique<SdlInputSystem>();
+#elif BAR
+  mInputSystem = std::make_unique<X11InputSystem>();
+#endif
+}
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
-
-private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
-};
-
-
-} //namespace window
-} //namespace cagey
-
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+} //namepsace input
+} // namespace cagey

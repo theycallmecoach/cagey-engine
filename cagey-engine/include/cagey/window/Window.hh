@@ -25,31 +25,44 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#ifndef CAGEY_WINDOW_WINDOW_HH_
+#define CAGEY_WINDOW_WINDOW_HH_
 
 namespace cagey {
 namespace window {
 
-class VideoMode {
+class Window {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+    enum class Style
+      : unsigned int {
+        None,
+        Titlebar,
+        Resize,
+        Close,
+        Fullscreen,
+    };
+    typedef kgml::util::EnumClassSet<Style, 5> StyleSet;
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
+   /**
+     * Create an instance of a window.
+     *
+     * @param vidMode
+     * @param winName
+     * @param winStyle
+     */
+    Window(VideoMode const & vidMode,
+           std::string const & winName,
+           StyleSet const & winStyle = StyleSet{}.set(Style::Titlebar)
+                                                 .set(Style::Resize)
+                                                 .set(Style::Close));
+
+
+  auto getTitle() const -> std::string;
+  auto setTitle(std::string const & newTitle) -> void;
 
 private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
-};
 
+};
 
 } //namespace window
 } //namespace cagey

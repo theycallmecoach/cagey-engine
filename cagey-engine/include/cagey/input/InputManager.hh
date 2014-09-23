@@ -24,34 +24,39 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#ifndef CAGEY_INPUT_INPUTMANAGER_HH_
+#define CAGEY_INPUT_INPUTMANAGER_HH_
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#include "cagey/input/Device.hh"
+
+#include <memory>
 
 namespace cagey {
-namespace window {
+namespace input {
 
-class VideoMode {
+//Forward declarations
+class IInputSystem;
+class Mouse;
+class Keyboard;
+
+class InputManager {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+  InputManager() = default;
+  virtual ~InputManager() = default;
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
+protected:
 
 private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
+  using MouseWeakPtr = std::weak_ptr<Mouse>;
+  using KeyboardWeakPtr = std::weak_ptr<Keyboard>;
+
+  MouseWeakPtr mMouse;
+  KeyboardWeakPtr mKeyboard;
+  std::unique_ptr<IInputSystem> mInputSystem;
 };
 
 
-} //namespace window
+} //namespace input
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif //CAGEY_INPUT_INPUTMANAGER_HH_

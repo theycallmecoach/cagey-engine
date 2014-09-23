@@ -25,33 +25,52 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+#ifndef CAGEY_UTIL_ENUMCLASSSET_HH_
+#define CAGEY_UTIL_ENUMCLASSSET_HH_
+
+#include <type_traits>
+#include <bitset>
 
 namespace cagey {
-namespace window {
+namespace util {
 
-class VideoMode {
+template<typename E, std::size_t S>
+class EnumClassSet {
+  static_assert(std::is_enum<E>::value, "EnumSet type must be a strongly typed enum");
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+  auto test(E pos) const -> bool {
+    return bits.test(value(pos));
+  }
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
+  auto flip(E pos) -> EnumClassSet & {
+    bits.flip(value(pos));
+    return *this;
+  }
+
+  auto reset() -> EnumClassSet & {
+    bits.reset();
+    return *this;
+  }
+
+  auto set(E pos) -> EnumClassSet & {
+    bits.set(value(pos));
+    return *this;
+  }
+
+  explicit operator bool() const {
+    return bits.any();
+  }
 
 private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
+  typename std::underlying_type<E>::type value(E v) const {
+    return static_cast<typename std::underlying_type<E>::type>(v);
+  }
+
+  std::bitset <static_cast<typename std::underlying_type<E>::type>(S)> bits{};
 };
 
 
-} //namespace window
+} //namespace util
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif //CAGEY_UTIL_ENUMCLASSSET_HH_

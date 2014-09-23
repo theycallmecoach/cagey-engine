@@ -25,33 +25,46 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_VIDEOMODE_HH_
-#define CAGEY_WINDOW_VIDEOMODE_HH_
+
+#include "cagey/input/sdl/SdlInputSystem.hh"
+#include "SdlInputSystem.hh"
 
 namespace cagey {
-namespace window {
+namespace input {
+namespace detail {
+namespace sdl {
 
-class VideoMode {
-public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+///////////////////////////////////////////////////////////////////////////////
+SdlInputSystem::SdlInputSystem() {
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
-  constexpr auto getWidth() const -> unsigned { return mWidth; }
-  constexpr auto getHeight() const -> unsigned { return mHeight; }
-  constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
-  auto isValid() const -> bool;
+}
 
-private:
-  unsigned mWidth;
-  unsigned mHeight;
-  unsigned short mBitsPerPixel;
-};
+///////////////////////////////////////////////////////////////////////////////
+auto SdlInputSystem::getName() const -> std::string {
+  return "SDL";
+}
 
+///////////////////////////////////////////////////////////////////////////////
+auto SdlInputSystem::createDevice(DeviceType const &type) -> std::weak_ptr<Device> {
+  switch(type) {
+    case Mouse: {
+      if (!mDevices[type]) {
+        mDevices[type] = std::make_shared<SdlMouse>(this);
+      }
+      break;
+    }
+    case Keyboard: {
+      mDevices[type] = std::make_shared<SdlKeyboard>(this);
+      break;
+    }
+    default {
+      throw 0;
+    }
+    return mDevices[type];
+  }
+}
 
-} //namespace window
+} //namespace sdl;
+} //namespace detail;
+} //namespace input
 } //namespace cagey
-
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
