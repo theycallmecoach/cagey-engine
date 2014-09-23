@@ -24,19 +24,10 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#include <cagey/input/InputManager.hh>
+#include "SdlKeyboard.hh"
 
 namespace cagey {
 namespace input {
 
-InputManager::InputManager() {
-#ifdef FOO
-  mInputSystem = std::make_unique<SdlInputSystem>();
-#elif BAR
-  mInputSystem = std::make_unique<X11InputSystem>();
-#endif
-}
-
-} //namepsace input
+} // namespace input
 } // namespace cagey

@@ -24,19 +24,24 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#ifndef CAGEY_INPUT_SDL_SDLMOUSE_HH_
+#define CAGEY_INPUT_SDL_SDLMOUSE_HH_
 
-#include <cagey/input/InputManager.hh>
+#include <cagey/input/Device.hh>
 
 namespace cagey {
 namespace input {
 
-InputManager::InputManager() {
-#ifdef FOO
-  mInputSystem = std::make_unique<SdlInputSystem>();
-#elif BAR
-  mInputSystem = std::make_unique<X11InputSystem>();
-#endif
-}
+class SdlMouse : public Device {
+public:
 
-} //namepsace input
+  SdlMouse();
+
+private:
+};
+
+
+} // namespace input
 } // namespace cagey
+
+#endif CAGEY_INPUT_SDL_SDLMOUSE_HH_
