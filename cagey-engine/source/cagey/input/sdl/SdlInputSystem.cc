@@ -49,15 +49,15 @@ auto SdlInputSystem::createDevice(DeviceType const &type) -> std::weak_ptr<Devic
   switch(type) {
     case Mouse: {
       if (!mDevices[type]) {
-        mDevices[type] = std::make_shared<SdlMouse>(this);
+        mDevices[type] = std::make_shared<SdlMouse>(*this);
       }
       break;
     }
     case Keyboard: {
-      mDevices[type] = std::make_shared<SdlKeyboard>(this);
+      mDevices[type] = std::make_shared<SdlKeyboard>(*this);
       break;
     }
-    default {
+    default: {
       throw 0;
     }
     return mDevices[type];

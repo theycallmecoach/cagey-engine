@@ -28,6 +28,14 @@
 
 namespace cagey {
 namespace input {
+namespace detail {
+namespace sdl {
 
+SdlKeyboard::SdlKeyboard(SdlInputSystem const &inputSystem)
+  : Device(inputSystem) {
+}
+
+} //namespace sdl;
+} //namespace detail;
 } // namespace input
 } // namespace cagey

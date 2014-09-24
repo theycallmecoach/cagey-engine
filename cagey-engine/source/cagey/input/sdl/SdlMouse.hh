@@ -29,18 +29,20 @@
 
 #include <cagey/input/Device.hh>
 
+#include "SdlInputSystem.hh"
+
 namespace cagey {
 namespace input {
 
 class SdlMouse : public Device {
 public:
-
-  SdlMouse();
+  SdlMouse(SdlInputSystem const &  inputSystem);
 
 private:
 };
 
-
+} //namespace sdl;
+} //namespace detail;
 } // namespace input
 } // namespace cagey
 

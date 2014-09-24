@@ -36,7 +36,7 @@ public:
   virtual ~WindowImpl(){};
 
   virtual auto getTitle() const -> std::string = 0;
-  virtual auto setTitle(std::string const & newTitle) const -> std::
+  virtual auto setTitle(std::string const & newTitle) const -> void = 0;
 };
 
 } // namespace impl

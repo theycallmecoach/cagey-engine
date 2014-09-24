@@ -29,15 +29,22 @@
 
 #include <cagey/input/Device.hh>
 
+#include "SdlInputSystem.hh"
+
 namespace cagey {
 namespace input {
+namespace detail {
+namespace sdl {
 
 class SdlKeyboard : public Device {
 public:
+  SdlKeyboard(SdlInputSystem const & inputSystem);
 private:
 };
 
 
+} //namespace sdl;
+} //namespace detail;
 } // namespace input
 } // namespace cagey
 

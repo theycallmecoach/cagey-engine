@@ -31,6 +31,7 @@ namespace cagey {
 namespace input {
 
 
-
+} //namespace sdl;
+} //namespace detail;
 } // namespace input
 } // namespace cagey

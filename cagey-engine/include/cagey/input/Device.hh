@@ -42,7 +42,7 @@ public:
   *
   * @param inSys a pointer to the device to which this device belongs
   */
-  explicit Device(IInputSystem const * inSys) : mInputSystem{inSys} {}
+  explicit Device(IInputSystem const & inSys) : mInputSystem{inSys} {}
 
   /**
   * Destructor
@@ -52,11 +52,11 @@ public:
   /**
   * Return a pointer to the input system that created this device
   */
-  auto getInputSystem() -> IInputSystem const * { return mInputSystem; }
+  auto getInputSystem() -> IInputSystem const & { return mInputSystem; }
 
 private:
   /// a reference to the input system that owns this device;
-  IInputSystem const * mInputSystem;
+  IInputSystem const & mInputSystem;
 };
 
 } //namespace input
