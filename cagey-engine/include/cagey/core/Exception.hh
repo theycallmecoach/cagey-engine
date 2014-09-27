@@ -29,26 +29,40 @@
 #define CAGEY_ERROR_CAGEYEXCEPTION_HH_
 
 #include <boost/exception/all.hpp>  //Cagey exception are based on boost::exception
+#include <string>
 #include <exception>
 
 
 namespace cagey {
 namespace core {
 
-typedef boost::error_info<struct TagThrowMsg, char const*> ThrowMsg;
+/**
+ *  Structure Tag to allow user defined string to an exception object
+ */
+typedef boost::error_info<struct TagThrowMsg, std::string> ThrowMsg;
 
+/**
+ * Base Exception for all Cagey Engine Exceptions.
+ *
+ */
 class Exception : public virtual boost::exception, public virtual std::exception {
+  /**
+   * Override what to output boost::diagnostic_information
+   * 
+   * @return the text returned from diagnostic_information_what(*this)
+   */
   virtual const char* what() const noexcept override {
     return diagnostic_information_what(*this); 
   }
 };
 
-class DivideByZeroException : public virtual Exception {};
-class IOException : public virtual Exception{};
-class IndexOutOfBoundsException : public virtual Exception{};
-class FileNotFoundException : public virtual IOException{};
-class InvalidArgumentException :public virtual Exception{};
-class SingularMatrixException : public virtual Exception{};
+
+class DivideByZeroException : public virtual Exception {}; /// An Exception for when a division by zero is attempted
+class IOException : public virtual Exception{}; /// An Exception for when there is an error with Input or Output
+class IndexOutOfBoundsException : public virtual Exception{}; /// An Exception when there is an attempt to access an invalid index
+class FileNotFoundException : public virtual IOException{}; /// An exception when a file is not found
+class InvalidArgumentException :public virtual Exception{}; /// An exception when a invalid argument is passed to a function/method
+class SingularMatrixException : public virtual Exception{}; /// An exception when a Matrix does have a inverse
 } // namespace core
 } // namespace cagey
 
