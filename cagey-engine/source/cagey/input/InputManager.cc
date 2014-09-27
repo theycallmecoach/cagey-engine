@@ -27,6 +27,9 @@
 
 #include <cagey/input/InputManager.hh>
 
+#include "sdl/SdlInputSystem.hh"
+//#include "x11/X11InputSystem.hh"
+
 namespace cagey {
 namespace input {
 

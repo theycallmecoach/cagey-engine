@@ -41,7 +41,7 @@ class Keyboard;
 
 class InputManager {
 public:
-  InputManager() = default;
+  InputManager();
   virtual ~InputManager() = default;
 
 protected:

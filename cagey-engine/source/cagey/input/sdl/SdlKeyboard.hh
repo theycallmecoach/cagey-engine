@@ -48,4 +48,4 @@ private:
 } // namespace input
 } // namespace cagey
 
-#endif CAGEY_INPUT_SDL_SDLKEYBOARD_HH_
+#endif // CAGEY_INPUT_SDL_SDLKEYBOARD_HH_

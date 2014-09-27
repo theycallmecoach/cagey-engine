@@ -28,6 +28,9 @@
 #ifndef CAGEY_INPUT_SDL_SDLIINPUTSYSTEM_HH_
 #define CAGEY_INPUT_SDL_SDLIINPUTSYSTEM_HH_
 
+#include <map>
+#include <memory>
+
 #include "../IInputSystem.hh"
 
 
@@ -45,7 +48,7 @@ public:
   virtual auto createDevice(DeviceType const & type) -> std::weak_ptr<Device> override;
 
 private:
-  using std::shared_ptr<Device> DevicePtr;
+  using DevicePtr = std::shared_ptr<Device>;
   std::map<DeviceType, DevicePtr> mDevices;
 };
 

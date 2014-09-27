@@ -33,6 +33,8 @@
 
 namespace cagey {
 namespace input {
+namespace detail {
+namespace sdl {
 
 class SdlMouse : public Device {
 public:
@@ -46,4 +48,4 @@ private:
 } // namespace input
 } // namespace cagey
 
-#endif CAGEY_INPUT_SDL_SDLMOUSE_HH_
+#endif // CAGEY_INPUT_SDL_SDLMOUSE_HH_

@@ -26,8 +26,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#include "cagey/input/sdl/SdlInputSystem.hh"
 #include "SdlInputSystem.hh"
+#include "SdlInputSystem.hh"
+#include "cagey/input/sdl/SdlMouse.hh"
+#include "cagey/input/sdl/SdlKeyboard.hh"
 
 namespace cagey {
 namespace input {
@@ -47,13 +49,13 @@ auto SdlInputSystem::getName() const -> std::string {
 ///////////////////////////////////////////////////////////////////////////////
 auto SdlInputSystem::createDevice(DeviceType const &type) -> std::weak_ptr<Device> {
   switch(type) {
-    case Mouse: {
+    case DeviceType::Mouse: {
       if (!mDevices[type]) {
         mDevices[type] = std::make_shared<SdlMouse>(*this);
       }
       break;
     }
-    case Keyboard: {
+    case DeviceType::Keyboard: {
       mDevices[type] = std::make_shared<SdlKeyboard>(*this);
       break;
     }

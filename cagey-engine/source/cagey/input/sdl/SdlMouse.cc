@@ -29,6 +29,9 @@
 
 namespace cagey {
 namespace input {
+namespace detail {
+namespace sdl {
+
 
 
 } //namespace sdl;

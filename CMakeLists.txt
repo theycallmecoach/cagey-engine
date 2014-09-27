@@ -17,6 +17,8 @@ find_package(Boost 1.53.0 REQUIRED )
 enable_testing()
 
 include_directories(cagey-engine/include)
+include_directories(cagey-engine/source)
+
 
 add_subdirectory(cagey-engine)
 add_subdirectory(test)
