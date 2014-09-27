@@ -28,7 +28,7 @@
 #ifndef CAGEY_ERROR_CAGEYEXCEPTION_HH_
 #define CAGEY_ERROR_CAGEYEXCEPTION_HH_
 
-#include <boost/exception/all.hpp>  //Cagey exception are based on boost::exception
+#include <boost/exception/all.hpp>  //Cagey exceptions are based on boost::exception
 #include <string>
 #include <exception>
 

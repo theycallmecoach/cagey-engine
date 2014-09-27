@@ -29,7 +29,7 @@
 
 #include <cagey/input/Device.hh>
 
-#include "SdlInputSystem.hh"
+#include "cagey/input/sdl/SdlInputSystem.hh"
 
 namespace cagey {
 namespace input {

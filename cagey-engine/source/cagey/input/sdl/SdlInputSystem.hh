@@ -31,7 +31,7 @@
 #include <map>
 #include <memory>
 
-#include "../IInputSystem.hh"
+#include "cagey/input/IInputSystem.hh"
 
 
 
