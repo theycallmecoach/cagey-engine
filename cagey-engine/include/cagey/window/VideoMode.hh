@@ -28,28 +28,67 @@
 #ifndef CAGEY_WINDOW_VIDEOMODE_HH_
 #define CAGEY_WINDOW_VIDEOMODE_HH_
 
+#include <vector>
+
 namespace cagey {
 namespace window {
 
 class VideoMode {
 public:
-  //static auto CurrentMode() -> VideoMode;
-  //static auto FullScreenModes() -> std::vector<VideoMode> const;
+  static auto getCurrent() -> VideoMode;
+  static auto getFullScreenModes() -> std::vector<VideoMode> const &;
 
-  VideoMode();
-  VideoMode(unsigned width, unsigned height, unsigned short bpp = 32);
-  
+  /**
+  * Create a VideoMode
+  *
+  * @param width in pixels
+  * @param height in pixels
+  * @param bpp bits per pixel
+  */
+  VideoMode(unsigned const width, unsigned const height, unsigned short const bpp = 32);
+
+  /**
+  * Return the width of this VideoMode
+  * @return width of this VideoMode in pixels
+  */
   constexpr auto getWidth() const -> unsigned { return mWidth; }
+
+  /**
+  * Return the height of this video mode
+  *
+  * @return height of this VideMode in pixels
+  */
   constexpr auto getHeight() const -> unsigned { return mHeight; }
+
+  /**
+  * Return the number of bits per pixel for this VideoMode
+  *
+  * @return the number of bits per pixel
+  */
   constexpr auto getBitsPerPixel() const -> unsigned short { return mBitsPerPixel; }
+
+  /**
+  * Return true if this VideoMode is supported by the system
+  *
+  * @return true if this is a supported VideoMode
+  */
   auto isValid() const -> bool;
 
 private:
+  /// width in pixels
   unsigned mWidth;
+  /// heigh in pixels
   unsigned mHeight;
+  /// bits per pixel
   unsigned short mBitsPerPixel;
 };
 
+auto operator == (VideoMode const & lhs, VideoMode const & rhs) -> bool;
+auto operator != (VideoMode const & lhs, VideoMode const & rhs) -> bool ;
+auto operator < (VideoMode const & lhs, VideoMode const & rhs) -> bool;
+auto operator > (VideoMode const & lhs, VideoMode const & rhs) -> bool;
+auto operator <= (VideoMode const & lhs, VideoMode const & rhs) -> bool;
+auto operator >= (VideoMode const & lhs, VideoMode const & rhs) -> bool;
 
 } //namespace window
 } //namespace cagey

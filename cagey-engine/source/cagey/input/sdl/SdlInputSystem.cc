@@ -26,8 +26,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#include "SdlInputSystem.hh"
-#include "SdlInputSystem.hh"
+#include "cagey/input/sdl/SdlInputSystem.hh"
 #include "cagey/input/sdl/SdlMouse.hh"
 #include "cagey/input/sdl/SdlKeyboard.hh"
 
@@ -59,11 +58,8 @@ auto SdlInputSystem::createDevice(DeviceType const &type) -> std::weak_ptr<Devic
       mDevices[type] = std::make_shared<SdlKeyboard>(*this);
       break;
     }
-    default: {
-      throw 0;
-    }
-    return mDevices[type];
   }
+  return mDevices[type];
 }
 
 } //namespace sdl;

@@ -25,57 +25,28 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_WINDOW_HH_
-#define CAGEY_WINDOW_WINDOW_HH_
 
+#ifndef CAGEY_WINDOW_VIDEOMODEIMPL_HH_
+#define CAGEY_WINDOW_VIDEOMODEIMPL_HH_
+
+
+#include <cagey/window/VideoMode.hh>
+
+#include <vector>
 namespace cagey {
 namespace window {
+namespace detail {
 
-class Window {
+class IVideoModeImpl {
 public:
-  enum class Style
-      : unsigned int {
-    None,
-    Titlebar,
-    Resize,
-    Close,
-    Fullscreen,
-  };
-  typedef kgml::util::EnumClassSet <Style, 5> StyleSet;
-
-  /**
-  * Create an instance of a window.
-  *
-  * @param vidMode
-  * @param winName
-  * @param winStyle
-  */
-  Window(VideoMode const & vidMode,
-      std::string const & winName,
-      StyleSet const & winStyle = StyleSet{}.set(Style::Titlebar)
-          .set(Style::Resize)
-          .set(Style::Close));
-
-
-  /**
-  * Cannot copy a Window
-  */
-  Window(Window const & window) = delete;
-
-  /**
-  * Cannot copy a window
-  */
-  auto operator=(Window const & other) = delete;
-
-  auto getTitle() const -> std::string;
-
-  auto setTitle(std::string const & newTitle) -> void;
-
-private:
-
+  virtual ~IVideoModeImpl() = default;
+	virtual auto getFullScreenModes() -> std::vector<window::VideoMode> = 0;
+	virtual auto getCurrentMode() -> window::VideoMode = 0;
 };
 
+
+} //namespace detail
 } //namespace window
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif // CAGEY_WINDOW_VIDEOMODEIMPL_HH_

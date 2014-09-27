@@ -25,57 +25,26 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_WINDOW_HH_
-#define CAGEY_WINDOW_WINDOW_HH_
+
+#ifndef CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
+#define CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
+
+#include <memory>
+#include <cagey/window/IVideoModeImpl.hh>
 
 namespace cagey {
 namespace window {
+namespace detail {
 
-class Window {
-public:
-  enum class Style
-      : unsigned int {
-    None,
-    Titlebar,
-    Resize,
-    Close,
-    Fullscreen,
-  };
-  typedef kgml::util::EnumClassSet <Style, 5> StyleSet;
+auto VideoModeFactory::create() -> std::unique_ptr<IVideoModeImpl> {
+#ifdef SDL
+ return std::unique_ptr<impl::IVideoModeImpl>{std::make_unique<sdl::SdlVideoModeImpl>()};
+#else X11
+ return std::unique_ptr<impl::IVideoModeImpl>{std::make_unique<sdl::X11VideoModeImpl>()};
+}
 
-  /**
-  * Create an instance of a window.
-  *
-  * @param vidMode
-  * @param winName
-  * @param winStyle
-  */
-  Window(VideoMode const & vidMode,
-      std::string const & winName,
-      StyleSet const & winStyle = StyleSet{}.set(Style::Titlebar)
-          .set(Style::Resize)
-          .set(Style::Close));
-
-
-  /**
-  * Cannot copy a Window
-  */
-  Window(Window const & window) = delete;
-
-  /**
-  * Cannot copy a window
-  */
-  auto operator=(Window const & other) = delete;
-
-  auto getTitle() const -> std::string;
-
-  auto setTitle(std::string const & newTitle) -> void;
-
-private:
-
-};
-
+} //namespace detail
 } //namespace window
 } //namespace cagey
 
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+#endif // CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
