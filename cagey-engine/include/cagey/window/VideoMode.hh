@@ -45,7 +45,7 @@ public:
   * @param height in pixels
   * @param bpp bits per pixel
   */
-  VideoMode(unsigned const width, unsigned const height, unsigned short const bpp = 32);
+  constexpr VideoMode(unsigned const width, unsigned const height, unsigned short const bpp = 32);
 
   /**
   * Return the width of this VideoMode

@@ -38,6 +38,7 @@ namespace detail {
 class IVideoModeImpl;
 
 class VideoModeFactory {
+public:
   static auto create() -> std::unique_ptr<IVideoModeImpl>;
 };
 

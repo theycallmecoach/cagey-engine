@@ -26,25 +26,29 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
-#define CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
-
+#include "cagey/window/VideoModeFactory.hh"
+#include "cagey/window/IVideoModeImpl.hh"
 #include <memory>
-#include <cagey/window/IVideoModeImpl.hh>
+
+
+#ifdef USE_SDL
+#include "cagey/window/sdl/SdlVideoModeImpl.hh"
+#elif USE_X11
+#include "cagey/window/x11/X11VideoModeImpl.hh"
+#endif
 
 namespace cagey {
 namespace window {
 namespace detail {
 
 auto VideoModeFactory::create() -> std::unique_ptr<IVideoModeImpl> {
-#ifdef SDL
- return std::unique_ptr<impl::IVideoModeImpl>{std::make_unique<sdl::SdlVideoModeImpl>()};
-#else X11
- return std::unique_ptr<impl::IVideoModeImpl>{std::make_unique<sdl::X11VideoModeImpl>()};
+#ifdef USE_X11
+ return std::unique_ptr<IVideoModeImpl>{std::make_unique<x11::X11VideoModeImpl>()};
+#else
+  return std::unique_ptr<IVideoModeImpl>{std::make_unique<window::sdl::SdlVideoModeImpl>()};
+#endif
 }
 
 } //namespace detail
 } //namespace window
 } //namespace cagey
-
-#endif // CAGEY_WINDOW_VIDEOMODEFACTORY_HH_

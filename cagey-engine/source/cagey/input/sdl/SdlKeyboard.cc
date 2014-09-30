@@ -28,7 +28,6 @@
 
 namespace cagey {
 namespace input {
-namespace detail {
 namespace sdl {
 
 SdlKeyboard::SdlKeyboard(SdlInputSystem const &inputSystem)
@@ -36,6 +35,5 @@ SdlKeyboard::SdlKeyboard(SdlInputSystem const &inputSystem)
 }
 
 } //namespace sdl;
-} //namespace detail;
 } // namespace input
 } // namespace cagey

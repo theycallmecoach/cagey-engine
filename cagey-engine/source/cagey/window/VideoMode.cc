@@ -25,7 +25,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "cagey/window/VideoMode.hh"
+#include <cagey/window/VideoMode.hh>
+#include "cagey/window/IVideoModeImpl.hh"
 #include "cagey/window/VideoModeFactory.hh"
 #include <algorithm>
 
@@ -38,11 +39,11 @@ namespace window {
 
 ///////////////////////////////////////////////////////////////////////////////
 auto VideoMode::getCurrent() -> VideoMode {
-  return window::VideoModeFactory::getVideoMode()->getCurrentMode();
+  return window::detail::VideoModeFactory::create()->getCurrentMode();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-auto VideoMode::FullScreenModes() -> std::vector<VideoMode> const {
+auto VideoMode::getFullScreenModes() -> std::vector<VideoMode> const & {
   if (fullScreenModes.empty()) {
     fullScreenModes = window::detail::VideoModeFactory::create()->getFullScreenModes();
     std::sort(std::begin(fullScreenModes), std::end(fullScreenModes),
@@ -57,31 +58,16 @@ auto VideoMode::FullScreenModes() -> std::vector<VideoMode> const {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-auto VideoMode::getWidth() const -> unsigned {
-	return mWidth;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-auto VideoMode::getHeight() const -> unsigned {
-	return mHeight;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-auto VideoMode::getBitsPerPixel() const -> unsigned short {
-  return mBitsPerPixel;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-auto VideoMode::valid() const -> bool {
-  auto modes = cagey::window::VideoMode::FullScreenModes();
+auto VideoMode::isValid() const -> bool {
+  auto modes = cagey::window::VideoMode::getFullScreenModes();
   return std::find(std::begin(modes), std::end(modes), *this) != modes.end();
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 auto operator ==(VideoMode const & lhs, VideoMode const & rhs) -> bool {
-	return lhs.height() == rhs.height() && lhs.width() == rhs.width()
-			&& lhs.bitsPerPixel() == rhs.bitsPerPixel();
+	return lhs.getHeight() == rhs.getHeight() && lhs.getWidth() == rhs.getWidth()
+			&& lhs.getBitsPerPixel() == rhs.getBitsPerPixel();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -91,14 +77,14 @@ auto operator !=(VideoMode const & lhs, VideoMode const & rhs) -> bool {
 
 ///////////////////////////////////////////////////////////////////////////////
 auto operator <(VideoMode const & lhs, VideoMode const & rhs) -> bool {
-	if (lhs.bitsPerPixel() == rhs.bitsPerPixel()) {
-		if (lhs.width() == rhs.width()) {
-			return lhs.height() < rhs.height();
+	if (lhs.getBitsPerPixel() == rhs.getBitsPerPixel()) {
+		if (lhs.getWidth() == rhs.getWidth()) {
+			return lhs.getHeight() < rhs.getHeight();
 		} else {
-			return lhs.width() < rhs.width();
+			return lhs.getWidth() < rhs.getWidth();
 		}
 	} else {
-		return lhs.bitsPerPixel() < rhs.bitsPerPixel();
+		return lhs.getBitsPerPixel() < rhs.getBitsPerPixel();
 	}
 }
 

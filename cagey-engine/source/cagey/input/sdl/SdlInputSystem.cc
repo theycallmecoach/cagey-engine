@@ -32,7 +32,6 @@
 
 namespace cagey {
 namespace input {
-namespace detail {
 namespace sdl {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -63,6 +62,5 @@ auto SdlInputSystem::createDevice(DeviceType const &type) -> std::weak_ptr<Devic
 }
 
 } //namespace sdl;
-} //namespace detail;
 } //namespace input
 } //namespace cagey

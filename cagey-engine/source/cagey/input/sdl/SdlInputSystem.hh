@@ -37,7 +37,6 @@
 
 namespace cagey {
 namespace input {
-namespace detail {
 namespace sdl {
 
 class SdlInputSystem : public IInputSystem {
@@ -53,7 +52,6 @@ private:
 };
 
 } //namespace sdl;
-} //namespace detail;
 } //namespace input
 } //namespace cagey
 
