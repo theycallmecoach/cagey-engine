@@ -27,7 +27,7 @@
 #ifndef CAGEY_INPUT_SDL_SDLMOUSE_HH_
 #define CAGEY_INPUT_SDL_SDLMOUSE_HH_
 
-#include <cagey/input/Device.hh>
+#include <cagey/input/Mouse.hh>
 
 #include "cagey/input/sdl/SdlInputSystem.hh"
 
@@ -35,12 +35,13 @@ namespace cagey {
 namespace input {
 namespace sdl {
 
-class SdlMouse : public Device {
+class SdlMouse : public Mouse {
 public:
   SdlMouse(SdlInputSystem const &  inputSystem);
 
 private:
 };
+
 
 } //namespace sdl;
 } // namespace input

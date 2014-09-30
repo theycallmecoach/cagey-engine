@@ -51,7 +51,7 @@ class Exception : public virtual boost::exception, public virtual std::exception
    * 
    * @return the text returned from diagnostic_information_what(*this)
    */
-  virtual const char* what() const noexcept override {
+  virtual auto what() const noexcept -> const char* override {
     return diagnostic_information_what(*this); 
   }
 };
