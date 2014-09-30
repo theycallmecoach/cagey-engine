@@ -6,11 +6,11 @@ file(GLOB_RECURSE Cagey_HEADERS "include/*.hh")
 file(GLOB CageyInputPrivateHeaders "source/cagey/input/*.hh")
 file(GLOB CageyInputSources "source/cagey/input/*.cc")
 
-if (CAGEY_SDL)
+if (USE_SDL)
     file(GLOB CageyInputSdlPrivateHeaders "source/cagey/input/sdl/*.hh")
     file(GLOB CageyInputSdlSources "source/cagey/input/sdl/*.cc")
     set(CageyInputImplSources ${CageyInputSdlPrivateHeaders} ${CageyInputSdlSources})
-elseif (CAGEY_X11)
+elseif (USE_X11)
     file(GLOB CageyInputX11PrivateHeaders "source/cagey/input/x11/*.hh")
     file(GLOB CageyInputX11Sources "source/cagey/input/x11/*.cc")
     set(CageyInputImplSources ${CageyInputX11PrivateHeaders} ${CageyInputX11Sources})
@@ -27,8 +27,3 @@ add_library(cageyEngine
             ${CageyInputImplSources}
             ${CageyWindowPrivateHeaders}
             ${CageyWindowSources})
-#set_target_properties(cageyEngine PROPERTIES LINKER_LANGUAGE C++)
-
-
-#Make Visible in IDE's
-#${Cagey_HEADERS}add_custom_target(CageyFoo SOURCES ${Cagey_HEADERS})
