@@ -27,10 +27,23 @@
 #ifndef CAGEY_INPUT_MOUSE_HH_
 #define CAGEY_INPUT_MOUSE_HH_
 
-#include "cagey/input/Device.hh"
+#include <cagey/input/Device.hh>
+#include <cagey/util/EnumClassSet.hh>
 
 namespace cagey {
 namespace input {
+
+/**
+* All supported mouse buttons
+*/
+enum class MouseButton : int {
+  Left,
+  Middle,
+  Right,
+  Extra1,
+  Extra2
+};
+using MouseButtonState = util::EnumClassSet<MouseButton, 5>;
 
 class Mouse : public Device {
 public:

@@ -24,19 +24,27 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#ifndef CAGEY_INPUT_X11_X11MOUSE_HH_
+#define CAGEY_INPUT_X11_X11MOUSE_HH_
 
-#include <cagey/input/InputManager.hh>
+#include <cagey/input/Mouse.hh>
 
-#include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
+#include "cagey/input/x11/X11InputSystem.hh"
 
 namespace cagey {
 namespace input {
+namespace x11 {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
-}
+class X11Mouse : public Mouse {
+public:
+  X11Mouse(X11InputSystem const &  inputSystem);
 
-} //namepsace input
+private:
+};
+
+
+} //namespace x11;
+} // namespace input
 } // namespace cagey
+
+#endif // CAGEY_INPUT_X11_X11MOUSE_HH_

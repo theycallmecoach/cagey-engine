@@ -24,19 +24,44 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#include <cagey/input/InputManager.hh>
-
-#include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
+#ifndef CAGEY_INPUT_EVENT_HH_
+#define CAGEY_INPUT_EVENT_HH_
 
 namespace cagey {
 namespace input {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
-}
+//forward declarations
+class Device;
 
-} //namepsace input
-} // namespace cagey
+class Event {
+protected:
+  /**
+  * Construct an Event
+  *
+  * @param source reference to device that created this event
+  */
+  explicit Event(Device const & source) : mSource{source} {}
+
+  /**
+  * Default destructor
+  */
+  virtual ~Event() = default;
+
+  /**
+  * Return a reference to the device that created this Event
+  *
+  * @return the device that created this event
+  */
+  auto getSource() const -> Device const & { return mSource;}
+
+private:
+  /// Reference to the device that generated this event
+  Device const & mSource;
+};
+
+
+
+} //namespace input
+} //namespace cagey
+
+#endif //CAGEY_INPUT_EVENT_HH_

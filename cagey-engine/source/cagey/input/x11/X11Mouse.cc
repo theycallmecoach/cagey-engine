@@ -25,18 +25,16 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/input/InputManager.hh>
-
-#include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
+#include "X11Mouse.hh"
 
 namespace cagey {
 namespace input {
+namespace x11 {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
+X11Mouse::X11Mouse(X11InputSystem const &inputSystem) : Device(inputSystem) {
+
 }
 
-} //namepsace input
+} //namespace x11;
+} // namespace input
 } // namespace cagey

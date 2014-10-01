@@ -35,6 +35,7 @@ namespace input {
 class Keyboard : public Device {
 public:
   Keyboard() = default;
+
   virtual ~Keyboard() = default;
 
 protected:

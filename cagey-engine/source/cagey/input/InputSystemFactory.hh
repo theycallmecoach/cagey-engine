@@ -28,15 +28,18 @@
 #ifndef CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_
 #define CAGEY_INPUT_IINPUTSYSTEMFACTORY_HH_
 
+#include <cagey/input/InputManager.hh>
+#include "cagey/input/IInputSystem.hh"
 #include <string>
 #include <memory>
+
 
 namespace cagey {
 namespace input {
 
 class InputSystemFactory {
 public:
-  static auto create(ParamMap const & param) -> std::unique_ptr<IInputSystem>;
+  static auto create(StringMap const & param) -> std::unique_ptr<IInputSystem>;
 };
 
 } //namespace input

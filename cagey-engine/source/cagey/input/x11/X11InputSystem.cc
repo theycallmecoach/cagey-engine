@@ -25,18 +25,42 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/input/InputManager.hh>
 
-#include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
+#include "cagey/input/x11/X11InputSystem.hh"
+#include "cagey/input/x11/X11Mouse.hh"
+#include "cagey/input/x11/X11Keyboard.hh"
 
 namespace cagey {
 namespace input {
+namespace x11 {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
+///////////////////////////////////////////////////////////////////////////////
+X11InputSystem::X11InputSystem() {
+
 }
 
-} //namepsace input
-} // namespace cagey
+///////////////////////////////////////////////////////////////////////////////
+auto X11InputSystem::getName() const -> std::string {
+  return "X11";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+auto X11InputSystem::createDevice(DeviceType const &type) -> std::weak_ptr<Device> {
+  switch(type) {
+    case DeviceType::Mouse: {
+      if (!mDevices[type]) {
+        mDevices[type] = std::make_shared<X11Mouse>(*this);
+      }
+      break;
+    }
+    case DeviceType::Keyboard: {
+      mDevices[type] = std::make_shared<X11Keyboard>(*this);
+      break;
+    }
+  }
+  return mDevices[type];
+}
+
+} //namespace x11;
+} //namespace input
+} //namespace cagey

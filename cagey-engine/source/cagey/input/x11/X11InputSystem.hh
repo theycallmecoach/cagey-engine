@@ -25,18 +25,34 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/input/InputManager.hh>
+#ifndef CAGEY_INPUT_X11_X11IINPUTSYSTEM_HH_
+#define CAGEY_INPUT_X11_X11IINPUTSYSTEM_HH_
 
-#include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
+#include <map>
+#include <memory>
+
+#include "cagey/input/IInputSystem.hh"
+
 
 namespace cagey {
 namespace input {
+namespace x11 {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
-}
+class X11InputSystem : public IInputSystem {
+public:
+  X11InputSystem();
 
-} //namepsace input
-} // namespace cagey
+  virtual auto getName() const -> std::string override;
+
+  virtual auto createDevice(DeviceType const &type) -> std::weak_ptr<Device> override;
+
+private:
+  using DevicePtr = std::shared_ptr<Device>;
+  std::map<DeviceType, DevicePtr> mDevices;
+};
+
+} //namespace x11;
+} //namespace input
+} //namespace cagey
+
+#endif // CAGEY_INPUT_X11_X11IINPUTSYSTEM_HH_

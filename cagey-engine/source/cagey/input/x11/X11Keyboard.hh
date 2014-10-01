@@ -24,19 +24,26 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#ifndef CAGEY_INPUT_X11_X11KEYBOARD_HH_
+#define CAGEY_INPUT_X11_X11KEYBOARD_HH_
 
-#include <cagey/input/InputManager.hh>
+#include <cagey/input/Keyboard.hh>
 
-#include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
+#include "cagey/input/x11/X11InputSystem.hh"
 
 namespace cagey {
 namespace input {
+namespace x11 {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
-}
+class X11Keyboard : public Keyboard {
+public:
+  X11Keyboard(X11InputSystem const & inputSystem);
+private:
+};
 
-} //namepsace input
+
+} //namespace x11;
+} // namespace input
 } // namespace cagey
+
+#endif // CAGEY_INPUT_X11_X11KEYBOARD_HH_

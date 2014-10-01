@@ -24,19 +24,29 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#ifndef CAGEY_INPUT_MOUSEEVENT_HH_
+#define CAGEY_INPUT_MOUSEEVENT_HH_
 
-#include <cagey/input/InputManager.hh>
-
-#include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
+#include <cagey/input/Event.hh>
+#include <cagey/input/Mouse.hh>
 
 namespace cagey {
 namespace input {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
-}
 
-} //namepsace input
-} // namespace cagey
+class MouseEvent : public Event {
+protected:
+  MouseEvent(Mouse const & source, MouseButonState buttonState, math::Point2i const & pos);
+  virtual ~Mouse() = default;
+
+protected:
+
+private:
+
+};
+
+
+} //namespace input
+} //namespace cagey
+
+#endif //CAGEY_INPUT_MOUSEEVENT_HH_

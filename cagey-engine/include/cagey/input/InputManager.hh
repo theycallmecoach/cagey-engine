@@ -30,6 +30,8 @@
 #include "cagey/input/Device.hh"
 
 #include <memory>
+#include <map>
+#include <string>
 
 namespace cagey {
 namespace input {
@@ -38,6 +40,8 @@ namespace input {
 class IInputSystem;
 class Mouse;
 class Keyboard;
+
+using StringMap = std::map<std::string, std::string>;
 
 class InputManager {
 public:

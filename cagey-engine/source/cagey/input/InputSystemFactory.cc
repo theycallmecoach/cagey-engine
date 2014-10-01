@@ -25,18 +25,18 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/input/InputManager.hh>
 
 #include "cagey/input/InputSystemFactory.hh"
-//#include "sdl/SdlInputSystem.hh"
-//#include "x11/X11InputSystem.hh"
 
 namespace cagey {
 namespace input {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
+static auto InputSystemFactory::create(StringMap const & param) -> std::unique_ptr<IInputSystem> {
+  throw 0;
 }
 
-} //namepsace input
-} // namespace cagey
+};
+
+} //namespace input
+} //namespace cagey
+
