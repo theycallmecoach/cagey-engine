@@ -27,7 +27,7 @@
 #ifndef CAGEY_INPUT_SDL_SDLKEYBOARD_HH_
 #define CAGEY_INPUT_SDL_SDLKEYBOARD_HH_
 
-#include <cagey/input/Device.hh>
+#include <cagey/input/Keyboard.hh>
 
 #include "cagey/input/sdl/SdlInputSystem.hh"
 
@@ -35,7 +35,7 @@ namespace cagey {
 namespace input {
 namespace sdl {
 
-class SdlKeyboard : public Device {
+class SdlKeyboard : public Keyboard {
 public:
   SdlKeyboard(SdlInputSystem const & inputSystem);
 private:

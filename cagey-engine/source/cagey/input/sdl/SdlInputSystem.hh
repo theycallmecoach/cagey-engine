@@ -34,7 +34,6 @@
 #include "cagey/input/IInputSystem.hh"
 
 
-
 namespace cagey {
 namespace input {
 namespace sdl {
@@ -42,9 +41,10 @@ namespace sdl {
 class SdlInputSystem : public IInputSystem {
 public:
   SdlInputSystem();
+
   virtual auto getName() const -> std::string override;
 
-  virtual auto createDevice(DeviceType const & type) -> std::weak_ptr<Device> override;
+  virtual auto createDevice(DeviceType const &type) -> std::weak_ptr<Device> override;
 
 private:
   using DevicePtr = std::shared_ptr<Device>;
