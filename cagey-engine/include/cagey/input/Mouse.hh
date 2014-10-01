@@ -29,6 +29,7 @@
 
 #include <cagey/input/Device.hh>
 #include <cagey/util/EnumClassSet.hh>
+#include <cagey/input/IInputSystem.hh>
 
 namespace cagey {
 namespace input {
@@ -45,15 +46,30 @@ enum class MouseButton : int {
 };
 using MouseButtonState = util::EnumClassSet<MouseButton, 5>;
 
+class IMouseListener {
+public:
+  virtual ~IMouseListener() = default;
+  auto mousePressed() -> void = 0;
+  auto mouseReleased() -> void = 0;
+  auto mouseMoved() -> void = 0;
+  auto mouseWheelMoved() -> void = 0;
+  auto mouseEntered() -> void = 0;
+  auto mouseExited() -> void = 0;
+};
+
+
 class Mouse : public Device {
 public:
-  Mouse() = default;
-  virtual ~Mouse() = default;
+  Mouse(IInputSystem const & inputSystem) : Device{inputSystem} {}
+  ~Mouse() = default;
+
+  auto addMouseListener(IMouseListener* listener) -> void;
+  auto removeMouseListener(IMouseListener* listener) -> void;
+  auto update() -> void;
 
 protected:
 
 private:
-
 };
 
 

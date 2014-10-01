@@ -40,7 +40,8 @@ namespace math {
  *
  * @tparam T Underlying type
  */
-template<typename T> class Radian : public BaseAngle<Radian, T> {
+template<typename T>
+class Radian : public BaseAngle<Radian, T> {
 public:
   /**
    * Default constructor.  Initializes values to 0

@@ -36,13 +36,29 @@ namespace input {
 
 class MouseEvent : public Event {
 protected:
-  MouseEvent(Mouse const & source, MouseButonState buttonState, math::Point2i const & pos);
+  MouseEvent(Mouse const & source, MouseButonState const & buttonState, math::Point2i const & pos);
   virtual ~Mouse() = default;
 
 protected:
 
 private:
+  MouseButtonState mButtonState;
+  math::Point2i mPos;
+};
 
+class MouseButtonEvent : public MouseEvent {
+public:
+  MouseButtonEvent(Mouse const & source, MouseButtonState const & buttonState, math::Point2i const & pos);
+};
+
+class MouseMotionEvent : public MouseEvent {
+public:
+  MouseMotionEvent(Mouse const & source, MouseButtonState const & buttonState, math::Point2i const & pos);
+};
+
+class MouseWindowEvent : public MouseEvent {
+public:
+  MouseWindowEvent(Mouse const & source, MouseButtonState const & buttonState, math::Point2i const & pos);
 };
 
 

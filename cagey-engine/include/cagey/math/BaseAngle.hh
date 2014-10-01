@@ -315,7 +315,6 @@ private:
   Type value;
 };
 
-
 } // namespace math
 } // namespace cagey
 
