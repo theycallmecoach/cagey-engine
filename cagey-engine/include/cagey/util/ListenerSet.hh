@@ -29,6 +29,7 @@
 #define CAGEY_UTIL_LISTENERSET_HH_
 
 #include <set>
+#include <functional>
 
 namespace cagey {
 namespace util {
@@ -41,8 +42,7 @@ public:
 
 template <class F, class... A>
 inline void notify(F&& f, A&&... args) {
-    m_notifying = true;
-    for (auto & listener : m_listeners)
+    for (auto & listener : mListeners)
     {
         auto method = std::bind(f, listener, args...);
         if (method) {
