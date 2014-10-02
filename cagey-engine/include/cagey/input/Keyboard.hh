@@ -27,6 +27,7 @@
 #ifndef CAGEY_INPUT_KEYBOARD_HH_
 #define CAGEY_INPUT_KEYBOARD_HH_
 
+#include <cagey/input/IInputSystem.hh>
 #include "cagey/input/Device.hh"
 
 namespace cagey {
@@ -34,7 +35,7 @@ namespace input {
 
 class Keyboard : public Device {
 public:
-  Keyboard() = default;
+  Keyboard(IInputSystem const & inputSystem) : Device{inputSystem}{};
 
   virtual ~Keyboard() = default;
 
@@ -43,6 +44,7 @@ protected:
 private:
 
 };
+
 
 
 } //namespace input

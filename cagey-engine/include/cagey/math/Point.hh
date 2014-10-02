@@ -161,7 +161,7 @@ public:
   explicit Point(T const v) noexcept : BasePoint<math::Point, T, Size>{v} {};
 
   /**
-  * Construct a Point with the given elements a and b are assigned to x and y respectively
+  * Construct a Point with the given elements a and b and c are assigned to x y an z respectively
   */
   constexpr Point(T const a, T const b, T const c) noexcept : BasePoint<math::Point, T, Size>{a, b,c} {};
 

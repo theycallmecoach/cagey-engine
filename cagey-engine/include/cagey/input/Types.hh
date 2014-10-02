@@ -25,47 +25,24 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_INPUT_IINPUTSYSTEM_HH_
-#define CAGEY_INPUT_IINPUTSYSTEM_HH_
+#ifndef CAGEY_INPUT_TYPES_HH_
+#define CAGEY_INPUT_TYPES_HH_
 
+#include <map>
 #include <string>
-#include <memory>
 
 namespace cagey {
 namespace input {
 
-class Device;
-
-using InputSystemParamMap = std::map<std::string, std::string>;
-
-class IInputSystem {
-public:
-
-  /**
-   * Supported DeviceTypes
-   */
-  enum class DeviceType {
-    Keyboard,
-    Mouse
-  };
-
-  /**
-   * Default destructor
-   */
-  virtual ~IInputSystem() = default;
-
-  /**
-  * Return the name of this InputSystem
-  */
-  virtual auto getName() const -> std::string = 0;
-
-  /**
-  * Construct a device of the given type
-  */
-  virtual auto createDevice(DeviceType const & type) -> std::weak_ptr<Device> = 0;
+enum class DeviceType : int {
+  Mouse,
+  Keyboard
 };
+
+using StringMap = std::map<std::string, std::string>;
+
 
 } //namespace input
 } //namespace cagey
 
-#endif // CAGEY_INPUT_IINPUTSYSTEM_HH_
+#endif //CAGEY_INPUT_TYPES_HH_

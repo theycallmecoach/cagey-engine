@@ -26,16 +26,31 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <cagey/input/InputManager.hh>
-
 #include "cagey/input/InputSystemFactory.hh"
+#include <cagey/input/IInputSystem.hh>
+#include <cagey/input/Mouse.hh>
+#include <cagey/input/Keyboard.hh>
+#include <memory>
+
 //#include "sdl/SdlInputSystem.hh"
 //#include "x11/X11InputSystem.hh"
+
+namespace {
+  using StringMap = std::map<std::string, std::string>;
+}
 
 namespace cagey {
 namespace input {
 
 InputManager::InputManager()
  : mInputSystem{InputSystemFactory::create(StringMap())} {
+  
+  if (auto mouse = mInputSystem->createDevice(DeviceType::Mouse).lock()) {
+    mMouse = std::dynamic_pointer_cast<Mouse>(mouse);
+  }
+  if (auto keyboard = mInputSystem->createDevice(DeviceType::Keyboard).lock()) {
+    mKeyboard = std::dynamic_pointer_cast<Keyboard>(keyboard);
+  }
 }
 
 } //namepsace input

@@ -29,6 +29,7 @@
 
 #include <cagey/input/Event.hh>
 #include <cagey/input/Mouse.hh>
+#include <cagey/math/Point.hh>
 
 namespace cagey {
 namespace input {
