@@ -116,18 +116,18 @@ TEST(Point, CopyConstructor) {
 }
 
 TEST(Point, CopyConstructorDifferentType) {
-//  Point2f point2{2.0f,3.0f};
-//  Point2i point2a{point2};
-//  EXPECT_EQ(2, point2a.x);
-//  EXPECT_EQ(3, point2a.y);
+  Point2f point2{2.0f,3.0f};
+  Point2i point2a{point2};
+  EXPECT_EQ(2, point2a.x);
+  EXPECT_EQ(3, point2a.y);
 }
 
 TEST(Point, CopyConstructorDifferentType2) {
-//  Point3d point3{2.0f,3.0f, 5.5f};
-//  Point3i point3a{point3};
-//  EXPECT_EQ(2.0f, point3a.x);
-//  EXPECT_EQ(3.0f, point3a.y);
-//  EXPECT_EQ(5.0f, point3a.z);
+  Point3d point3{2.0f,3.0f, 5.5f};
+  Point3i point3a{point3};
+  EXPECT_EQ(2.0f, point3a.x);
+  EXPECT_EQ(3.0f, point3a.y);
+  EXPECT_EQ(5.0f, point3a.z);
 }
 
 TEST(Point, CopyAssignmentOperator) {

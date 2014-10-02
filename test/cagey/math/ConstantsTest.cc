@@ -50,7 +50,7 @@ TYPED_TEST_P(ConstantTestFixture, ChecksRadToDegValue) {
 
 REGISTER_TYPED_TEST_CASE_P(ConstantTestFixture, ChecksPiValue, ChecksDegToRadValue, ChecksRadToDegValue);
 
-typedef ::testing::Types<int, float, double> SupportedTypes;
+typedef ::testing::Types<float, double> SupportedTypes;
 INSTANTIATE_TYPED_TEST_CASE_P(Cagey, ConstantTestFixture, SupportedTypes);
 
 

@@ -28,13 +28,7 @@
 #ifndef CAGEY_MATH_VECTOR_HH_
 #define CAGEY_MATH_VECTOR_HH_
 
-#include <cstddef> //for std::size_t
-#include <array> //for std::array
-#include <algorithm> //for std::transform, std::negate, std::equal
-#include <numeric> //for std::numeric_limits
-#include <cmath> //for std::abs
-#include <utility> //for std::index_sequence
-#include <iostream>
+#include <cagey/math/BasePoint.hh>
 
 
 namespace cagey
@@ -42,14 +36,10 @@ namespace cagey
 namespace math
 {
 
-/**
- * Vector class
- */
 template<typename T, std::size_t N>
-class Vector
-{
+class Vector : public BasePoint<Vector, T, N> {
 public:
-  /** @cond doxygen has some issues with static assert */  
+  /** @cond doxygen has some issues with static assert */
   static_assert(N != 0, "Vector cannot have zero elements");
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
   /** @endcond */
@@ -61,83 +51,35 @@ public:
   const static std::size_t Size = N;
 
   /**
-   * Construct a Vector with all elements initialized to Zero
-   */
-  constexpr Vector() noexcept;
+  * Construct a Vector with all elements initialized to Zero
+  */
+  constexpr Vector() noexcept = default;
 
   /**
-   * Construct a Vector with all elements initialized to the given value
-   *
-   * @param v the value to assign to all elements of this Vector
-   */
-  explicit Vector(T const v) noexcept;
+  * Construct a Vector with all elements initialized to the given value
+  *
+  * @param v the value to assign to all elements of this Vector
+  */
+  explicit Vector(T const v) noexcept : BasePoint<math::Vector, T, N>{v} {};
 
   /**
-   * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains N values;
-   */
-  explicit Vector(T * const v) noexcept;
+  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains N values;
+  */
+  explicit Vector(T * const v) noexcept : BasePoint<math::Vector, T, N>{v} {};
 
   /**
-   * Construct a Vector using the values from the given std::array
-   *
-   * @param vals vals[0] is assigned to data[0] etc. etc.
-   */
-  constexpr explicit Vector(std::array<T, Size> const & vals);
+  * Construct a Vector using the values from the given std::array
+  *
+  * @param vals vals[0] is assigned to data[0] etc. etc.
+  */
+  constexpr explicit Vector(std::array<T, Size> const & vals) : BasePoint<math::Vector, T, N>{vals} {};
 
   /**
-   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
-   * underlying type.  Only simple type conversion is performed
-   */
-  template <typename U, typename I = std::make_index_sequence<Size>>
-  explicit Vector(Vector<U, Size> const & other);
-
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) -> T&;
-
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) const -> T&;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() noexcept -> T*;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() const noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() const noexcept -> T*;
-
-private:
-  template<class U, std::size_t... I>
-  constexpr explicit Vector(Vector<U, Size> const & other, std::index_sequence<I...>);
+  * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+  * underlying type.  Only simple type conversion is performed
+  */
+  template <typename U>
+  explicit Vector(Vector<U, Size> const & other) : BasePoint<math::Vector, U, N>{other} {};
 
 public:
   ///Array containing Vector elements
@@ -146,380 +88,179 @@ public:
 
 
 /**
- * Vector two element specialization
- */
+* Vector two element specialization
+*/
 template<typename T>
-class Vector<T,2>
+class Vector<T,2> : public BasePoint<Vector, T, 2>
 {
   /** @cond doxygen has issues with static_assert */
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
   /** @endcond */
 public:
-  /// The underlying type of this Vector
-  using Type = T;
-
-  /// The number of elements in this Vector
+  /// The number of elements in this BasePoint
   const static std::size_t Size = 2;
 
   /**
-   * Construct a Vector with all elements initialized to Zero
-   */
-  constexpr Vector() noexcept;
+  * Construct a Vector with all elements initialized to Zero
+  */
+  constexpr Vector() noexcept = default;
 
   /**
-   * Construct a Vector with all elements initialized to the given value
-   *
-   * @param v the value to assign to all elements of this Vector
-   */
-  explicit Vector(T const v) noexcept;
+  * Construct a Vector with all elements initialized to the given value
+  *
+  * @param v the value to assign to all elements of this Vector
+  */
+  explicit Vector(T const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
   /**
-   * Construct a Vector with the given elements a and b are assigned to x and y respectively
-   */
-  constexpr Vector(T const a, T const b) noexcept;
+  * Construct a Vector with the given elements a and b are assigned to x and y respectively
+  */
+  constexpr Vector(T const a, T const b) noexcept : BasePoint<math::Vector, T, Size>{a, b} {};
 
   /**
-   * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains two values;
-   */
-  explicit Vector(T * const v) noexcept;
+  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains two values;
+  */
+  explicit Vector(T * const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
   /**
-   * Construct a Vector using the values from the given std::array
-   *
-   * @param vals vals[0] is assigned to data[0] etc. etc.
-   */
-  constexpr explicit Vector(std::array<T, Size> const & vals);
+  * Construct a Vector using the values from the given std::array
+  *
+  * @param vals vals[0] is assigned to data[0] etc. etc.
+  */
+  constexpr explicit Vector(std::array<T, Size> const & vals) : BasePoint<math::Vector, T, Size>{vals} {};
 
   /**
-   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
-   * underlying type.  Only simple type conversion is performed
-   */
-  template <typename U, typename I = std::make_index_sequence<Size>>
-  explicit Vector(Vector<U, Size> const & other);
-
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) -> T&;
-
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) const -> T&;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() noexcept -> T*;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() const noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() const noexcept -> T*;
-public:
-  /**
-   * Anonymous union to allow access to members using different names
-   */
-  union
-  {
-    ///Data represented as a std::array
-    std::array<T, 2> data;
-    struct { 
-      T x; ///< The first element
-      T y; ///<The second element
-    };
-  };
-
+  * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+  * underlying type.  Only simple type conversion is performed
+  */
+  template <typename U>
+  explicit Vector(Vector<U, Size> const & other) : BasePoint<math::Vector, T, Size>{other} {};
 };
 
-/**
- * Vector three element specialization
- */
-template<typename T> class Vector<T, 3>
-{
-  /** @cond doxygen has issues with static_assert */
-  static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
-  /** @endcond */
-
-public:
-  /// The underlying type of this Vector
-  using Type = T;
-  /// The number of elements in this Vector
-  static const std::size_t Size = 3;
-
-  /**
-   * Construct a Vector with all elements initialized to Zero
-   */
-  constexpr Vector() noexcept;
-
-  /**
-   * Construct a Vector with all elements initialized to the given value
-   *
-   * @param v the value to assign to all elements of this Vector
-   */
-  explicit Vector(T const v) noexcept;
-
-  /**
-   * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains N values;
-   */
-  explicit Vector(T * const v) noexcept;
-
-  /**
-   * Construct a Vector with the given elements a,b,c -> x, y, z
-   * @param a value to assign to x
-   * @param b value to assign to y
-   * @param c value to assign to z
-   */
-  constexpr Vector(T const a, T const b, T const c) noexcept;
-
-  /**
-   * Construct a Vector using the values from the given std::array
-   *
-   * @param vals vals[0] is assigned to data[0] etc. etc.
-   */
-  constexpr explicit Vector(std::array<T, Size> const & vals);
-
-  /**
-   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
-   * underlying type.  Only simple type conversion is performed
-   */
-  template <typename U, typename I = std::make_index_sequence<Size>>
-  explicit Vector(Vector<U, Size> const & other);
-
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) -> T&;
-
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) const -> T&;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() noexcept -> T*;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() const noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() const noexcept -> T*;
-
-public:
-  /**
-   * Anonymous union to allow access to members using different names
-   */
-  union
-  {
-    ///All elements of the array
-    std::array<T, 3> data;
-    struct
-    {
-      T x; ///< First element
-      T y; ///< Second element
-      T z; ///< Third element
-    };
-    struct
-    {
-      T r; ///< First element
-      T g; ///< Second element
-      T b; ///< Third element
-    };
-    ///The first two elements
-    Vector<T, 2> xy;
-  };
-};
 
 /**
- * Vector four element specialization
- */
-template<typename T> class Vector<T, 4>
+* Vector three element specialization
+*/
+template<typename T>
+class Vector<T,3> : public BasePoint<Vector, T, 3>
 {
   /** @cond doxygen has issues with static_assert */
   static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
   /** @endcond */
 public:
-  /// The underlying type of this Vector
-  using Type = T;
-  /// The number of elements in this Vector
-  static const std::size_t Size = 4;
+  /// The number of elements in this BasePoint
+  const static std::size_t Size = 3;
 
   /**
-   * Construct a Vector with all elements initialized to Zero
-   */
-  constexpr Vector() noexcept;
+  * Construct a Vector with all elements initialized to Zero
+  */
+  constexpr Vector() noexcept = default;
 
   /**
-   * Construct a Vector with all elements initialized to the given value
-   *
-   * @param v the value to assign to all elements of this Vector
-   */
-  explicit Vector(T const v) noexcept;
+  * Construct a Vector with all elements initialized to the given value
+  *
+  * @param v the value to assign to all elements of this Vector
+  */
+  explicit Vector(T const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
   /**
-   * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains N values;
-   */
-  explicit Vector(T * const v) noexcept;
+  * Construct a Vector with the given elements a and b are assigned to x and y respectively
+  */
+  constexpr Vector(T const a, T const b, T const c) noexcept : BasePoint<math::Vector, T, Size>{a, b,c} {};
 
   /**
-   * Construct a Vector using the values from the given std::array
-   *
-   * @param vals vals[0] is assigned to data[0] etc. etc.
-   */
-  constexpr explicit Vector(std::array<T, Size> const & vals);
+  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains two values;
+  */
+  explicit Vector(T * const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
   /**
-   * Construct a Vector with the given elements a,b,c, d -> x, y, z, w
-   * @param a value to assign to x
-   * @param b value to assign to y
-   * @param c value to assign to z
-   * @param d value to assign to w
-   */
-  constexpr Vector(T const a, T const b, T const c, T const d) noexcept;
+  * Construct a Vector using the values from the given std::array
+  *
+  * @param vals vals[0] is assigned to data[0] etc. etc.
+  */
+  constexpr explicit Vector(std::array<T, Size> const & vals) : BasePoint<math::Vector, T, Size>{vals} {};
 
   /**
-   * Construct a Vector from an existing vector and a scalar
-   * @param v the other Vector for the x, y, z components
-   * @param scalar the w component
-   */
-  constexpr Vector(Vector<T, 3> v, T scalar) noexcept;
+  * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+  * underlying type.  Only simple type conversion is performed
+  */
+  template <typename U>
+  explicit Vector(Vector<U, Size> const & other) : BasePoint<math::Vector, T, Size>{other} {};
+};
 
-  /**
-   * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
-   * underlying type.  Only simple type conversion is performed
-   */
-  template <typename U, typename I = std::make_index_sequence<Size>>
-  explicit Vector(Vector<U, Size> const & other);
 
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) -> T&;
 
-  /**
-   * Index operator
-   *
-   * @param i index into this Vector
-   * @return a reference to the element at index i
-   */
-  constexpr auto operator[](std::size_t i) const -> T&;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() noexcept -> T*;
-
-  /**
-   * Return an iterator to the first element of this Vector
-   * 
-   * @return an iterator pointing to the begining of this Vector
-   */
-  constexpr auto begin() const noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() noexcept -> T*;
-
-  /**
-   * Return an iterator to the end of this Vector.
-   * 
-   * @return an iterator pointing to the end of this Vector
-   */
-  constexpr auto end() const noexcept -> T*;
-
+/**
+* Vector three element specialization
+*/
+template<typename T>
+class Vector<T,4> : public BasePoint<Vector, T, 4>
+{
+  /** @cond doxygen has issues with static_assert */
+  static_assert(std::is_arithmetic<T>::value, "Underlying type must be a number");
+  /** @endcond */
 public:
+  /// The number of elements in this BasePoint
+  const static std::size_t Size = 4;
+
   /**
-   * Anonymous union to allow access to members using different names
-   */
-  union
-  {
-    ///All elements of the array    
-    std::array<T, 4> data;
-    struct
-    {
-      T x; ///< First Element
-      T y; ///< Second Element
-      T z; ///< Third Element
-      T w; ///< Fourth Element
-    };
-    //Allow access to elements with a different name
-    struct
-    {
-      T r; ///< First Element
-      T g; ///< Second Element
-      T b; ///< Third Element
-      T a; ///< Fourth Element
-    };
-    ///The first two elements
-    Vector<T, 2> xy;
-    ///The first three Elements
-    Vector<T, 3> xyz;
-    ///The first Three Elements
-    Vector<T, 3> rgb;
-  };
+  * Construct a Vector with all elements initialized to Zero
+  */
+  constexpr Vector() noexcept = default;
+
+  /**
+  * Construct a Vector with all elements initialized to the given value
+  *
+  * @param v the value to assign to all elements of this Vector
+  */
+  explicit Vector(T const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
+
+  /**
+  * Construct a Vector with the given elements a and b are assigned to x and y respectively
+  */
+  constexpr Vector(T const a, T const b, T const c, T const d) noexcept : BasePoint<math::Vector, T, Size>{a, b,c,d} {};
+
+  /**
+  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains two values;
+  */
+  explicit Vector(T * const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
+
+  /**
+  * Construct a Vector using the values from the given std::array
+  *
+  * @param vals vals[0] is assigned to data[0] etc. etc.
+  */
+  constexpr explicit Vector(std::array<T, Size> const & vals) : BasePoint<math::Vector, T, Size>{vals} {};
+
+  /**
+  * Conversion Copy Constructor.  Construct a Vector using a Vector with a different
+  * underlying type.  Only simple type conversion is performed
+  */
+  template <typename U>
+  explicit Vector(Vector<U, Size> const & other) : BasePoint<math::Vector, T, Size>{other} {};
 };
 
 
 template<typename T> using Vec2 = Vector<T,2>;
 template<typename T> using Vec3 = Vector<T,3>;
 template<typename T> using Vec4 = Vector<T,4>;
+
+using Vec2u = Vector<unsigned, 2>;
+using Vec2i = Vector<int, 2>;
+using Vec2f = Vector<float, 2>;
+using Vec2d = Vector<double, 2>;
+
+using Vec3u = Vector<unsigned, 3>;
+using Vec3i = Vector<int, 3>;
+using Vec3f = Vector<float, 3>;
+using Vec3d = Vector<double, 3>;
+
+using Vec4u = Vector<unsigned, 4>;
+using Vec4i = Vector<int, 4>;
+using Vec4f = Vector<float, 4>;
+using Vec4d = Vector<double, 4>;
+
+
 
 
 /**
@@ -622,14 +363,6 @@ auto normalize(Vector<T, S> const vec) -> Vector<T, S> {
 }
 
 /**
- * Swap the contents of the two Vectors
- */
-template<typename T, std::size_t S>
-auto swap(Vector<T, S> & rhs, Vector<T, S> & lhs) -> void {
-  std::swap(rhs.data, lhs.data);
-}
-
-/**
  * Returns true if the given Vector has zero length.
  *
  * @param vec the Vector to check for zero length
@@ -651,39 +384,6 @@ inline auto isZeroLength(Vector<T, S> const & vec) -> bool {
 template<typename T, std::size_t S>
 inline auto lengthSquared(Vector<T,S> const & vec) -> T {
   return cagey::math::dot(vec,vec);
-}
-
-/**
- * Returns the smallest element in the given Vector
- * 
- * @param vec the Vector to search for a small element
- * @return the smallest element of the given Vector
- */
-template<typename T, std::size_t S>
-inline auto min(Vector<T, S> const & vec) -> T {
-  return *std::min_element(std::begin(vec), std::end(vec));
-}
-
-/**
- * Returns the largest element in the given Vector
- * 
- * @param vec the Vector to search for a large element
- * @return the largest element in the given Vector
- */
-template<typename T, std::size_t S>
-inline auto max(Vector<T, S> const & vec) -> T {
-  return *std::max_element(std::begin(vec), std::end(vec));
-}
-
-/**
- * Returns the sum of all the elements in the given Vector
- * 
- * @param vec the Vector to search for a large element
- * @return the num of all of the elements of the given Vector
- */
-template<typename T, std::size_t S>
-inline auto sum(Vector<T, S> const & vec) -> T {
-  return std::accumulate(std::begin(vec), std::end(vec), T(0));
 }
 
 /**
@@ -710,326 +410,6 @@ template<typename T, std::size_t S>
 inline auto distanceSquared(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> T {
   return lengthSquared(lhs - rhs);
 }
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector() Impl
-//////////////////////////////////////////////////////////////////////////////
-template<typename T, std::size_t S>
-inline constexpr Vector<T,S>::Vector() noexcept : data() {};
-
-template<typename T>
-inline constexpr Vector<T,2>::Vector() noexcept : data() {};
-
-template<typename T>
-inline constexpr Vector<T,3>::Vector() noexcept : data() {};
-
-template<typename T>
-inline constexpr Vector<T,4>::Vector() noexcept : data() {};
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector(T) Impl
-//////////////////////////////////////////////////////////////////////////////
-
-
-template<typename T, std::size_t S>
-inline Vector<T,S>::Vector(T const v) noexcept  { data.fill(v); }
-
-template<typename T>
-inline Vector<T,2>::Vector(T const v) noexcept  { data.fill(v); }
-
-template<typename T>
-inline Vector<T,3>::Vector(T const v) noexcept  { data.fill(v); }
-
-template<typename T>
-inline Vector<T,4>::Vector(T const v) noexcept  { data.fill(v); }
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector() Component Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T>
-inline constexpr Vector<T,2>::Vector(T const a, T const b) noexcept  : x{a}, y{b} {}
-
-template<typename T>
-inline constexpr Vector<T,3>::Vector(T const a, T const b, T const c) noexcept  : x{a}, y{b}, z{c} {}
-
-template<typename T>
-inline constexpr Vector<T,4>::Vector(T const a, T const b, T const c, T const d) noexcept  : x{a}, y{b}, z{c}, w{d} {}
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector(T*) Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline Vector<T,S>::Vector(T * const v) noexcept {
-  std::copy(std::begin(v), std::end(v), data.begin());
-}
-
-template<typename T>
-inline Vector<T,2>::Vector(T * const v) noexcept : x{v[0]}, y{v[1]} {}
-
-template<typename T>
-inline Vector<T,3>::Vector(T * const v) noexcept : x{v[0]}, y{v[1]}, z{v[2]} {}
-
-template<typename T>
-inline Vector<T,4>::Vector(T * const v) noexcept : x{v[0]}, y{v[1]}, z{v[2]}, w{v[3]} {}
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector(std::array) Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline constexpr Vector<T, S>::Vector(std::array<T, Size> const & vals) : data(vals) {}
-
-template<typename T>
-inline constexpr Vec2<T>::Vector(std::array<T, Size> const & vals) : data(vals) {}
-
-template<typename T>
-inline constexpr Vec3<T>::Vector(std::array<T, Size> const & vals) : data(vals) {}
-
-template<typename T>
-inline constexpr Vec4<T>::Vector(std::array<T, Size> const & vals) : data(vals) {}
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector(Vector<U>) Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template <typename T, size_t S>
-template <typename U, typename I>
-inline Vector<T, S>::Vector(Vector<U, Size> const & other)
- : Vector(other, I()) {}
-
-template <typename T, size_t S>
-template <typename U, std::size_t... I>
-inline constexpr Vector<T, S>::Vector(Vector<U, Size> const & other, std::index_sequence<I...>)
- : data {{(T(other.data[I]))...}} {}
-
-template <typename T>
-template <typename U, typename I>
-inline Vec2<T>::Vector(Vector<U, Size> const & other)
- : Vector(T(other[0]), T(other[1])) {}
-
-template <typename T>
-template <typename U, typename I>
-inline Vec3<T>::Vector(Vector<U, Size> const & other)
- : Vector(T(other[0]), T(other[1]), T(other[2])) {}
-
-template <typename T>
-template <typename U, typename I>
-inline Vec4<T>::Vector(Vector<U, Size> const & other)
- : Vector(T(other[0]), T(other[1]), T(other[2]), T(other[3])) {}
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector::operator[] Impl
-//////////////////////////////////////////////////////////////////////////////
-
-
-template<typename T, std::size_t S>
-inline constexpr auto Vector<T, S>::operator[](std::size_t i) -> T& {
-  return data[i];
-}
-
-template<typename T>
-inline constexpr auto Vec2<T>::operator[](std::size_t i) -> T& {
-  return data[i];
-}
-
-template<typename T>
-inline constexpr auto Vec3<T>::operator[](std::size_t i) -> T& {
-  return data[i];
-}
-
-template<typename T>
-inline constexpr auto Vec4<T>::operator[](std::size_t i) -> T& {
-  return data[i];
-}
-
-template<typename T, std::size_t S>
-inline constexpr auto Vector<T, S>::operator[](std::size_t i) const -> T& {
-  return data[i];
-}
-
-template<typename T>
-inline constexpr auto Vec2<T>::operator[](std::size_t i) const -> T& {
-  return data[i];
-}
-
-template<typename T>
-inline constexpr auto Vec3<T>::operator[](std::size_t i) const -> T& {
-  return data[i];
-}
-
-template<typename T>
-inline constexpr auto Vec4<T>::operator[](std::size_t i) const -> T& {
-  return data[i];
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector::begin() Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline constexpr auto Vector<T, S>::begin() noexcept -> T* { return data.begin(); }
-
-template<typename T>
-inline constexpr auto Vec2<T>::begin() noexcept -> T* { return data.begin(); }
-
-template<typename T>
-inline constexpr auto Vec3<T>::begin() noexcept -> T* { return data.begin(); }
-
-template<typename T>
-inline constexpr auto Vec4<T>::begin() noexcept -> T* { return data.begin(); }
-
-template<typename T, std::size_t S>
-inline constexpr auto Vector<T, S>::begin() const  noexcept -> T* { return data.begin(); }
-
-template<typename T>
-inline constexpr auto Vec2<T>::begin() const  noexcept -> T* { return data.begin(); }
-
-template<typename T>
-inline constexpr auto Vec3<T>::begin() const  noexcept -> T* { return data.begin(); }
-
-template<typename T>
-inline constexpr auto Vec4<T>::begin() const  noexcept -> T* { return data.begin(); }
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector::end() Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline constexpr auto Vector<T, S>::end() noexcept -> T* { return data.end(); }
-
-template<typename T>
-inline constexpr auto Vec2<T>::end() noexcept -> T* { return data.end(); }
-
-template<typename T>
-inline constexpr auto Vec3<T>::end() noexcept -> T* { return data.end(); }
-
-template<typename T>
-inline constexpr auto Vec4<T>::end() noexcept -> T* { return data.end(); }
-
-
-template<typename T, std::size_t S>
-inline constexpr auto Vector<T, S>::end() const noexcept -> T* { return data.end(); }
-
-template<typename T>
-inline constexpr auto Vec2<T>::end() const noexcept -> T* { return data.end(); }
-
-template<typename T>
-inline constexpr auto Vec3<T>::end() const noexcept -> T* { return data.end(); }
-
-template<typename T>
-inline constexpr auto Vec4<T>::end() const noexcept -> T* { return data.end(); }
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector::operator+= Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline auto operator+=(Vector<T,S> & lhs, Vector<T,S> & rhs) -> void {
-  std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](T l, T r) -> T { return l + r; } );
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector::operator-= Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline auto operator-=(Vector<T,S> & lhs, Vector<T,S> & rhs) -> void {
-  std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](T l, T r) -> T { return l - r; } );
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector::operator*= Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline auto operator*=(Vector<T, S> & lhs, T value) -> void {
-  std::for_each(lhs.begin(), lhs.end(), [value](T&t) { t*=value; });
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// Vector::operator/= Impl
-//////////////////////////////////////////////////////////////////////////////
-
-template<typename T, std::size_t S>
-inline auto operator/=(Vector<T, S> & lhs, T value) -> void {
-  std::for_each(lhs.begin(), lhs.end(), [value](T&t) { t/=value; });
-}
-
-
-
-template<typename T, std::size_t S>
-auto operator==(Vector<T, S> const & rhs, Vector<T, S> const & lhs) -> Vector<T, S> {
-  return rhs.data == rhs.data;
-}
-
-template<typename T, std::size_t S>
-auto operator!=(Vector<T, S> const & rhs, Vector<T, S> const & lhs) -> Vector<T, S> {
-  return !(rhs.data == rhs.data);
-}
-
-template<typename T, std::size_t S>
-auto operator+(Vector<T, S> rhs, Vector<T, S> const & lhs) -> Vector<T, S> {
-  rhs += lhs;
-  return rhs;
-}
-
-template<typename T, std::size_t S>
-auto operator-(Vector<T, S> vec) -> Vector<T, S> {
-  std::transform(vec.begin(), vec.end(), vec.begin(), std::negate<T>());
-  return vec;
-}
-
-template<typename T, std::size_t S>
-auto operator-(Vector<T, S> rhs, Vector<T, S> const & lhs) -> Vector<T, S> {
-  rhs -= lhs;
-  return rhs;
-}
-
-template<typename T, std::size_t S>
-auto operator*(Vector<T, S> rhs, T lhs) -> Vector<T, S> {
-  rhs *= lhs;
-  return rhs;
-}
-
-template<typename T, std::size_t S>
-auto operator/(Vector<T, S> rhs, T lhs) -> Vector<T, S> {
-  rhs /= lhs;
-  return rhs;
-}
-
-template <typename T, std::size_t S>
-std::ostream &operator<<(std::ostream &sink, Vector<T,S> const &vec) {
-    sink << "( ";
-    std::for_each(vec.begin(), vec.end()-1, [&sink](T&v) { sink << v << ", ";});
-    sink << vec[S-1] << " )";
-    return sink;
-}
-
-using Vec2u = Vector<unsigned, 2>;
-using Vec2i = Vector<int, 2>;
-using Vec2f = Vector<float, 2>;
-using Vec2d = Vector<double, 2>;
-
-using Vec3u = Vector<unsigned, 3>;
-using Vec3i = Vector<int, 3>;
-using Vec3f = Vector<float, 3>;
-using Vec3d = Vector<double, 3>;
-
-using Vec4u = Vector<unsigned, 4>;
-using Vec4i = Vector<int, 4>;
-using Vec4f = Vector<float, 4>;
-using Vec4d = Vector<double, 4>;
 
 } // namespace math
 } // namespace cagey

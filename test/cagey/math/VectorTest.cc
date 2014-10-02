@@ -49,8 +49,6 @@ TEST(Vector, DefaultConstructor) {
   EXPECT_EQ(0, vec3i.data[0]);
   EXPECT_EQ(0, vec3i.data[1]);
   EXPECT_EQ(0, vec3i.data[2]);
-  EXPECT_EQ(0, vec3i.xy.x);
-  EXPECT_EQ(0, vec3i.xy.y);
 
   EXPECT_EQ(0, vec4i.x);
   EXPECT_EQ(0, vec4i.y);
@@ -64,14 +62,6 @@ TEST(Vector, DefaultConstructor) {
   EXPECT_EQ(0, vec4i.data[1]);
   EXPECT_EQ(0, vec4i.data[2]);
   EXPECT_EQ(0, vec4i.data[3]);
-  EXPECT_EQ(0, vec4i.xyz.x);
-  EXPECT_EQ(0, vec4i.xyz.y);
-  EXPECT_EQ(0, vec4i.xyz.z);
-  EXPECT_EQ(0, vec4i.rgb.x);
-  EXPECT_EQ(0, vec4i.rgb.y);
-  EXPECT_EQ(0, vec4i.rgb.z);
-  EXPECT_EQ(0, vec4i.xy.x);
-  EXPECT_EQ(0, vec4i.xy.y);
 }
 
 TEST(Vector, SingleArgumentConstructor) {

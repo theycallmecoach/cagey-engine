@@ -77,54 +77,6 @@ public:
   */
   template <typename U>
   explicit Point(Point<U, Size> const & other) : BasePoint<math::Point, U, N>{other} {};
-//
-//  /**
-//  * Index operator
-//  *
-//  * @param i index into this Point
-//  * @return a reference to the element at index i
-//  */
-//  constexpr auto operator[](std::size_t i) -> T&;
-//
-//  /**
-//  * Index operator
-//  *
-//  * @param i index into this Point
-//  * @return a reference to the element at index i
-//  */
-//  constexpr auto operator[](std::size_t i) const -> T&;
-//
-//  /**
-//  * Return an iterator to the first element of this Point
-//  *
-//  * @return an iterator pointing to the begining of this Point
-//  */
-//  constexpr auto begin() noexcept -> T*;
-//
-//  /**
-//  * Return an iterator to the first element of this Point
-//  *
-//  * @return an iterator pointing to the begining of this Point
-//  */
-//  constexpr auto begin() const noexcept -> T*;
-//
-//  /**
-//  * Return an iterator to the end of this Point.
-//  *
-//  * @return an iterator pointing to the end of this Point
-//  */
-//  constexpr auto end() noexcept -> T*;
-//
-//  /**
-//  * Return an iterator to the end of this Point.
-//  *
-//  * @return an iterator pointing to the end of this Point
-//  */
-//  constexpr auto end() const noexcept -> T*;
-
-private:
-//  template<class U, std::size_t... I>
-//  constexpr explicit Point(Point<U, Size> const & other, std::index_sequence<I...>);
 
 public:
   ///Array containing Point elements
@@ -179,7 +131,7 @@ public:
   * underlying type.  Only simple type conversion is performed
   */
   template <typename U>
-  explicit Point(Point<U, Size> const & other) : BasePoint<math::Point, U, Size>{other} {};
+  explicit Point(Point<U, Size> const & other) : BasePoint<math::Point, T, Size>{other} {};
 };
 
 
@@ -230,7 +182,7 @@ public:
   * underlying type.  Only simple type conversion is performed
   */
   template <typename U>
-  explicit Point(Point<U, Size> const & other) : BasePoint<math::Point, U, Size>{other} {};
+  explicit Point(Point<U, Size> const & other) : BasePoint<math::Point, T, Size>{other} {};
 };
 
 template<typename T> using Point2 = Point<T,2>;
@@ -246,12 +198,6 @@ using Point3u = Point<unsigned, 3>;
 using Point3i = Point<int, 3>;
 using Point3f = Point<float, 3>;
 using Point3d = Point<double, 3>;
-
-using Point4u = Point<unsigned, 4>;
-using Point4i = Point<int, 4>;
-using Point4f = Point<float, 4>;
-using Point4d = Point<double, 4>;
-
 
 } //namespace math
 } //namespace cagey

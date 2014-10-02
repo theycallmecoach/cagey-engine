@@ -43,7 +43,7 @@ namespace constants {
    * @tparam T the desired type of Pi
    */
   template<typename T>
-  constexpr typename std::enable_if<std::is_arithmetic<T>::value, T>::type pi = T(3.141592653589793238462643383279502884);
+  constexpr typename std::enable_if<std::is_floating_point<T>::value, T>::type pi = T(3.141592653589793238462643383279502884);
 
   /**
    * Value to convert between degrees and radians.
