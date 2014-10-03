@@ -24,43 +24,39 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CAGEY_INPUT_INPUTMANAGER_HH_
-#define CAGEY_INPUT_INPUTMANAGER_HH_
 
-#include "cagey/input/Device.hh"
+#ifndef CAGEY_INPUT_IINPUTSYSTEM_HH_
+#define CAGEY_INPUT_IINPUTSYSTEM_HH_
 
+#include <cagey/input/Types.hh>
+#include <string>
 #include <memory>
 #include <map>
-#include <string>
 
 namespace cagey {
 namespace input {
 
-//Forward declarations
-class IInputSystem;
-class Mouse;
-class Keyboard;
+class Device;
 
-
-class InputManager {
+class IInputSystem {
 public:
-  InputManager();
-  virtual ~InputManager() = default;
+  /**
+   * Default destructor
+   */
+  virtual ~IInputSystem() = default;
 
-protected:
+  /**
+  * Return the name of this InputSystem
+  */
+  virtual auto getName() const -> std::string = 0;
 
-private:
-  using MouseWeakPtr = std::weak_ptr<Mouse>;
-  using KeyboardWeakPtr = std::weak_ptr<Keyboard>;
-  using InputSysPtr = std::unique_ptr<IInputSystem>;
-
-  MouseWeakPtr mMouse;
-  KeyboardWeakPtr mKeyboard;
-  InputSysPtr mInputSystem;
+  /**
+  * Construct a device of the given type
+  */
+  virtual auto createDevice(DeviceType const & type) -> std::weak_ptr<Device> = 0;
 };
-
 
 } //namespace input
 } //namespace cagey
 
-#endif //CAGEY_INPUT_INPUTMANAGER_HH_
+#endif // CAGEY_INPUT_IINPUTSYSTEM_HH_

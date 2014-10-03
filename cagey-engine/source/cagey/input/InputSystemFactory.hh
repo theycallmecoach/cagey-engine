@@ -26,16 +26,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_
-#define CAGEY_INPUT_IINPUTSYSTEMFACTORY_HH_
+#define CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_
 
-#include <cagey/input/InputManager.hh>
-#include "cagey/input/IInputSystem.hh"
-#include <string>
+#include <cagey/input/Types.hh>
 #include <memory>
 
 
 namespace cagey {
 namespace input {
+
+class IInputSystem;
 
 class InputSystemFactory {
 public:
@@ -45,4 +45,4 @@ public:
 } //namespace input
 } //namespace cagey
 
-#endif // CAGEY_INPUT_IINPUTSYSTEM_HH_
+#endif // CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_

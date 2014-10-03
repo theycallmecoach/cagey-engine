@@ -30,12 +30,14 @@
 
 #include <cagey/math/BasePoint.hh>
 
-
 namespace cagey
 {
 namespace math
 {
 
+/**
+* Vector Class, Has specializations for lengths of 2, 3, 4
+*/
 template<typename T, std::size_t N>
 class Vector : public BasePoint<Vector, T, N> {
 public:
@@ -114,11 +116,16 @@ public:
 
   /**
   * Construct a Vector with the given elements a and b are assigned to x and y respectively
+  *
+  * @param a value to assign to x
+  * @param b value to assign to y
   */
   constexpr Vector(T const a, T const b) noexcept : BasePoint<math::Vector, T, Size>{a, b} {};
 
   /**
   * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains two values;
+  *
+  * @param v point to an array of two values
   */
   explicit Vector(T * const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
@@ -164,12 +171,18 @@ public:
   explicit Vector(T const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
   /**
-  * Construct a Vector with the given elements a and b are assigned to x and y respectively
+  * Construct a Vector with the given elements a, b and c are assigned to x, y and z respectively
+  *
+  * @param a value to assign to x
+  * @param b value to assign to y
+  * @param c value to assign to z
   */
   constexpr Vector(T const a, T const b, T const c) noexcept : BasePoint<math::Vector, T, Size>{a, b,c} {};
 
   /**
-  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains two values;
+  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains three values;
+  *
+  * @param v point to an array of three values
   */
   explicit Vector(T * const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
@@ -216,12 +229,19 @@ public:
   explicit Vector(T const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
   /**
-  * Construct a Vector with the given elements a and b are assigned to x and y respectively
+  * Construct a Vector with the given elements a,b,c,d are assigned to x,y,z and w respectively
+  *
+  * @param a value to assign to x
+  * @param b value to assign to y
+  * @param c value to assign to z
+  * @param d value to assign to w
   */
   constexpr Vector(T const a, T const b, T const c, T const d) noexcept : BasePoint<math::Vector, T, Size>{a, b,c,d} {};
 
   /**
-  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains two values;
+  * Construct a Vector using the given pointer.  Note: It assumed the given pointer contains four values;
+  *
+  * @param v pointer to an array of four values
   */
   explicit Vector(T * const v) noexcept : BasePoint<math::Vector, T, Size>{v} {};
 
@@ -240,7 +260,7 @@ public:
   explicit Vector(Vector<U, Size> const & other) : BasePoint<math::Vector, T, Size>{other} {};
 };
 
-
+//Some short forms
 template<typename T> using Vec2 = Vector<T,2>;
 template<typename T> using Vec3 = Vector<T,3>;
 template<typename T> using Vec4 = Vector<T,4>;
@@ -314,7 +334,7 @@ auto dot(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> T {
  */
 template<typename T, std::size_t S>
 auto dotAbsolute(Vector<T, S> const & lhs, Vector<T, S> const & rhs) -> T {
-  std::inner_product(lhs.begin(), lhs.end(), lhs.begin(), T{0}, std::plus<T>(), [](T l, T r) -> T { return std::abs(l * r);});
+  return std::inner_product(lhs.begin(), lhs.end(), lhs.begin(), T{0}, std::plus<T>(), [](T l, T r) -> T { return std::abs(l * r);});
 }
 
 /**
@@ -362,17 +382,6 @@ auto normalize(Vector<T, S> const vec) -> Vector<T, S> {
   return vec;
 }
 
-/**
- * Returns true if the given Vector has zero length.
- *
- * @param vec the Vector to check for zero length
- * @return true if the given Vector is zero length
- */
-template<typename T, std::size_t S>
-inline auto isZeroLength(Vector<T, S> const & vec) -> bool {
-  T epsilon = std::numeric_limits<T>::epsilon();
-  return std::abs(lengthSquared(vec)) < (epsilon * epsilon);
-}
 
 /** 
  * Returns the length of the given vector squared.  use this
@@ -385,6 +394,19 @@ template<typename T, std::size_t S>
 inline auto lengthSquared(Vector<T,S> const & vec) -> T {
   return cagey::math::dot(vec,vec);
 }
+
+/**
+* Returns true if the given Vector has zero length.
+*
+* @param vec the Vector to check for zero length
+* @return true if the given Vector is zero length
+*/
+template<typename T, std::size_t S>
+inline auto isZeroLength(Vector<T, S> const & vec) -> bool {
+  T epsilon = std::numeric_limits<T>::epsilon();
+  return std::abs(lengthSquared(vec)) < (epsilon * epsilon);
+}
+
 
 /**
  * Returns the distance between the given vectors.  Note this method

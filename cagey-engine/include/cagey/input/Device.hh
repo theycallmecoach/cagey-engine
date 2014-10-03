@@ -27,6 +27,8 @@
 #ifndef CAGEY_INPUT_DEVICE_HH_
 #define CAGEY_INPUT_DEVICE_HH_
 
+
+
 namespace cagey {
 namespace input {
 

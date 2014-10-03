@@ -49,12 +49,12 @@ using MouseButtonState = util::EnumClassSet<MouseButton, 5>;
 class IMouseListener {
 public:
   virtual ~IMouseListener() = default;
-  auto mousePressed() -> void = 0;
-  auto mouseReleased() -> void = 0;
-  auto mouseMoved() -> void = 0;
-  auto mouseWheelMoved() -> void = 0;
-  auto mouseEntered() -> void = 0;
-  auto mouseExited() -> void = 0;
+  virtual auto mousePressed() -> void = 0;
+  virtual auto mouseReleased() -> void = 0;
+  virtual auto mouseMoved() -> void = 0;
+  virtual auto mouseWheelMoved() -> void = 0;
+  virtual auto mouseEntered() -> void = 0;
+  virtual auto mouseExited() -> void = 0;
 };
 
 

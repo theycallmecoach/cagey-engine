@@ -31,7 +31,7 @@ namespace input {
 namespace sdl {
 
 SdlKeyboard::SdlKeyboard(SdlInputSystem const &inputSystem)
-  : Device(inputSystem) {
+  : Keyboard(inputSystem) {
 }
 
 } //namespace sdl;

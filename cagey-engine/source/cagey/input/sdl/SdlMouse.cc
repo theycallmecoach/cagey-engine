@@ -31,7 +31,7 @@ namespace cagey {
 namespace input {
 namespace sdl {
 
-SdlMouse::SdlMouse(SdlInputSystem const &inputSystem) : Device(inputSystem) {
+SdlMouse::SdlMouse(SdlInputSystem const &inputSystem) : Mouse(inputSystem) {
 
 }
 

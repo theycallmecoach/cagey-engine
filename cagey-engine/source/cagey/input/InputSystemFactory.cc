@@ -31,11 +31,9 @@
 namespace cagey {
 namespace input {
 
-static auto InputSystemFactory::create(StringMap const & param) -> std::unique_ptr<IInputSystem> {
+auto InputSystemFactory::create(StringMap const & param) -> std::unique_ptr<IInputSystem> {
   throw 0;
 }
-
-};
 
 } //namespace input
 } //namespace cagey
