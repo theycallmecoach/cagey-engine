@@ -25,57 +25,30 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/window/Window.hh>
-#include <cagey/window/VideoMode.hh>
+
 #include "cagey/window/WindowFactory.hh"
 #include "cagey/window/IWindowImpl.hh"
-#include <iostream>
+#include <memory>
 
-namespace {
- cagey::window::Window const * fullScreenWindow = nullptr;
-}
+
+#ifdef USE_SDL
+#include "cagey/window/sdl/SdlWindowImpl.hh"
+#elif USE_X11
+#include "cagey/window/x11/X11WindowImpl.hh"
+#endif
 
 namespace cagey {
-
 namespace window {
+namespace detail {
 
-Window::Window(VideoMode const & vidMode, std::string const & winName, StyleSet const & winStyle)
-  : mImpl{},
-    mVideoMode{vidMode},
-    mName{winName},
-    mStyle{winStyle},
-    mVisible{false} {
-
-  if (winStyle.test(Style::Fullscreen)) {
-    if (fullScreenWindow) {
-      std::cerr << "Unable to create two fullscreen windows" << std::endl;
-      mStyle.flip(Style::Fullscreen);
-    } else {
-      if (!mVideoMode.isValid()) {
-        //@TODO invalid video mode...should have better exception
-        throw 0;
-      }
-      fullScreenWindow = this;
-    }
-  }
-
-  mImpl = detail::WindowFactory::create(mVideoMode, mName, mStyle);
-  mVisible = true;
+auto WindowFactory::create(VideoMode const & vidMode, std::string const & winName, Window::StyleSet const & winStyle) -> std::unique_ptr<IWindowImpl> {
+#ifdef USE_X11
+ return std::unique_ptr<IWindowImpl>{std::make_unique<x11::X11WindowImpl>()};
+#else
+  return std::unique_ptr<IWindowImpl>{std::make_unique<window::sdl::SdlWindowImpl>()};
+#endif
 }
 
-auto Window::getTitle() const -> std::string {
-  return mName;
-}
-
-auto Window::setTitle(std::string const & newTitle) -> void {
-  mName = newTitle;
-  mImpl->setTitle(newTitle);
-}
-
-
-
-} // namespace window
-} // namespace cagey
-
-
-
+} //namespace detail
+} //namespace window
+} //namespace cagey

@@ -25,4 +25,28 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "cagey/WindowImpl.hh"
+
+#ifndef CAGEY_WINDOW_WINDOWFACTORY_HH_
+#define CAGEY_WINDOW_WINDOWFACTORY_HH_
+
+
+#include <cagey/window/Window.hh>
+#include <cagey/window/VideoMode.hh>
+#include <memory>
+
+namespace cagey {
+namespace window {
+namespace detail {
+
+class IWindowImpl;
+
+class WindowFactory {
+public:
+  static auto create(VideoMode const & vidMode, std::string const & winName, Window::StyleSet const & winStyle) -> std::unique_ptr<IWindowImpl>;
+};
+
+} //namespace detail
+} //namespace window
+} //namespace cagey
+
+#endif // CAGEY_WINDOW_WINDOWFACTORY_HH_

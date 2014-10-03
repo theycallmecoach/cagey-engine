@@ -28,8 +28,19 @@
 #ifndef CAGEY_WINDOW_WINDOW_HH_
 #define CAGEY_WINDOW_WINDOW_HH_
 
+#include <cagey/util/EnumClassSet.hh>
+#include <cagey/window/VideoMode.hh>
+#include <memory>
+
 namespace cagey {
 namespace window {
+
+//forward declarations
+class VideoMode;
+
+namespace detail {
+  class IWindowImpl;
+}
 
 class Window {
 public:
@@ -41,7 +52,7 @@ public:
     Close,
     Fullscreen,
   };
-  typedef kgml::util::EnumClassSet <Style, 5> StyleSet;
+  using StyleSet = cagey::util::EnumClassSet <Style, 5>;
 
   /**
   * Create an instance of a window.
@@ -72,7 +83,11 @@ public:
   auto setTitle(std::string const & newTitle) -> void;
 
 private:
-
+  std::unique_ptr<detail::IWindowImpl> mImpl;
+  VideoMode mVideoMode;
+  std::string mName;
+  StyleSet mStyle;
+  bool mVisible;
 };
 
 } //namespace window

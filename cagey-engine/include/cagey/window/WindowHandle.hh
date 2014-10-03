@@ -25,20 +25,16 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/window/Window.hh>
+#ifndef CAGEY_WINDOW_WINDOWHANDLE_HH_
+#define CAGEY_WINDOW_WINDOWHANDLE_HH_
 
 namespace cagey {
 namespace window {
-namespace impl {
 
-class WindowImpl {
-public:
-  virtual ~WindowImpl(){};
+//linux window handle
+using WindowHandle = unsigned long;
 
-  virtual auto getTitle() const -> std::string = 0;
-  virtual auto setTitle(std::string const & newTitle) const -> void = 0;
-};
+} //namespace window
+} //namespace cagey
 
-} // namespace impl
-} // namespace window
-} // namespace cagey
+#endif // CAGEY_WINDOW_WINDOWHANDLE_HH_

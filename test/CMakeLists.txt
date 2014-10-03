@@ -12,7 +12,6 @@ add_executable(CageyTest
                cagey/math/PointTest.cc
                CageyTestMain.cc)
 
-#target_link_libraries(CageyTest CageyConstantsTest gtest_main)
 target_link_libraries(CageyTest gtest_main)
 
 add_test(CageyTest CageyTest)

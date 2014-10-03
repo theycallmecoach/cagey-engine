@@ -25,57 +25,37 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/window/Window.hh>
-#include <cagey/window/VideoMode.hh>
-#include "cagey/window/WindowFactory.hh"
-#include "cagey/window/IWindowImpl.hh"
-#include <iostream>
 
-namespace {
- cagey::window::Window const * fullScreenWindow = nullptr;
-}
+#ifndef CAGEY_WINDOW_WINDOWIMPL_HH_
+#define CAGEY_WINDOW_WINDOWIMPL_HH_
+
+
+#include <cagey/window/WindowHandle.hh>
+#include <cagey/math/Point.hh>
+#include <memory>
 
 namespace cagey {
-
 namespace window {
+namespace detail {
 
-Window::Window(VideoMode const & vidMode, std::string const & winName, StyleSet const & winStyle)
-  : mImpl{},
-    mVideoMode{vidMode},
-    mName{winName},
-    mStyle{winStyle},
-    mVisible{false} {
+class IWindowImpl {
+public:
+  virtual ~IWindowImpl() = default;
 
-  if (winStyle.test(Style::Fullscreen)) {
-    if (fullScreenWindow) {
-      std::cerr << "Unable to create two fullscreen windows" << std::endl;
-      mStyle.flip(Style::Fullscreen);
-    } else {
-      if (!mVideoMode.isValid()) {
-        //@TODO invalid video mode...should have better exception
-        throw 0;
-      }
-      fullScreenWindow = this;
-    }
-  }
+  virtual auto getTitle() const -> std::string = 0;
+  virtual auto setTitle(std::string const & newTitle) -> void = 0;
 
-  mImpl = detail::WindowFactory::create(mVideoMode, mName, mStyle);
-  mVisible = true;
-}
+	virtual auto getSize() const -> math::Point2u = 0;
+  virtual auto setSize(math::Point2u dim) -> void = 0;
 
-auto Window::getTitle() const -> std::string {
-  return mName;
-}
+  virtual auto getVisible() const -> bool = 0;
+  virtual auto setVisible(bool visible) -> void = 0;
 
-auto Window::setTitle(std::string const & newTitle) -> void {
-  mName = newTitle;
-  mImpl->setTitle(newTitle);
-}
+  virtual auto getWindowHandle() const -> window::WindowHandle;
+};
 
+} //namespace detail
+} //namespace window
+} //namespace cagey
 
-
-} // namespace window
-} // namespace cagey
-
-
-
+#endif // CAGEY_WINDOW_WINDOWIMPL_HH_

@@ -20,7 +20,7 @@ file(GLOB CageyWindowPrivateHeaders "source/cagey/window/*.hh")
 file(GLOB CageyWindowSources "source/cagey/window/*.cc")
 
 
-add_library(cageyEngine
+add_library(CageyEngine
             ${Cagey_HEADERS}
             ${CageyInputPrivateHeaders}
             ${CageyInputSources}
