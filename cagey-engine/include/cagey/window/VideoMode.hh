@@ -35,8 +35,8 @@ namespace window {
 
 class VideoMode {
 public:
-  static auto getCurrent() -> VideoMode;
-  static auto getFullScreenModes() -> std::vector<VideoMode> const &;
+//  static auto getCurrent() -> VideoMode;
+//  static auto getFullScreenModes() -> std::vector<VideoMode> const &;
 
   /**
   * Create a VideoMode
@@ -45,7 +45,10 @@ public:
   * @param height in pixels
   * @param bpp bits per pixel
   */
-  constexpr VideoMode(unsigned const width, unsigned const height, unsigned short const bpp = 32);
+  constexpr VideoMode(unsigned const width, unsigned const height, unsigned short const bpp = 32) :
+    mWidth(width),
+    mHeight(height),
+    mBitsPerPixel(bpp) {}
 
   /**
   * Return the width of this VideoMode

@@ -10,6 +10,7 @@ add_executable(CageyTest
                cagey/math/VectorTest.cc 
                cagey/math/MatrixTest.cc 
                cagey/math/PointTest.cc
+               cagey/window/VideoModeTest.cc
                CageyTestMain.cc)
 
 target_link_libraries(CageyTest gtest_main)

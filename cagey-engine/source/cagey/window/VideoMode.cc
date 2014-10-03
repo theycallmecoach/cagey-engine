@@ -29,6 +29,8 @@
 #include "cagey/window/IVideoModeImpl.hh"
 #include "cagey/window/VideoModeFactory.hh"
 #include <algorithm>
+#include <cagey/window/WindowFactory.hh>
+#include <cagey/window/IDisplayConfig.hh>
 
 namespace {
   auto fullScreenModes = std::vector<cagey::window::VideoMode>{};
@@ -37,36 +39,28 @@ namespace {
 namespace cagey {
 namespace window {
 
-///////////////////////////////////////////////////////////////////////////////
-auto VideoMode::getCurrent() -> VideoMode {
-  return window::detail::VideoModeFactory::create()->getCurrentMode();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-auto VideoMode::getFullScreenModes() -> std::vector<VideoMode> const & {
-  if (fullScreenModes.empty()) {
-    fullScreenModes = window::detail::VideoModeFactory::create()->getFullScreenModes();
-    std::sort(std::begin(fullScreenModes), std::end(fullScreenModes),
-        [] (VideoMode const & a, VideoMode const & b)
-        {
-          return a > b;
-        });
-  }
-  return fullScreenModes;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-constexpr VideoMode::VideoMode(unsigned const width, unsigned const height, unsigned short const bpp) :
- mWidth(width),
- mHeight(height),
- mBitsPerPixel(bpp) {
-
-}
+/////////////////////////////////////////////////////////////////////////////////
+//auto VideoMode::getCurrent() -> VideoMode {
+//  return window::detail::VideoModeFactory::create()->getCurrentMode();
+//}
+//
+/////////////////////////////////////////////////////////////////////////////////
+//auto VideoMode::getFullScreenModes() -> std::vector<VideoMode> const & {
+//  if (fullScreenModes.empty()) {
+//    fullScreenModes = window::detail::VideoModeFactory::create()->getFullScreenModes();
+//    std::sort(std::begin(fullScreenModes), std::end(fullScreenModes),
+//        [] (VideoMode const & a, VideoMode const & b)
+//        {
+//          return a > b;
+//        });
+//  }
+//  return fullScreenModes;
+//}
 
 
 ///////////////////////////////////////////////////////////////////////////////
 auto VideoMode::isValid() const -> bool {
-  auto modes = cagey::window::VideoMode::getFullScreenModes();
+  auto modes = WindowFactory::createDisplayConfig()->getFullScreenModes();
   return std::find(std::begin(modes), std::end(modes), *this) != modes.end();
 }
 

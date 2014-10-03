@@ -24,31 +24,19 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#ifndef CAGEY_WINDOW_WINDOWSYSTEM_HH_
+#define CAGEY_WINDOW_WINDOWSYSTEM_HH_
 
-
-#ifndef CAGEY_WINDOW_WINDOWFACTORY_HH_
-#define CAGEY_WINDOW_WINDOWFACTORY_HH_
-
-
-#include <cagey/window/Window.hh>
 #include <cagey/window/VideoMode.hh>
-#include <memory>
 
 namespace cagey {
 namespace window {
-namespace detail {
 
-class IWindowImpl;
-
-class WindowFactory {
+class WindowSystem {
 public:
-  static auto create(VideoMode const & vidMode,
-      std::string const & winName,
-      Window::StyleSet const & winStyle) -> std::unique_ptr<IWindowImpl>;
+  static auto getCurrentVideoMode() -> VideoMode;
+  static auto getFullScreenModes() -> std::vector<VideoMode> const &;
 };
 
-} //namespace detail
-} //namespace window
-} //namespace cagey
-
-#endif // CAGEY_WINDOW_WINDOWFACTORY_HH_
+} // namespace window
+} // namespace cagey

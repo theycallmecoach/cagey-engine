@@ -25,41 +25,68 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef CAGEY_WINDOW_IWINDOW_HH_
+#define CAGEY_WINDOW_IWINDOW_HH_
 
-#include "cagey/window/WindowFactory.hh"
-#include <cagey/window/IWindow.hh>
-#include <cagey/window/IDisplayConfig.hh>
+#include <cagey/util/EnumClassSet.hh>
+#include <cagey/window/VideoMode.hh>
 #include <memory>
-
-
-#ifdef USE_SDL
-#include "cagey/window/sdl/SdlWindowImpl.hh"
-#include "cagey/window/sdl/SdlDisplayConfig.hh"
-#elif USE_X11
-#include "cagey/window/x11/X11Window.hh"
-#endif
 
 namespace cagey {
 namespace window {
 
-auto WindowFactory::createWindow(VideoMode const & vidMode,
-    std::string const & winName,
-    IWindow::StyleSet const & winStyle) -> std::unique_ptr<IWindow> {
-#ifdef USE_X11
-  return std::unique_ptr<IWindow>{std::make_unique<x11::X11Window>()};
-#else
-  return std::unique_ptr<IWindow>{std::make_unique<window::sdl::SdlWindow>()};
-#endif
-}
+//forward declarations
+class VideoMode;
 
-auto WindowFactory::createDisplayConfig() -> std::unique_ptr<IDisplayConfig> {
-#ifdef USE_X11
-  return std::unique_ptr<IDisplayConfig>{std::make_unique<x11::X11DisplayConfig>()};
-#else
-  return std::unique_ptr<IDisplayConfig>{std::make_unique<window::sdl::SdlDisplayConfig>()};
-#endif
+class IWindow {
+public:
 
-}
+  /**
+  * All possible window styles
+  */
+  enum class Style
+      : unsigned int {
+    None,
+    Titlebar,
+    Resize,
+    Close,
+    Fullscreen,
+  };
+
+  using StyleSet = cagey::util::EnumClassSet <Style, 5>;
+
+  /**
+  * Default destructor
+  */
+  virtual ~IWindow() = default;
+
+//  /**
+//  * Cannot copy a IWindow
+//  */
+//  IWindow(IWindow const & window) = delete;
+//
+//  /**
+//  * Cannot copy a Iwindow
+//  */
+//  auto operator=(IWindow const & other) = delete;
+
+  /**
+  * Returns the title of this Window
+  *
+  * @param the window title as a std::string
+  */
+  virtual auto getTitle() const -> std::string = 0;
+
+  /**
+  * Sets the title of this window to the given string
+  *
+  * @param newTitle the new title for this window as a std::string
+  */
+  virtual auto setTitle(std::string const & newTitle) -> void = 0;
+
+};
 
 } //namespace window
 } //namespace cagey
+
+#endif //CAGEY_WINDOW_VIDEOMODE_HH_

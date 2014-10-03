@@ -1,95 +1,95 @@
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+////
+//// cagey-engine - Toy 3D Engine
+//// Copyright (c) 2014 Kyle Girard <theycallmecoach@gmail.com>
+////
+//// The MIT License (MIT)
+////
+//// Permission is hereby granted, free of charge, to any person obtaining a copy
+//// of this software and associated documentation files (the "Software"), to deal
+//// in the Software without restriction, including without limitation the rights
+//// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//// copies of the Software, and to permit persons to whom the Software is
+//// furnished to do so, subject to the following conditions:
+////
+//// The above copyright notice and this permission notice shall be included in
+//// all copies or substantial portions of the Software.
+////
+//// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//// SOFTWARE.
+////
+//////////////////////////////////////////////////////////////////////////////////
 //
-// cagey-engine - Toy 3D Engine
-// Copyright (c) 2014 Kyle Girard <theycallmecoach@gmail.com>
+//#ifndef CAGEY_WINDOW_WINDOW_HH_
+//#define CAGEY_WINDOW_WINDOW_HH_
 //
-// The MIT License (MIT)
+//#include <cagey/util/EnumClassSet.hh>
+//#include <cagey/window/VideoMode.hh>
+//#include <memory>
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//namespace cagey {
+//namespace window {
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+////forward declarations
+//class VideoMode;
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+//namespace detail {
+//  class IWindowImpl;
+//}
 //
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef CAGEY_WINDOW_WINDOW_HH_
-#define CAGEY_WINDOW_WINDOW_HH_
-
-#include <cagey/util/EnumClassSet.hh>
-#include <cagey/window/VideoMode.hh>
-#include <memory>
-
-namespace cagey {
-namespace window {
-
-//forward declarations
-class VideoMode;
-
-namespace detail {
-  class IWindowImpl;
-}
-
-class Window {
-public:
-  enum class Style
-      : unsigned int {
-    None,
-    Titlebar,
-    Resize,
-    Close,
-    Fullscreen,
-  };
-  using StyleSet = cagey::util::EnumClassSet <Style, 5>;
-
-  /**
-  * Create an instance of a window.
-  *
-  * @param vidMode
-  * @param winName
-  * @param winStyle
-  */
-  Window(VideoMode const & vidMode,
-      std::string const & winName,
-      StyleSet const & winStyle = StyleSet{}.set(Style::Titlebar)
-          .set(Style::Resize)
-          .set(Style::Close));
-
-
-  /**
-  * Cannot copy a Window
-  */
-  Window(Window const & window) = delete;
-
-  /**
-  * Cannot copy a window
-  */
-  auto operator=(Window const & other) = delete;
-
-  auto getTitle() const -> std::string;
-  auto setTitle(std::string const & newTitle) -> void;
-
-private:
-  std::unique_ptr<detail::IWindowImpl> mImpl;
-  VideoMode mVideoMode;
-  std::string mName;
-  StyleSet mStyle;
-  bool mVisible;
-};
-
-} //namespace window
-} //namespace cagey
-
-#endif //CAGEY_WINDOW_VIDEOMODE_HH_
+//class Window {
+//public:
+//  enum class Style
+//      : unsigned int {
+//    None,
+//    Titlebar,
+//    Resize,
+//    Close,
+//    Fullscreen,
+//  };
+//  using StyleSet = cagey::util::EnumClassSet <Style, 5>;
+//
+//  /**
+//  * Create an instance of a window.
+//  *
+//  * @param vidMode
+//  * @param winName
+//  * @param winStyle
+//  */
+//  Window(VideoMode const & vidMode,
+//      std::string const & winName,
+//      StyleSet const & winStyle = StyleSet{}.set(Style::Titlebar)
+//          .set(Style::Resize)
+//          .set(Style::Close));
+//
+//
+//  /**
+//  * Cannot copy a Window
+//  */
+//  Window(Window const & window) = delete;
+//
+//  /**
+//  * Cannot copy a window
+//  */
+//  auto operator=(Window const & other) = delete;
+//
+//  auto getTitle() const -> std::string;
+//  auto setTitle(std::string const & newTitle) -> void;
+//
+//private:
+//  std::unique_ptr<detail::IWindowImpl> mImpl;
+//  VideoMode mVideoMode;
+//  std::string mName;
+//  StyleSet mStyle;
+//  bool mVisible;
+//};
+//
+//} //namespace window
+//} //namespace cagey
+//
+//#endif //CAGEY_WINDOW_VIDEOMODE_HH_

@@ -44,7 +44,7 @@ namespace input {
 
 InputManager::InputManager()
  : mInputSystem{InputSystemFactory::create(StringMap())} {
-  
+
   if (auto mouse = mInputSystem->createDevice(DeviceType::Mouse).lock()) {
     mMouse = std::dynamic_pointer_cast<Mouse>(mouse);
   }

@@ -25,41 +25,27 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef CAGEY_WINDOW_IDISPLAYCONFIG_HH_
+#define CAGEY_WINDOW_IDISPLAYCONFIG_HH_
 
-#include "cagey/window/WindowFactory.hh"
-#include <cagey/window/IWindow.hh>
-#include <cagey/window/IDisplayConfig.hh>
+//#include <cagey/window/VideoMode.hh>
 #include <memory>
-
-
-#ifdef USE_SDL
-#include "cagey/window/sdl/SdlWindowImpl.hh"
-#include "cagey/window/sdl/SdlDisplayConfig.hh"
-#elif USE_X11
-#include "cagey/window/x11/X11Window.hh"
-#endif
+#include <vector>
 
 namespace cagey {
 namespace window {
 
-auto WindowFactory::createWindow(VideoMode const & vidMode,
-    std::string const & winName,
-    IWindow::StyleSet const & winStyle) -> std::unique_ptr<IWindow> {
-#ifdef USE_X11
-  return std::unique_ptr<IWindow>{std::make_unique<x11::X11Window>()};
-#else
-  return std::unique_ptr<IWindow>{std::make_unique<window::sdl::SdlWindow>()};
-#endif
-}
+//forward declarations
+class VideoMode;
 
-auto WindowFactory::createDisplayConfig() -> std::unique_ptr<IDisplayConfig> {
-#ifdef USE_X11
-  return std::unique_ptr<IDisplayConfig>{std::make_unique<x11::X11DisplayConfig>()};
-#else
-  return std::unique_ptr<IDisplayConfig>{std::make_unique<window::sdl::SdlDisplayConfig>()};
-#endif
-
-}
+class IDisplayConfig {
+public:
+  virtual ~IDisplayConfig() = default;
+  virtual auto getFullScreenModes() -> std::vector<window::VideoMode> = 0;
+  virtual auto getCurrentMode() -> window::VideoMode = 0;
+};
 
 } //namespace window
 } //namespace cagey
+
+#endif //CAGEY_WINDOW_IDISPLAYCONFIG_HH_

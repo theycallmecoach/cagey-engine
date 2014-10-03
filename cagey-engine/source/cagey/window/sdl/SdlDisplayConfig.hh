@@ -12,30 +12,20 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_SDL_SDLWINDOWIMPL_HH_
-#define CAGEY_WINDOW_SDL_SDLWINDOWIMPL_HH_
+#ifndef CAGEY_WINDOW_SDL_SDLDISPLAYCONFIG_HH_
+#define CAGEY_WINDOW_SDL_SDLDISPLAYCONFIG_HH_
 
-
-#include "cagey/window/IWindow.hh"
+#include "cagey/window/IDisplayConfig.hh"
 
 namespace cagey {
 namespace window {
 namespace sdl {
 
-class SdlWindow : public IWindow {
+class SdlDisplayConfig : public window::IDisplayConfig {
 public:
-  SdlWindow() : IWindow{} {};
-
-  auto getTitle() const -> std::string override {return "";};
-  auto setTitle(std::string const & newTitle) -> void override {};
-
-//  auto getSize() const -> math::Point2u override {return {0,0};};
-//  auto setSize(math::Point2u dim) -> void override {};
-//
-//  auto getVisible() const -> bool override {return false;};
-//  auto setVisible(bool visible) -> void override {};
-//
-//  auto getWindowHandle() const -> window::WindowHandle override { return 0;};
+  SdlDisplayConfig() = default;
+  auto getFullScreenModes() -> std::vector<window::VideoMode> override {return std::vector<window::VideoMode>{}; }
+  auto getCurrentMode() -> window::VideoMode override { return {0,0,0}; }
 };
 
 } //namespace sdl;
@@ -43,4 +33,4 @@ public:
 } //namespace cagey
 
 
-#endif //CAGEY_WINDOW_SDL_SDLWINDOWIMPL_HH_
+#endif //CAGEY_WINDOW_SDL_SDLVIDEOMODEIMPL_HH_
