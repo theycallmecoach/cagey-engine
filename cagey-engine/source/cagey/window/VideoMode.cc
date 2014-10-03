@@ -55,6 +55,13 @@ auto VideoMode::getFullScreenModes() -> std::vector<VideoMode> const & {
   return fullScreenModes;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+constexpr VideoMode::VideoMode(unsigned const width, unsigned const height, unsigned short const bpp) :
+ mWidth(width),
+ mHeight(height),
+ mBitsPerPixel(bpp) {
+
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

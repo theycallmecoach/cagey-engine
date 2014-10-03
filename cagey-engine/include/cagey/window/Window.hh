@@ -79,7 +79,6 @@ public:
   auto operator=(Window const & other) = delete;
 
   auto getTitle() const -> std::string;
-
   auto setTitle(std::string const & newTitle) -> void;
 
 private:

@@ -41,7 +41,7 @@ namespace cagey {
 namespace window {
 namespace detail {
 
-auto VideoModeFactory::create() -> std::unique_ptr<IVideoModeImpl> {
+std::unique_ptr<IVideoModeImpl> VideoModeFactory::create() {
 #ifdef USE_X11
  return std::unique_ptr<IVideoModeImpl>{std::make_unique<x11::X11VideoModeImpl>()};
 #else

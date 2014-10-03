@@ -36,7 +36,6 @@ namespace {
 }
 
 namespace cagey {
-
 namespace window {
 
 Window::Window(VideoMode const & vidMode, std::string const & winName, StyleSet const & winStyle)
@@ -71,8 +70,6 @@ auto Window::setTitle(std::string const & newTitle) -> void {
   mName = newTitle;
   mImpl->setTitle(newTitle);
 }
-
-
 
 } // namespace window
 } // namespace cagey

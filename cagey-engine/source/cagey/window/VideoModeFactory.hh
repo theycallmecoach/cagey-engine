@@ -39,7 +39,7 @@ class IVideoModeImpl;
 
 class VideoModeFactory {
 public:
-  static auto create() -> std::unique_ptr<IVideoModeImpl>;
+  static std::unique_ptr<IVideoModeImpl> create();
 };
 
 } //namespace detail

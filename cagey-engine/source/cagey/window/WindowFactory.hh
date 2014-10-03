@@ -42,7 +42,9 @@ class IWindowImpl;
 
 class WindowFactory {
 public:
-  static auto create(VideoMode const & vidMode, std::string const & winName, Window::StyleSet const & winStyle) -> std::unique_ptr<IWindowImpl>;
+  static auto create(VideoMode const & vidMode,
+      std::string const & winName,
+      Window::StyleSet const & winStyle) -> std::unique_ptr<IWindowImpl>;
 };
 
 } //namespace detail

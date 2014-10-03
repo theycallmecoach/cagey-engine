@@ -20,9 +20,9 @@
 namespace {
 
   auto initSdl() {
-    static boolean initFlag = false;
+    static bool initFlag = false;
     if (!initFlag) {
-      if (SDL_VideoInit() < 0) {
+      if (SDL_VideoInit(nullptr) < 0) {
         //@TODO put better exception here...
         SDL_Quit();
         throw 0;
@@ -45,13 +45,13 @@ auto SdlVideoModeImpl::getFullScreenModes() -> std::vector<window::VideoMode> {
 
   //assume only one display...
   auto numModes = SDL_GetNumDisplayModes(displayIndex);
-  for (auto i : numModes) {
+  for (int i =0; i < numModes; ++i) {
     SDL_DisplayMode mode;
     if(SDL_GetDisplayMode(displayIndex, i, &mode) < 0){
       //@TODO throw better exception
       throw 0;
     }
-    retModes.emplace_back(window::VideoMode{mode.w, mode.h, SDL_BITSPERPIXEL(mode.format) });
+    retModes.emplace_back(window::VideoMode{unsigned(mode.w), unsigned(mode.h), (unsigned short)(SDL_BITSPERPIXEL(mode.format)) });
   }
   return retModes;
 }
@@ -59,8 +59,8 @@ auto SdlVideoModeImpl::getFullScreenModes() -> std::vector<window::VideoMode> {
 auto SdlVideoModeImpl::getCurrentMode() -> window::VideoMode {
   initSdl();
   SDL_DisplayMode mode;
-  SDL_GetDesktopDisplayMode(&mode);
-  return {mode.w, mode.h, SDL_BITSPERPIXEL(mode.format)};
+  SDL_GetDesktopDisplayMode(0,&mode);
+  return {unsigned(mode.w), unsigned(mode.h), (unsigned short)SDL_BITSPERPIXEL(mode.format)};
 }
 
 } //namespace sdl;
