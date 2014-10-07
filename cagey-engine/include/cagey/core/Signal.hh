@@ -24,30 +24,27 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CAGEY_ERROR_CAGEYEXCEPTION_HH_
-#define CAGEY_ERROR_CAGEYEXCEPTION_HH_
+#ifndef CAGEY_CORE_SIGNAL_HH_
+#define CAGEY_CORE_SIGNAL_HH_
 
 #include <functional>
 #include <map>
+#include <memory>
 
 namespace cagey {
 namespace core {
 
-#include <iostream>
-#include <functional>
-#include <map>
-#include <memory>
-#include <vector>
 template <typename> class Signal;
 
 template <typename Func>
 class Connection {
   friend class Signal<Func>;
 public:
-  auto disconnect() -> void {
+  auto disconnect() -> bool {
     if (mSignal) {
-      mSignal->disconnect(*this);
+      return mSignal->disconnect(*this);
     }
+    return false;
   } 
   Connection(Connection<Func> const & other) = default;
   
@@ -66,7 +63,10 @@ public:
   }
 };
 
-
+/**
+* A Signal represents the subject in the Observer/Subject pattern.  Observers can register 'slots'
+* to receive messages from the Signal.
+*/
 template <typename Func>
 class Signal {
 public:
@@ -74,6 +74,9 @@ public:
   using Connection = Connection<Func>;
   using ScopedConnection = ScopedConnection<Func>;
 
+  /**
+  * Default constructor
+  */
   Signal() : mConnectionId{0} {
   }
 
@@ -83,19 +86,19 @@ public:
 
   auto connect(Function const & func) -> Connection {
     int conId = mConnectionId++;
-    mCallbacks.emplace(std::make_pair(conId, func));
+    mCallbacks.emplace(std::make_pair(conId, std::make_shared<Function>(func)));
     return Connection{conId, this};
   }
 
-  auto disconnect(Connection const & con) -> void {
-    mCallbacks.erase(con.mId);
+  auto disconnect(Connection const & con) -> bool {
+    return mCallbacks.erase(con.mId) > 0;
   }
 
   template<typename... Args>
   auto operator() (Args... args) -> void {
     for (auto & cb : mCallbacks) {
       if (cb.second) {
-        cb.second(args...);
+        (*cb.second)(args...);
       }
     }
   }
@@ -103,10 +106,31 @@ public:
   auto operator=(Signal const &) = delete;
   
 private:
-  std::map<int, Function> mCallbacks;
+  std::map<int, std::shared_ptr<Function>> mCallbacks;
   int mConnectionId;
 };
 
 
+//Idea for these functions taken from here: https://testbit.eu/cpp11-signal-system-performance/
+//these provide a short hand to std::bind
+
+/// This function creates a std::function by binding @a object to the member function pointer @a method.
+template<class Instance, class Class, class R, class... Args> std::function<R (Args...)>
+slot (Instance &object, R (Class::*method) (Args...))
+{
+  return [&object, method] (Args... args) { return (object .* method) (args...); };
+}
+
+/// This function creates a std::function by binding @a object to the member function pointer @a method.
+template<class Class, class R, class... Args> std::function<R (Args...)>
+slot (Class *object, R (Class::*method) (Args...))
+{
+  return [object, method] (Args... args) { return (object ->* method) (args...); };
+}
+
+
+
 } //namespace core
 } //namespace cagey
+
+#endif //CAGEY_CORE_SIGNAL_HH_
