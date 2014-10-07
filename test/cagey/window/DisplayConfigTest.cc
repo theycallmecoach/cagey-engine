@@ -25,25 +25,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <cagey/window/VideoMode.hh>
+#include <gtest/gtest.h>
 
-#ifndef CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
-#define CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
+using namespace cagey::window;
 
-#include <memory>
-
-namespace cagey {
-namespace window {
-namespace detail {
-
-class IVideoModeImpl;
-
-class VideoModeFactory {
-public:
-  static std::unique_ptr<IVideoModeImpl> create();
-};
-
-} //namespace detail
-} //namespace window
-} //namespace cagey
-
-#endif // CAGEY_WINDOW_VIDEOMODEFACTORY_HH_
+TEST(VideoMode, DefaultConstructor) {
+  auto vm = VideoMode{0, 0, 0};
+}
