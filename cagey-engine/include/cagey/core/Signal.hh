@@ -36,24 +36,48 @@ namespace core {
 
 template <typename> class Signal;
 
+/**
+ * Represents a connection between a signal and a slot (function).  Can
+ * be used to disconnect from a signal.
+ */
 template <typename Func>
 class Connection {
   friend class Signal<Func>;
 public:
+  /**
+   * Disconnects a signal and slot
+   * 
+   * @return true if the disconnect was successful
+   */
   auto disconnect() -> bool {
     if (mSignal) {
       return mSignal->disconnect(*this);
     }
     return false;
   } 
+  
+  /** 
+   * Default copy constructor 
+   * 
+   * @param other an other Connection
+   */
   Connection(Connection<Func> const & other) = default;
   
 protected:
+  /**
+   * Protected constructor to prevent unauthorized construction
+   */
   Connection(int id, Signal<Func> * signal) : mId{id}, mSignal{signal} { }
+  /// Non-owning point to the signal end of the connection
   Signal<Func>* mSignal;
+  /// Unique id for this connection
   int mId;
 };
 
+/**
+ * Connection between a Signal and a slot(function) that disconnects when
+ * it is destroyed.
+ */
 template <typename Func>
 class ScopedConnection : public Connection<Func> {
 public:
@@ -64,9 +88,10 @@ public:
 };
 
 /**
-* A Signal represents the subject in the Observer/Subject pattern.  Observers can register 'slots'
-* to receive messages from the Signal.
-*/
+ * A Signal represents the subject in the Observer/Subject pattern.  Observers 
+ * can register 'slots' to receive messages from the Signal.  A slot can be 
+ * any function with the matching signature.
+ */
 template <typename Func>
 class Signal {
 public:
@@ -75,25 +100,42 @@ public:
   using ScopedConnection = ScopedConnection<Func>;
 
   /**
-  * Default constructor
-  */
-  Signal() : mConnectionId{0} {
-  }
+   * Default constructor
+   */
+  Signal() : mConnectionId{0} {}
 
+  /**
+   * Default Destructor
+   */
   ~Signal() {
     mCallbacks.clear();
   }
 
+  /**
+   * Register the given function to be called when this signal emits a signal
+   *
+   * @param func the function to be called when emiting a signal
+   * @return a connection between this signal and the given function
+   */
   auto connect(Function const & func) -> Connection {
     int conId = mConnectionId++;
     mCallbacks.emplace(std::make_pair(conId, std::make_shared<Function>(func)));
     return Connection{conId, this};
   }
 
+  /**
+   * Disconnect the slot at the given connection
+   *
+   */
   auto disconnect(Connection const & con) -> bool {
     return mCallbacks.erase(con.mId) > 0;
   }
 
+  /**
+   * Call all connected slots
+   *
+   * @param args the parameters required by the signal type
+   */
   template<typename... Args>
   auto operator() (Args... args) -> void {
     for (auto & cb : mCallbacks) {
@@ -102,11 +144,21 @@ public:
       }
     }
   }
+  
+  /**
+   * Signals are not copyable
+   */
   Signal(Signal const &) = delete;
+
+  /**
+   * Signals are not copyable
+   */
   auto operator=(Signal const &) = delete;
   
 private:
+  /// Map of id to slots
   std::map<int, std::shared_ptr<Function>> mCallbacks;
+  /// Unique ids for each connection
   int mConnectionId;
 };
 
