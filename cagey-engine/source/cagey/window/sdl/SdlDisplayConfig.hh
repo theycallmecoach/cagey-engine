@@ -24,8 +24,8 @@ namespace sdl {
 class SdlDisplayConfig : public window::IDisplayConfig {
 public:
   SdlDisplayConfig() = default;
-  auto getFullScreenModes() -> std::vector<window::VideoMode> override {return std::vector<window::VideoMode>{}; }
-  auto getCurrentMode() -> window::VideoMode override { return {0,0,0}; }
+  auto getFullScreenModes() -> std::vector<window::VideoMode> override;
+  auto getCurrentMode() -> window::VideoMode override;
 };
 
 } //namespace sdl;
