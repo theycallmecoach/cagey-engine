@@ -31,7 +31,7 @@
 using namespace cagey::window;
 
 TEST(Window, DefaultConstructor) {
-  auto win = WindowFactory::createWindow("HelloWorld", VideoMode{640,480,24});
+  auto win = WindowFactory::createWindow("HelloWorld", VideoMode{640,480});
 
   SDL_Delay(2000);
 }
