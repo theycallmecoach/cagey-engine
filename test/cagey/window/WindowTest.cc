@@ -27,11 +27,12 @@
 
 #include <cagey/window/WindowFactory.hh>
 #include <gtest/gtest.h>
+#include <thread>
 
 using namespace cagey::window;
+using namespace std::literals; //need this for fancy chrono_literals
 
 TEST(Window, DefaultConstructor) {
   auto win = WindowFactory::createWindow("HelloWorld", VideoMode{640,480});
-
-  SDL_Delay(2000);
+  std::this_thread::sleep_for( 2000ms );
 }
