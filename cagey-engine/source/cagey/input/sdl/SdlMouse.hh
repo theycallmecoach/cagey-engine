@@ -30,15 +30,15 @@
 #include <cagey/input/Mouse.hh>
 
 #include "cagey/input/sdl/SdlInputSystem.hh"
+#include "cagey/window/sdl/SdlContext.hh"
 
 namespace cagey {
 namespace input {
 namespace sdl {
 
-class SdlMouse : public Mouse {
+class SdlMouse : private window::sdl::SdlContext, public Mouse {
 public:
   SdlMouse(SdlInputSystem const &  inputSystem);
-
 private:
 };
 

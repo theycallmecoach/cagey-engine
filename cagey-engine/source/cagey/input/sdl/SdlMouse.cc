@@ -25,13 +25,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <SDL2/SDL.h>
 #include "SdlMouse.hh"
 
 namespace cagey {
 namespace input {
 namespace sdl {
 
-SdlMouse::SdlMouse(SdlInputSystem const &inputSystem) : Mouse(inputSystem) {
+SdlMouse::SdlMouse(SdlInputSystem const &inputSystem) : SdlContext(SDL_INIT_VIDEO), Mouse(inputSystem) {
 
 }
 

@@ -19,11 +19,6 @@
 #include "cagey/window/sdl/SdlException.hh"
 
 
-namespace {
-
-using SdlWindowPtr = std::unique_ptr<SDL_Window, void(*)(SDL_Window*)>;
-
-}
 
 namespace cagey {
 namespace window {

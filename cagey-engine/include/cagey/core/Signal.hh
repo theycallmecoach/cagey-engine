@@ -144,7 +144,7 @@ public:
       }
     }
   }
-  
+
   /**
    * Signals are not copyable
    */
@@ -153,7 +153,7 @@ public:
   /**
    * Signals are not copyable
    */
-  auto operator=(Signal const &) = delete;
+  auto operator=(Signal const &) -> Signal& = delete;
   
 private:
   /// Map of id to slots
@@ -167,15 +167,15 @@ private:
 //these provide a short hand to std::bind
 
 /// This function creates a std::function by binding @a object to the member function pointer @a method.
-template<class Instance, class Class, class R, class... Args> std::function<R (Args...)>
-slot (Instance &object, R (Class::*method) (Args...))
+template<class Instance, class Class, class R, class... Args>
+auto slot (Instance &object, R (Class::*method) (Args...)) -> std::function<R (Args...)>
 {
   return [&object, method] (Args... args) { return (object .* method) (args...); };
 }
 
 /// This function creates a std::function by binding @a object to the member function pointer @a method.
-template<class Class, class R, class... Args> std::function<R (Args...)>
-slot (Class *object, R (Class::*method) (Args...))
+template<class Class, class R, class... Args>
+auto slot (Class *object, R (Class::*method) (Args...)) -> std::function<R (Args...)>
 {
   return [object, method] (Args... args) { return (object ->* method) (args...); };
 }

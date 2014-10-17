@@ -30,6 +30,9 @@
 #include <cagey/input/Device.hh>
 #include <cagey/util/EnumClassSet.hh>
 #include <cagey/input/IInputSystem.hh>
+#include <cagey/core/Signal.hh>
+#include <functional>
+#include <utility>
 
 namespace cagey {
 namespace input {
@@ -46,16 +49,16 @@ enum class MouseButton : int {
 };
 using MouseButtonState = util::EnumClassSet<MouseButton, 5>;
 
-class IMouseListener {
-public:
-  virtual ~IMouseListener() = default;
-  virtual auto mousePressed() -> void = 0;
-  virtual auto mouseReleased() -> void = 0;
-  virtual auto mouseMoved() -> void = 0;
-  virtual auto mouseWheelMoved() -> void = 0;
-  virtual auto mouseEntered() -> void = 0;
-  virtual auto mouseExited() -> void = 0;
-};
+//class IMouseListener {
+//public:
+//  virtual ~IMouseListener() = default;
+//  virtual auto mousePressed() -> void = 0;
+//  virtual auto mouseReleased() -> void = 0;
+//  virtual auto mouseMoved() -> void = 0;
+//  virtual auto mouseWheelMoved() -> void = 0;
+//  virtual auto mouseEntered() -> void = 0;
+//  virtual auto mouseExited() -> void = 0;
+//};
 
 
 class Mouse : public Device {
@@ -63,13 +66,36 @@ public:
   Mouse(IInputSystem const & inputSystem) : Device{inputSystem} {}
   ~Mouse() = default;
 
-  auto addMouseListener(IMouseListener* listener) -> void;
-  auto removeMouseListener(IMouseListener* listener) -> void;
-  auto update() -> void;
+  using PressedSignal = core::Signal<void()>;
+  using ReleasedSignal = core::Signal<void()>;
+  using MovedSignal = core::Signal<void()>;
+  using WheelMovedSignal = core::Signal<void()>;
+  using EnteredSignal = core::Signal<void()>;
+  using ExitedSignal = core::Signal<void()>;
+
+//  auto addMouseListener(IMouseListener* listener) -> void;
+//  auto removeMouseListener(IMouseListener* listener) -> void;
+
+  auto addPressedListener(std::function<void()> const & func) -> PressedSignal::Connection { return mPressed.connect(func);}
+  auto addReleasedListener(std::function<void()> const & func) -> ReleasedSignal::Connection { return mReleased.connect(func);}
+  auto addMovedListener(std::function<void()> const & func) -> MovedSignal::Connection { return mMoved.connect(func);}
+  auto addWheelMovedListener(std::function<void()> const & func) -> WheelMovedSignal::Connection { return mWheelMoved.connect(func);}
+  auto addEnteredListener(std::function<void()> const & func) -> EnteredSignal::Connection { return mEntered.connect(func);}
+  auto addExitedListener(std::function<void()> const & func) -> ExitedSignal::Connection { return mExited.connect(func);}
+
+  void update() {};
 
 protected:
-
+  
+  PressedSignal mPressed;
+  ReleasedSignal mReleased;
+  MovedSignal mMoved;
+  WheelMovedSignal mWheelMoved;
+  EnteredSignal mEntered;
+  ExitedSignal mExited;
+  
 private:
+
 };
 
 
