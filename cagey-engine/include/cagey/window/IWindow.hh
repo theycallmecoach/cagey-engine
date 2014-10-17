@@ -31,8 +31,11 @@
 #include <cagey/util/EnumClassSet.hh>
 #include <cagey/window/VideoMode.hh>
 #include <memory>
+#include <cagey/math/MathFwd.hh>
+#include <cagey/window/WindowHandle.hh>
 
 namespace cagey {
+
 namespace window {
 
 //forward declarations
@@ -60,16 +63,6 @@ public:
   */
   virtual ~IWindow() = default;
 
-//  /**
-//  * Cannot copy a IWindow
-//  */
-//  IWindow(IWindow const & window) = delete;
-//
-//  /**
-//  * Cannot copy a Iwindow
-//  */
-//  auto operator=(IWindow const & other) = delete;
-
   /**
   * Returns the title of this Window
   *
@@ -84,6 +77,16 @@ public:
   */
   virtual auto setTitle(std::string const & newTitle) -> void = 0;
 
+
+  virtual auto getSize() const -> math::Point2u = 0;
+  virtual auto setSize(math::Point2u dim) -> void = 0;
+
+  virtual auto getVisible() const -> bool = 0;
+  virtual auto setVisible(bool visible) -> void = 0;
+
+  virtual auto getWindowHandle() const -> window::WindowHandle = 0;
+
+protected:
 };
 
 } //namespace window

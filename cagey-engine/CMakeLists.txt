@@ -31,3 +31,6 @@ add_library(CageyEngine
             ${CageyWindowPrivateHeaders}
             ${CageyWindowSources}
             ${CageyWindowImplSources})
+if (USE_SDL)
+    target_link_libraries(CageyEngine ${SDL2_LIBRARY})
+endif()

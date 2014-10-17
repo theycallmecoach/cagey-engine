@@ -27,7 +27,6 @@
 
 #include <cagey/window/VideoMode.hh>
 #include "cagey/window/IVideoModeImpl.hh"
-#include "cagey/window/VideoModeFactory.hh"
 #include <algorithm>
 #include <cagey/window/WindowFactory.hh>
 #include <cagey/window/IDisplayConfig.hh>

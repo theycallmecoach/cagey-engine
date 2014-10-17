@@ -58,6 +58,34 @@ template<typename T> using Radf = Radian<float>;
 ///Shorthand for double Radian template
 template<typename T> using Radd = Radian<double>;
 
+
+template<typename, std::size_t> class Point;
+///Shorthand for the two element Point
+template<typename T> using Point2 = Point<T,2>;
+///Shorthand for the three element Point
+template<typename T> using Point3 = Point<T,3>;
+///Shorthand for the four element Point
+template<typename T> using Point4 = Point<T,4>;
+
+///Shorthand for the two element unsigned Point
+using Point2u = Point<std::uint32_t, 2>;
+///Shorthand for the two element int Point
+using Point2i = Point<std::int32_t, 2>;
+///Shorthand for the two element float Point
+using Point2f = Point<float, 2>;
+///Shorthand for the two element double Point
+using Point2d = Point<double, 2>;
+
+///Shorthand for the three element unsigned Point
+using Point3u = Point<std::uint32_t, 3>;
+///Shorthand for the three element int Point
+using Point3i = Point<std::int32_t, 3>;
+///Shorthand for the three element float Point
+using Point3f = Point<float, 3>;
+///Shorthand for the three element double Point
+using Point3d = Point<double, 3>;
+
+
 template<typename, std::size_t> class Vector;
 ///Shorthand for the two element Vector
 template<typename T> using Vec2 = Vector<T,2>;
@@ -83,6 +111,7 @@ using Vec3i = Vector<std::int32_t, 3>;
 using Vec3f = Vector<float, 3>;
 ///Shorthand for the three element double Vector
 using Vec3d = Vector<double, 3>;
+
 
 ///Shorthand for the four element unsigned Vector
 using Vec4u = Vector<std::uint32_t, 4>;

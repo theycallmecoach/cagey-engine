@@ -25,11 +25,16 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/window/VideoMode.hh>
+#include <cagey/window/IDisplayConfig.hh>
+#include <cagey/window/WindowFactory.hh>
 #include <gtest/gtest.h>
 
 using namespace cagey::window;
 
-TEST(VideoMode, DefaultConstructor) {
-  auto vm = VideoMode{0, 0, 0};
+TEST(DisplayConfig, DefaultConstructor) {
+  auto vm = WindowFactory::createDisplayConfig();
+  auto current = vm->getCurrentMode();
+  EXPECT_GT(current.getWidth(), 0);
+  EXPECT_GT(current.getHeight(), 0);
+  EXPECT_GT(current.getBitsPerPixel(), 0);
 }

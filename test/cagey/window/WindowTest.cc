@@ -25,11 +25,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cagey/window/VideoMode.hh>
+#include <cagey/window/WindowFactory.hh>
 #include <gtest/gtest.h>
 
 using namespace cagey::window;
 
-TEST(VideoMode, DefaultConstructor) {
-  auto vm = VideoMode{0, 0, 0};
+TEST(Window, DefaultConstructor) {
+  auto win = WindowFactory::createWindow("HelloWorld", VideoMode{640,480,24});
+
+  SDL_Delay(2000);
 }

@@ -40,13 +40,13 @@ class IDisplayConfig;
 
 class WindowFactory {
 public:
-  static auto defaultWindowStyle() -> IWindow::StyleSet {
+  static auto getDefaultWindowStyle() -> IWindow::StyleSet {
     return IWindow::StyleSet{}.set(IWindow::Style::Titlebar).set(IWindow::Style::Resize).set(IWindow::Style::Close);
   }
 
-  static auto createWindow(VideoMode const & vidMode,
-      std::string const & winName,
-      IWindow::StyleSet const & winStyle = defaultWindowStyle()) -> std::unique_ptr<IWindow>;
+  static auto createWindow(std::string const & winName,
+      VideoMode const & vidMode,
+      IWindow::StyleSet const & winStyle = getDefaultWindowStyle()) -> std::unique_ptr<IWindow>;
 
   static auto createDisplayConfig() -> std::unique_ptr<IDisplayConfig>;
 };

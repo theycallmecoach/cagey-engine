@@ -28,11 +28,21 @@
 #ifndef CAGEY_WINDOW_WINDOWHANDLE_HH_
 #define CAGEY_WINDOW_WINDOWHANDLE_HH_
 
+#ifdef USE_SDL
+#include <SDL2/SDL.h>
+#endif
+
 namespace cagey {
 namespace window {
 
 //linux window handle
+#ifdef USE_X11
 using WindowHandle = unsigned long;
+#endif
+
+#ifdef USE_SDL
+using WindowHandle = SDL_Window*;
+#endif
 
 } //namespace window
 } //namespace cagey

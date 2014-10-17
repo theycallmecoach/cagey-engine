@@ -246,6 +246,10 @@ public:
       T x; ///< The first element
       T y; ///<The second element
     };
+    struct {
+      T w; ///< Width
+      T h; ///< Height
+    };
   };
 
 };

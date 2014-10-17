@@ -4,15 +4,24 @@ set(GTEST_DIR "/usr/src/gtest/"
 add_subdirectory(${GTEST_DIR} ${CMAKE_BINARY_DIR}/gtest)    
 #add_subdirectory(cagey/math)    
 
-add_executable(CageyTest 
+add_executable(CageyMathTest
                cagey/math/ConstantsTest.cc
                cagey/math/DegreeTest.cc 
                cagey/math/VectorTest.cc 
                cagey/math/MatrixTest.cc 
                cagey/math/PointTest.cc
-               cagey/window/VideoModeTest.cc
                CageyTestMain.cc)
 
-target_link_libraries(CageyTest gtest_main)
+add_executable(CageyWindowTest
+               cagey/window/VideoModeTest.cc
+               cagey/window/WindowTest.cc
+               cagey/window/DisplayConfigTest.cc
+               CageyTestMain.cc)
 
-add_test(CageyTest CageyTest)
+
+target_link_libraries(CageyMathTest gtest_main)
+target_link_libraries(CageyWindowTest gtest_main CageyEngine)
+
+
+add_test(CageyMathTest CageyMathTest)
+add_test(CageyWindowTest CageyWindowTest)

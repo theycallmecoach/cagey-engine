@@ -12,27 +12,44 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_SDL_SDLDISPLAYCONFIG_HH_
-#define CAGEY_WINDOW_SDL_SDLDISPLAYCONFIG_HH_
+#ifndef CAGEY_WINDOW_SDL_SDLWINDOW_HH_
+#define CAGEY_WINDOW_SDL_SDLWINDOW_HH_
 
-#include <SDL2/SDL.h>
-#include "cagey/window/IDisplayConfig.hh"
+
+#include "cagey/window/IWindow.hh"
+#include <cagey/math/Point.hh>
 #include "cagey/window/sdl/SdlContext.hh"
+#include <SDL2/SDL.h>
+#include <memory>
 
 namespace cagey {
 namespace window {
 namespace sdl {
 
-class SdlDisplayConfig : private SdlContext, public window::IDisplayConfig {
+class SdlWindow : private SdlContext, public IWindow {
 public:
-  SdlDisplayConfig() : SdlContext(SDL_INIT_VIDEO) {};
-  auto getFullScreenModes() -> std::vector<window::VideoMode> override;
-  auto getCurrentMode() -> window::VideoMode override;
+  SdlWindow(std::string const & title, VideoMode const & mode);
+  ~SdlWindow();
+
+  auto getTitle() const -> std::string override;
+  auto setTitle(std::string const & newTitle) -> void;
+
+  auto getSize() const -> math::Point2u override;
+  auto setSize(math::Point2u dim) -> void override ;
+
+  auto getVisible() const -> bool override;
+  auto setVisible(bool visible) -> void override;
+
+  auto getWindowHandle() const -> window::WindowHandle override;
+
+private:
+  using SdlWindowPtr = std::unique_ptr<SDL_Window, void(*)(SDL_Window*)>;
+  SdlWindowPtr mWindow;
 };
 
-} //namespace sdl;
+} //namespace sdl
 } //namespace window
 } //namespace cagey
 
 
-#endif //CAGEY_WINDOW_SDL_SDLVIDEOMODEIMPL_HH_
+#endif //CAGEY_WINDOW_SDL_SDLWINDOW_HH_

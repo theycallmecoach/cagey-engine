@@ -12,27 +12,29 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef CAGEY_WINDOW_SDL_SDLDISPLAYCONFIG_HH_
-#define CAGEY_WINDOW_SDL_SDLDISPLAYCONFIG_HH_
+#ifndef CAGEY_WINDOW_SDL_SDLCONTEXT_HH_
+#define CAGEY_WINDOW_SDL_SDLCONTEXT_HH_
 
-#include <SDL2/SDL.h>
-#include "cagey/window/IDisplayConfig.hh"
-#include "cagey/window/sdl/SdlContext.hh"
+#include <cstdint>
 
 namespace cagey {
 namespace window {
 namespace sdl {
 
-class SdlDisplayConfig : private SdlContext, public window::IDisplayConfig {
+class SdlContext {
+private:
+
 public:
-  SdlDisplayConfig() : SdlContext(SDL_INIT_VIDEO) {};
-  auto getFullScreenModes() -> std::vector<window::VideoMode> override;
-  auto getCurrentMode() -> window::VideoMode override;
+  SdlContext(std::uint32_t flags);
+  ~SdlContext() ;
+//  SdlContext(SdlContext const & other)
+//  auto operator = (SdlContext const & other)
 };
 
-} //namespace sdl;
+
+} //namespace sdl
 } //namespace window
 } //namespace cagey
 
 
-#endif //CAGEY_WINDOW_SDL_SDLVIDEOMODEIMPL_HH_
+#endif //CAGEY_WINDOW_SDL_SDLCONTEXT_HH_

@@ -33,7 +33,7 @@
 
 
 #ifdef USE_SDL
-#include "cagey/window/sdl/SdlWindowImpl.hh"
+#include "cagey/window/sdl/SdlWindow.hh"
 #include "cagey/window/sdl/SdlDisplayConfig.hh"
 #elif USE_X11
 #include "cagey/window/x11/X11Window.hh"
@@ -42,13 +42,13 @@
 namespace cagey {
 namespace window {
 
-auto WindowFactory::createWindow(VideoMode const & vidMode,
-    std::string const & winName,
+auto WindowFactory::createWindow(std::string const & winName,
+    VideoMode const & vidMode,
     IWindow::StyleSet const & winStyle) -> std::unique_ptr<IWindow> {
 #ifdef USE_X11
   return std::unique_ptr<IWindow>{std::make_unique<x11::X11Window>()};
 #else
-  return std::unique_ptr<IWindow>{std::make_unique<window::sdl::SdlWindow>()};
+  return std::unique_ptr<IWindow>{std::make_unique<window::sdl::SdlWindow>(winName, vidMode)};
 #endif
 }
 

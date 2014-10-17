@@ -31,6 +31,7 @@ namespace sdl {
 
 ///////////////////////////////////////////////////////////////////////////////
 SdlWindow::SdlWindow(std::string const & title, VideoMode const & mode) :
+  SdlContext(SDL_INIT_VIDEO),
   mWindow{nullptr, SDL_DestroyWindow} {
 
   if (!SDL_WasInit(SDL_INIT_VIDEO)) {
@@ -41,7 +42,7 @@ SdlWindow::SdlWindow(std::string const & title, VideoMode const & mode) :
 
   mWindow.reset(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mode.getWidth(), mode.getHeight(), flags));
   if (!mWindow) {
-    BOOST_THROW_EXCEPTION(SdlInitException() << core::ThrowMsg("Failed to create window"));
+    BOOST_THROW_EXCEPTION(SdlInitException() << core::ThrowMsg(SDL_GetError()));
   }
 }
 
