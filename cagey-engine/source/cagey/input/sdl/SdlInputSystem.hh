@@ -35,19 +35,26 @@
 
 
 namespace cagey {
+namespace window {
+class IWindow;
+}
 namespace input {
 namespace sdl {
 
 class SdlInputSystem : public IInputSystem {
 public:
-  SdlInputSystem();
+  SdlInputSystem(std::weak_ptr<window::IWindow> win, std::map<std::string, std::string> const & param);
 
   virtual auto getName() const -> std::string override;
+
+  virtual auto getWindow() const -> std::weak_ptr<window::IWindow> override;
 
   virtual auto createDevice(DeviceType const &type) -> std::weak_ptr<Device> override;
 
 private:
+
   using DevicePtr = std::shared_ptr<Device>;
+  std::weak_ptr<window::IWindow> mWindow;
   std::map<DeviceType, DevicePtr> mDevices;
 };
 

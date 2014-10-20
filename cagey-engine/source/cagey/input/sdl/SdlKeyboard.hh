@@ -38,6 +38,9 @@ namespace sdl {
 class SdlKeyboard : public Keyboard {
 public:
   SdlKeyboard(SdlInputSystem const & inputSystem);
+
+  auto update() -> void override{}
+
 private:
 };
 

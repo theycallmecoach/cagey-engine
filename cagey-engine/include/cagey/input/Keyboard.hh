@@ -39,6 +39,7 @@ public:
 
   virtual ~Keyboard() = default;
 
+  virtual auto update() -> void = 0;
 protected:
 
 private:

@@ -33,13 +33,19 @@
 
 
 namespace cagey {
-namespace input {
 
+//forward declaration
+namespace window {
+ class IWindow;
+}
+
+namespace input {
 class IInputSystem;
+
 
 class InputSystemFactory {
 public:
-  static auto create(StringMap const & param) -> std::unique_ptr<IInputSystem>;
+  static auto create(std::weak_ptr<window::IWindow> win, StringMap const & param) -> std::unique_ptr<IInputSystem>;
 };
 
 } //namespace input

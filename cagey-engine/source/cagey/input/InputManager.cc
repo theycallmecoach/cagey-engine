@@ -30,6 +30,7 @@
 #include <cagey/input/IInputSystem.hh>
 #include <cagey/input/Mouse.hh>
 #include <cagey/input/Keyboard.hh>
+#include <cagey/window/IWindow.hh>
 #include <memory>
 
 //#include "sdl/SdlInputSystem.hh"
@@ -42,14 +43,25 @@ namespace {
 namespace cagey {
 namespace input {
 
-InputManager::InputManager()
- : mInputSystem{InputSystemFactory::create(StringMap())} {
-
+///////////////////////////////////////////////////////////////////////////////
+InputManager::InputManager(std::weak_ptr<window::IWindow> win)
+ : mInputSystem{InputSystemFactory::create(win,StringMap{})}
+{
   if (auto mouse = mInputSystem->createDevice(DeviceType::Mouse).lock()) {
     mMouse = std::dynamic_pointer_cast<Mouse>(mouse);
   }
   if (auto keyboard = mInputSystem->createDevice(DeviceType::Keyboard).lock()) {
     mKeyboard = std::dynamic_pointer_cast<Keyboard>(keyboard);
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+auto InputManager::update() -> void {
+  if (auto mouse = mMouse.lock()) {
+    mouse->update();
+  }
+  if (auto keyboard = mKeyboard.lock()) {
+    keyboard->update();
   }
 }
 

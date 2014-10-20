@@ -26,13 +26,39 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <cagey/window/WindowFactory.hh>
+#include <cagey/input/InputManager.hh>
+#include <cagey/input/Mouse.hh>
 #include <gtest/gtest.h>
 #include <thread>
 
 using namespace cagey::window;
+using namespace cagey::input;
 using namespace std::literals; //need this for fancy chrono_literals
+
+namespace {
+  bool pressedState = false;
+
+}
+
+
+void pressedListener() {
+  std::cout << "PRESSED YAY";
+  pressedState = true;
+}
 
 TEST(Window, DefaultConstructor) {
   auto win = WindowFactory::createWindow("HelloWorld", VideoMode{640,480});
+  auto winp = std::shared_ptr<IWindow>{std::move(win)};
+
+  InputManager inputMan{winp};
+
+  if (auto mouse = inputMan.getMouse().lock()) {
+    mouse->addPressedListener(pressedListener);
+  }
+
+  while(!pressedState) {
+    inputMan.update();
+  }
+
   std::this_thread::sleep_for( 2000ms );
 }

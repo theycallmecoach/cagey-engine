@@ -76,14 +76,14 @@ public:
 //  auto addMouseListener(IMouseListener* listener) -> void;
 //  auto removeMouseListener(IMouseListener* listener) -> void;
 
-  auto addPressedListener(std::function<void()> const & func) -> PressedSignal::Connection { return mPressed.connect(func);}
-  auto addReleasedListener(std::function<void()> const & func) -> ReleasedSignal::Connection { return mReleased.connect(func);}
-  auto addMovedListener(std::function<void()> const & func) -> MovedSignal::Connection { return mMoved.connect(func);}
-  auto addWheelMovedListener(std::function<void()> const & func) -> WheelMovedSignal::Connection { return mWheelMoved.connect(func);}
-  auto addEnteredListener(std::function<void()> const & func) -> EnteredSignal::Connection { return mEntered.connect(func);}
-  auto addExitedListener(std::function<void()> const & func) -> ExitedSignal::Connection { return mExited.connect(func);}
+  auto addPressedListener(PressedSignal::Function const & func) -> PressedSignal::Connection { return mPressed.connect(func);}
+  auto addReleasedListener(ReleasedSignal::Function const & func) -> ReleasedSignal::Connection { return mReleased.connect(func);}
+  auto addMovedListener(MovedSignal::Function const & func) -> MovedSignal::Connection { return mMoved.connect(func);}
+  auto addWheelMovedListener(WheelMovedSignal::Function const & func) -> WheelMovedSignal::Connection { return mWheelMoved.connect(func);}
+  auto addEnteredListener(EnteredSignal::Function const & func) -> EnteredSignal::Connection { return mEntered.connect(func);}
+  auto addExitedListener(ExitedSignal::Function const & func) -> ExitedSignal::Connection { return mExited.connect(func);}
 
-  void update() {};
+  virtual auto update() -> void  = 0;
 
 protected:
   

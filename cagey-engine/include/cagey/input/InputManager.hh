@@ -34,6 +34,13 @@
 #include <string>
 
 namespace cagey {
+
+//Forward declarations
+namespace window {
+class IWindow;
+}
+
+
 namespace input {
 
 //Forward declarations
@@ -44,14 +51,20 @@ class Keyboard;
 
 class InputManager {
 public:
-  InputManager();
+  using MouseWeakPtr = std::weak_ptr<Mouse>;
+  using KeyboardWeakPtr = std::weak_ptr<Keyboard>;
+
+  explicit InputManager(std::weak_ptr<window::IWindow> win);
   virtual ~InputManager() = default;
+
+  auto getMouse() const -> MouseWeakPtr { return mMouse;}
+  auto getKeyboard() const -> KeyboardWeakPtr { return mKeyboard;}
+
+  auto update() -> void;
 
 protected:
 
 private:
-  using MouseWeakPtr = std::weak_ptr<Mouse>;
-  using KeyboardWeakPtr = std::weak_ptr<Keyboard>;
   using InputSysPtr = std::unique_ptr<IInputSystem>;
 
   MouseWeakPtr mMouse;

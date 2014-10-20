@@ -30,18 +30,25 @@
 #include "cagey/input/sdl/SdlMouse.hh"
 #include "cagey/input/sdl/SdlKeyboard.hh"
 
+
 namespace cagey {
 namespace input {
 namespace sdl {
 
 ///////////////////////////////////////////////////////////////////////////////
-SdlInputSystem::SdlInputSystem() {
+SdlInputSystem::SdlInputSystem(std::weak_ptr<window::IWindow> win, std::map<std::string, std::string> const & param)  :
+mWindow(win) {
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 auto SdlInputSystem::getName() const -> std::string {
   return "SDL";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+auto SdlInputSystem::getWindow() const -> std::weak_ptr<window::IWindow> {
+  return mWindow;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

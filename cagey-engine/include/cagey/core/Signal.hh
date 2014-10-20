@@ -114,7 +114,7 @@ public:
   /**
    * Register the given function to be called when this signal emits a signal
    *
-   * @param func the function to be called when emiting a signal
+   * @param func the function to be called when emitting a signal
    * @return a connection between this signal and the given function
    */
   auto connect(Function const & func) -> Connection {

@@ -34,6 +34,12 @@
 #include <map>
 
 namespace cagey {
+
+//Forward declaration
+namespace window {
+class IWindow;
+}
+
 namespace input {
 
 class Device;
@@ -49,6 +55,9 @@ public:
   * Return the name of this InputSystem
   */
   virtual auto getName() const -> std::string = 0;
+
+
+  virtual auto getWindow() const -> std::weak_ptr<window::IWindow> = 0;
 
   /**
   * Construct a device of the given type

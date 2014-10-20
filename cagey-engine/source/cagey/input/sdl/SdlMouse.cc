@@ -26,14 +26,56 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <SDL2/SDL.h>
+#include <complex>
+#include <iostream>
 #include "SdlMouse.hh"
+
+
+
+namespace {
+  const int MouseBufferSize = 50;
+}
 
 namespace cagey {
 namespace input {
 namespace sdl {
 
-SdlMouse::SdlMouse(SdlInputSystem const &inputSystem) : SdlContext(SDL_INIT_VIDEO), Mouse(inputSystem) {
+///////////////////////////////////////////////////////////////////////////////
+SdlMouse::SdlMouse(SdlInputSystem const & inputSystem)
+    : SdlContext(SDL_INIT_VIDEO),
+      Mouse(inputSystem),
+      mInputSystem(inputSystem) {
+}
 
+
+///////////////////////////////////////////////////////////////////////////////
+auto SdlMouse::update() -> void {
+  std::cout << "SdlMouse::update" << std::endl;
+  if (auto win = mInputSystem.getWindow().lock()){
+
+    SDL_Event events[MouseBufferSize];
+    SDL_PumpEvents();
+    int count = SDL_PeepEvents(events, MouseBufferSize, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL);
+    std::cout << "SdlMouse::count"<< count << std::endl;
+    for (int i = 0; i < count; ++i) {
+      switch(events[i].type) {
+        case SDL_MOUSEMOTION: {
+          std::cout << "SdlMouse::motion" << std::endl;
+          break;
+        }
+        case SDL_MOUSEBUTTONDOWN: {
+          std::cout << "SdlMouse::pressed" << std::endl;
+          mPressed();
+          break;
+        }
+        case SDL_MOUSEBUTTONUP: {
+          std::cout << "SdlMouse::released" << std::endl;
+          mReleased();
+          break;
+        }
+      }
+    }
+  }
 }
 
 } //namespace sdl;

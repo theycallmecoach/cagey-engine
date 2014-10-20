@@ -59,22 +59,22 @@ public:
   using StyleSet = cagey::util::EnumClassSet <Style, 5>;
 
   /**
-  * Default destructor
-  */
+   * Default destructor
+   */
   virtual ~IWindow() = default;
 
   /**
-  * Returns the title of this Window
-  *
-  * @param the window title as a std::string
-  */
+   * Returns the title of this Window
+   *
+   * @param the window title as a std::string
+   */
   virtual auto getTitle() const -> std::string = 0;
 
   /**
-  * Sets the title of this window to the given string
-  *
-  * @param newTitle the new title for this window as a std::string
-  */
+   * Sets the title of this window to the given string
+   *
+   * @param newTitle the new title for this window as a std::string
+   */
   virtual auto setTitle(std::string const & newTitle) -> void = 0;
 
 

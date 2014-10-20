@@ -28,10 +28,17 @@
 
 #include "cagey/input/InputSystemFactory.hh"
 
+#ifdef USE_SDL
+#include <cagey/input/sdl/SdlInputSystem.hh>
+#endif
+
 namespace cagey {
 namespace input {
 
-auto InputSystemFactory::create(StringMap const & param) -> std::unique_ptr<IInputSystem> {
+auto InputSystemFactory::create(std::weak_ptr<window::IWindow> win, StringMap const & param) -> std::unique_ptr<IInputSystem> {
+#ifdef USE_SDL
+  return std::make_unique<sdl::SdlInputSystem>(win, param);
+#endif
   throw 0;
 }
 

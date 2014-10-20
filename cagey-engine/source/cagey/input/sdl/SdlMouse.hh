@@ -39,7 +39,10 @@ namespace sdl {
 class SdlMouse : private window::sdl::SdlContext, public Mouse {
 public:
   SdlMouse(SdlInputSystem const &  inputSystem);
+
+  auto update() -> void;
 private:
+  SdlInputSystem const & mInputSystem;
 };
 
 
