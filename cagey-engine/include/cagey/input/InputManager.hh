@@ -51,14 +51,12 @@ class Keyboard;
 
 class InputManager {
 public:
-  using MouseWeakPtr = std::weak_ptr<Mouse>;
-  using KeyboardWeakPtr = std::weak_ptr<Keyboard>;
 
-  explicit InputManager(std::weak_ptr<window::IWindow> win);
+  explicit InputManager(cagey::input::IInputSystem * is);
   virtual ~InputManager() = default;
 
-  auto getMouse() const -> MouseWeakPtr { return mMouse;}
-  auto getKeyboard() const -> KeyboardWeakPtr { return mKeyboard;}
+  auto getMouse() const -> Mouse * { return mMouse;}
+  auto getKeyboard() const -> Keyboard * { return mKeyboard;}
 
   auto update() -> void;
 
@@ -67,8 +65,8 @@ protected:
 private:
   using InputSysPtr = std::unique_ptr<IInputSystem>;
 
-  MouseWeakPtr mMouse;
-  KeyboardWeakPtr mKeyboard;
+  Mouse * mMouse;
+  Keyboard * mKeyboard;
   InputSysPtr mInputSystem;
 };
 

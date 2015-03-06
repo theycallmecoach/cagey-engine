@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <cagey/window/WindowFactory.hh>
+#include <cagey/input/InputSystemFactory.hh>
 #include <cagey/input/InputManager.hh>
 #include <cagey/input/Mouse.hh>
 #include <gtest/gtest.h>
@@ -48,13 +49,11 @@ void pressedListener() {
 
 TEST(Window, DefaultConstructor) {
   auto win = WindowFactory::createWindow("HelloWorld", VideoMode{640,480});
-  auto winp = std::shared_ptr<IWindow>{std::move(win)};
+  auto inSys = InputSystemFactory::createSystem(win.get(), StringMap{});
 
-  InputManager inputMan{winp};
+  InputManager inputMan{inSys.get()};
+  inputMan.getMouse()->addPressedListener(pressedListener);
 
-  if (auto mouse = inputMan.getMouse().lock()) {
-    mouse->addPressedListener(pressedListener);
-  }
 
   while(!pressedState) {
     inputMan.update();

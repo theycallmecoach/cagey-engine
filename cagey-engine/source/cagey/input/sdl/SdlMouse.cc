@@ -28,8 +28,8 @@
 #include <SDL2/SDL.h>
 #include <complex>
 #include <iostream>
-#include "SdlMouse.hh"
-
+#include "cagey/input/sdl/SdlMouse.hh"
+#include "cagey/window/IWindow.hh"
 
 
 namespace {
@@ -51,28 +51,26 @@ SdlMouse::SdlMouse(SdlInputSystem const & inputSystem)
 ///////////////////////////////////////////////////////////////////////////////
 auto SdlMouse::update() -> void {
   std::cout << "SdlMouse::update" << std::endl;
-  if (auto win = mInputSystem.getWindow().lock()){
-
-    SDL_Event events[MouseBufferSize];
-    SDL_PumpEvents();
-    int count = SDL_PeepEvents(events, MouseBufferSize, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL);
-    std::cout << "SdlMouse::count"<< count << std::endl;
-    for (int i = 0; i < count; ++i) {
-      switch(events[i].type) {
-        case SDL_MOUSEMOTION: {
-          std::cout << "SdlMouse::motion" << std::endl;
-          break;
-        }
-        case SDL_MOUSEBUTTONDOWN: {
-          std::cout << "SdlMouse::pressed" << std::endl;
-          mPressed();
-          break;
-        }
-        case SDL_MOUSEBUTTONUP: {
-          std::cout << "SdlMouse::released" << std::endl;
-          mReleased();
-          break;
-        }
+  auto win = mInputSystem.getWindow();
+  SDL_Event events[MouseBufferSize];
+  SDL_PumpEvents();
+  int count = SDL_PeepEvents(events, MouseBufferSize, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL);
+  std::cout << "SdlMouse::count"<< count << std::endl;
+  for (int i = 0; i < count; ++i) {
+    switch(events[i].type) {
+      case SDL_MOUSEMOTION: {
+        std::cout << "SdlMouse::motion" << std::endl;
+        break;
+      }
+      case SDL_MOUSEBUTTONDOWN: {
+        std::cout << "SdlMouse::pressed" << std::endl;
+        mPressed();
+        break;
+      }
+      case SDL_MOUSEBUTTONUP: {
+        std::cout << "SdlMouse::released" << std::endl;
+        mReleased();
+        break;
       }
     }
   }

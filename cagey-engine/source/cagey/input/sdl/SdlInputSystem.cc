@@ -29,6 +29,8 @@
 #include "cagey/input/sdl/SdlInputSystem.hh"
 #include "cagey/input/sdl/SdlMouse.hh"
 #include "cagey/input/sdl/SdlKeyboard.hh"
+#include "cagey/input/sdl/SdlDeviceFactory.hh"
+#include "cagey/input/Device.hh"
 
 
 namespace cagey {
@@ -36,8 +38,8 @@ namespace input {
 namespace sdl {
 
 ///////////////////////////////////////////////////////////////////////////////
-SdlInputSystem::SdlInputSystem(std::weak_ptr<window::IWindow> win, std::map<std::string, std::string> const & param)  :
-mWindow(win) {
+SdlInputSystem::SdlInputSystem(window::IWindow const * win, cagey::input::StringMap const & param)  :
+  mWindow(win) {
 
 }
 
@@ -47,25 +49,14 @@ auto SdlInputSystem::getName() const -> std::string {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-auto SdlInputSystem::getWindow() const -> std::weak_ptr<window::IWindow> {
+auto SdlInputSystem::getWindow() const -> window::IWindow const * {
   return mWindow;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-auto SdlInputSystem::createDevice(DeviceType const &type) -> std::weak_ptr<Device> {
-  switch(type) {
-    case DeviceType::Mouse: {
-      if (!mDevices[type]) {
-        mDevices[type] = std::make_shared<SdlMouse>(*this);
-      }
-      break;
-    }
-    case DeviceType::Keyboard: {
-      mDevices[type] = std::make_shared<SdlKeyboard>(*this);
-      break;
-    }
-  }
-  return mDevices[type];
+auto SdlInputSystem::createDevice(DeviceType const &type) -> cagey::input::Device * {
+  mDevices[type] = SdlDeviceFactory::createDevice(*this, type);
+  return mDevices[type].get();
 }
 
 } //namespace sdl;

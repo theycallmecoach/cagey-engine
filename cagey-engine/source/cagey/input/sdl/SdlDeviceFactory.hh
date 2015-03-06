@@ -24,44 +24,33 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CAGEY_INPUT_DEVICE_HH_
-#define CAGEY_INPUT_DEVICE_HH_
 
+#ifndef CAGEY_INPUT_SDL_SDLDEVICEFACTORY_HH_
+#define CAGEY_INPUT_SDL_SDLDEVICEFACTORY_HH_
 
+#include <cagey/input/Types.hh>
+#include <string>
+#include <memory>
+#include <map>
 
 namespace cagey {
 namespace input {
+class Device;
 
-//Forward declarations
-class IInputSystem;
+namespace sdl {
 
-class Device {
+class SdlInputSystem;
+
+class SdlDeviceFactory {
 public:
-
   /**
-  * Construct a Device with a non-owning reference to the InputSystem
-  * that created it.
-  *
-  * @param inSys a pointer to the device to which this device belongs
+  * Construct a device of the given type
   */
-  explicit Device(cagey::input::IInputSystem const & inSys) : mInputSystem{inSys} {}
-
-  /**
-  * Destructor
-  */
-  virtual ~Device() = default;
-
-  /**
-  * Return a pointer to the input system that created this device
-  */
-  auto getInputSystem() -> cagey::input::IInputSystem const & { return mInputSystem; }
-
-private:
-  /// a reference to the input system that owns this device;
-  cagey::input::IInputSystem const & mInputSystem;
+  static auto createDevice(cagey::input::sdl::SdlInputSystem const &is, cagey::input::DeviceType const &type) -> std::unique_ptr<cagey::input::Device>;
 };
 
+} //namespace sdl
 } //namespace input
 } //namespace cagey
 
-#endif //CAGEY_INPUT_DEVICE_HH_
+#endif // CAGEY_INPUT_SDL_SDLDEVICEFACTORY_HH_

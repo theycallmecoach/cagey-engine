@@ -24,44 +24,29 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CAGEY_INPUT_DEVICE_HH_
-#define CAGEY_INPUT_DEVICE_HH_
 
 
+#include "cagey/input/sdl/SdlDeviceFactory.hh"
+#include "cagey/input/sdl/SdlMouse.hh"
+#include "cagey/input/sdl/SdlKeyboard.hh"
+#include "cagey/input/sdl/SdlInputSystem.hh"
 
 namespace cagey {
 namespace input {
+namespace sdl {
 
-//Forward declarations
-class IInputSystem;
+///////////////////////////////////////////////////////////////////////////////
+auto SdlDeviceFactory::createDevice(SdlInputSystem const & is, DeviceType const &type) -> std::unique_ptr<Device> {
+  switch(type) {
+    case DeviceType::Mouse: {
+      return std::unique_ptr<Device>{std::make_unique<input::sdl::SdlMouse>(is)};
+    }
+    case DeviceType::Keyboard: {
+      return std::unique_ptr<Device>{std::make_unique<input::sdl::SdlKeyboard>(is)};
+    }
+  }
+}
 
-class Device {
-public:
-
-  /**
-  * Construct a Device with a non-owning reference to the InputSystem
-  * that created it.
-  *
-  * @param inSys a pointer to the device to which this device belongs
-  */
-  explicit Device(cagey::input::IInputSystem const & inSys) : mInputSystem{inSys} {}
-
-  /**
-  * Destructor
-  */
-  virtual ~Device() = default;
-
-  /**
-  * Return a pointer to the input system that created this device
-  */
-  auto getInputSystem() -> cagey::input::IInputSystem const & { return mInputSystem; }
-
-private:
-  /// a reference to the input system that owns this device;
-  cagey::input::IInputSystem const & mInputSystem;
-};
-
+} //namespace sdl
 } //namespace input
 } //namespace cagey
-
-#endif //CAGEY_INPUT_DEVICE_HH_

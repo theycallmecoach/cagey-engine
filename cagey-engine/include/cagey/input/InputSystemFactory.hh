@@ -24,44 +24,35 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CAGEY_INPUT_DEVICE_HH_
-#define CAGEY_INPUT_DEVICE_HH_
 
+#ifndef CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_
+#define CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_
 
+#include <cagey/input/Types.hh>
+#include <string>
+#include <memory>
+#include <map>
 
 namespace cagey {
+
+//Forward declaration
+namespace window {
+class IWindow;
+}
+
 namespace input {
 
-//Forward declarations
 class IInputSystem;
 
-class Device {
+class InputSystemFactory {
 public:
-
   /**
-  * Construct a Device with a non-owning reference to the InputSystem
-  * that created it.
-  *
-  * @param inSys a pointer to the device to which this device belongs
-  */
-  explicit Device(cagey::input::IInputSystem const & inSys) : mInputSystem{inSys} {}
-
-  /**
-  * Destructor
-  */
-  virtual ~Device() = default;
-
-  /**
-  * Return a pointer to the input system that created this device
-  */
-  auto getInputSystem() -> cagey::input::IInputSystem const & { return mInputSystem; }
-
-private:
-  /// a reference to the input system that owns this device;
-  cagey::input::IInputSystem const & mInputSystem;
+   * Construct a InputSystem for the given Window
+   */
+  static auto createSystem(cagey::window::IWindow const * win, cagey::input::StringMap const & map) -> std::unique_ptr<cagey::input::IInputSystem>;
 };
 
 } //namespace input
 } //namespace cagey
 
-#endif //CAGEY_INPUT_DEVICE_HH_
+#endif // CAGEY_INPUT_INPUTSYSTEMFACTORY_HH_

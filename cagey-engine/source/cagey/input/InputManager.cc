@@ -36,32 +36,24 @@
 //#include "sdl/SdlInputSystem.hh"
 //#include "x11/X11InputSystem.hh"
 
-namespace {
-  using StringMap = std::map<std::string, std::string>;
-}
-
 namespace cagey {
 namespace input {
 
 ///////////////////////////////////////////////////////////////////////////////
-InputManager::InputManager(std::weak_ptr<window::IWindow> win)
- : mInputSystem{InputSystemFactory::create(win,StringMap{})}
+InputManager::InputManager(IInputSystem * inSys)
+ : mInputSystem{inSys}
 {
-  if (auto mouse = mInputSystem->createDevice(DeviceType::Mouse).lock()) {
-    mMouse = std::dynamic_pointer_cast<Mouse>(mouse);
-  }
-  if (auto keyboard = mInputSystem->createDevice(DeviceType::Keyboard).lock()) {
-    mKeyboard = std::dynamic_pointer_cast<Keyboard>(keyboard);
-  }
+  mMouse = static_cast<Mouse*>(mInputSystem->createDevice(DeviceType::Mouse));
+  mKeyboard = static_cast<Keyboard*>(mInputSystem->createDevice(DeviceType::Keyboard));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 auto InputManager::update() -> void {
-  if (auto mouse = mMouse.lock()) {
-    mouse->update();
+  if (mMouse) {
+    mMouse->update();
   }
-  if (auto keyboard = mKeyboard.lock()) {
-    keyboard->update();
+  if (mKeyboard) {
+    mKeyboard->update();
   }
 }
 

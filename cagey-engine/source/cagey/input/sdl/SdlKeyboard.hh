@@ -37,7 +37,7 @@ namespace sdl {
 
 class SdlKeyboard : public Keyboard {
 public:
-  SdlKeyboard(SdlInputSystem const & inputSystem);
+  SdlKeyboard(cagey::input::sdl::SdlInputSystem const & inputSystem);
 
   auto update() -> void override{}
 

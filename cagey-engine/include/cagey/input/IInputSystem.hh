@@ -52,17 +52,17 @@ public:
   virtual ~IInputSystem() = default;
 
   /**
-  * Return the name of this InputSystem
-  */
+   * Return the name of this InputSystem
+   */
   virtual auto getName() const -> std::string = 0;
 
 
-  virtual auto getWindow() const -> std::weak_ptr<window::IWindow> = 0;
+  virtual auto getWindow() const -> cagey::window::IWindow const * = 0;
 
   /**
-  * Construct a device of the given type
-  */
-  virtual auto createDevice(DeviceType const & type) -> std::weak_ptr<Device> = 0;
+   * Construct a device of the given type
+   */
+  virtual auto createDevice(DeviceType const & type) -> cagey::input::Device * = 0;
 };
 
 } //namespace input
