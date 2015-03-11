@@ -28,13 +28,14 @@
 #ifndef CAGEY_ERROR_CAGEYEXCEPTION_HH_
 #define CAGEY_ERROR_CAGEYEXCEPTION_HH_
 
+///////////////////////////////////////////////////////////////////////////////
+// Forward declaration
+///////////////////////////////////////////////////////////////////////////////
 #include <boost/exception/all.hpp>  //Cagey exceptions are based on boost::exception
 #include <string>
 #include <exception>
 
-
-namespace cagey {
-namespace core {
+namespace cagey { namespace core {
 
 /**
  *  Structure Tag to allow user defined string to an exception object
@@ -56,13 +57,13 @@ class Exception : public virtual boost::exception, public virtual std::exception
   }
 };
 
-
 class DivideByZeroException : public virtual Exception {}; /// An Exception for when a division by zero is attempted
 class IOException : public virtual Exception{}; /// An Exception for when there is an error with Input or Output
 class IndexOutOfBoundsException : public virtual Exception{}; /// An Exception when there is an attempt to access an invalid index
 class FileNotFoundException : public virtual IOException{}; /// An exception when a file is not found
 class InvalidArgumentException :public virtual Exception{}; /// An exception when a invalid argument is passed to a function/method
 class SingularMatrixException : public virtual Exception{}; /// An exception when a Matrix does have a inverse
+
 } // namespace core
 } // namespace cagey
 

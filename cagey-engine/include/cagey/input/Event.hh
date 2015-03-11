@@ -27,12 +27,16 @@
 #ifndef CAGEY_INPUT_EVENT_HH_
 #define CAGEY_INPUT_EVENT_HH_
 
-namespace cagey {
-namespace input {
+namespace cagey { namespace input {
 
-//forward declarations
+///////////////////////////////////////////////////////////////////////////////
+// Forward declaration
+///////////////////////////////////////////////////////////////////////////////
 class Device;
 
+/**
+* Abstract base class for all input events
+*/
 class Event {
 protected:
   /**
@@ -40,7 +44,7 @@ protected:
   *
   * @param source reference to device that created this event
   */
-  explicit Event(Device const & source) : mSource{source} {}
+  explicit Event(Device const * source) : mSource{source} {}
 
   /**
   * Default destructor
@@ -52,13 +56,12 @@ protected:
   *
   * @return the device that created this event
   */
-  auto getSource() const -> Device const & { return mSource;}
+  auto getSource() const -> Device const * { return mSource;}
 
 private:
   /// Reference to the device that generated this event
-  Device const & mSource;
+  Device const * mSource;
 };
-
 
 
 } //namespace input

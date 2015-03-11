@@ -27,46 +27,28 @@
 #ifndef CAGEY_INPUT_MOUSE_HH_
 #define CAGEY_INPUT_MOUSE_HH_
 
+///////////////////////////////////////////////////////////////////////////////
+// Headers
+///////////////////////////////////////////////////////////////////////////////
 #include <cagey/input/Device.hh>
 #include <cagey/util/EnumClassSet.hh>
 #include <cagey/input/IInputSystem.hh>
 #include <cagey/core/Signal.hh>
 #include <functional>
 #include <utility>
+#include <cagey/input/MouseEvent.hh>
 
-namespace cagey {
-namespace input {
+namespace cagey { namespace input {
 
 /**
-* All supported mouse buttons
+* Abstract base class for Mouse devices
 */
-enum class MouseButton : int {
-  Left,
-  Middle,
-  Right,
-  Extra1,
-  Extra2
-};
-using MouseButtonState = util::EnumClassSet<MouseButton, 5>;
-
-//class IMouseListener {
-//public:
-//  virtual ~IMouseListener() = default;
-//  virtual auto mousePressed() -> void = 0;
-//  virtual auto mouseReleased() -> void = 0;
-//  virtual auto mouseMoved() -> void = 0;
-//  virtual auto mouseWheelMoved() -> void = 0;
-//  virtual auto mouseEntered() -> void = 0;
-//  virtual auto mouseExited() -> void = 0;
-//};
-
-
 class Mouse : public Device {
 public:
   Mouse(IInputSystem const & inputSystem) : Device{inputSystem} {}
   ~Mouse() = default;
 
-  using PressedSignal = core::Signal<void()>;
+  using PressedSignal = core::Signal<void(cagey::input::MouseButtonEvent const &)>;
   using ReleasedSignal = core::Signal<void()>;
   using MovedSignal = core::Signal<void()>;
   using WheelMovedSignal = core::Signal<void()>;

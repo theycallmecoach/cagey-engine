@@ -28,13 +28,10 @@
 #define CAGEY_INPUT_SDL_SDLMOUSE_HH_
 
 #include <cagey/input/Mouse.hh>
-
 #include "cagey/input/sdl/SdlInputSystem.hh"
 #include "cagey/window/sdl/SdlContext.hh"
 
-namespace cagey {
-namespace input {
-namespace sdl {
+namespace cagey { namespace input { namespace sdl {
 
 class SdlMouse : private window::sdl::SdlContext, public Mouse {
 public:

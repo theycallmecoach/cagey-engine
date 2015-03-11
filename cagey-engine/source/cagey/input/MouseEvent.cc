@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 // cagey-engine - Toy 3D Engine
-// Copyright (c) 2014 Kyle Girard <theycallmecoach@gmail.com>
+// Copyright (c) 2015 Kyle Girard <theycallmecoach@gmail.com>
 //
 // The MIT License (MIT)
 //
@@ -24,38 +24,39 @@
 // SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#include <cagey/window/WindowFactory.hh>
-#include <cagey/input/InputSystemFactory.hh>
-#include <cagey/input/InputManager.hh>
+#include <cagey/input/MouseEvent.hh>
 #include <cagey/input/Mouse.hh>
-#include <gtest/gtest.h>
-#include <thread>
 
-using namespace cagey::window;
-using namespace cagey::input;
-using namespace std::literals; //need this for fancy chrono_literals
+namespace cagey { namespace input {
 
-namespace {
-  bool pressedState = false;
+///////////////////////////////////////////////////////////////////////////////
+MouseEvent::MouseEvent(cagey::input::Mouse const *source)
+    : Event{source} {
 }
 
-void pressedListener(MouseButtonEvent const & event) {
-  std::cerr << "PRESSED YAY : " << event.getPosition().x << "x" << event.getPosition().y << std::endl;
-  pressedState = true;
+///////////////////////////////////////////////////////////////////////////////
+MouseButtonEvent::MouseButtonEvent(cagey::input::Mouse const *source,
+    cagey::input::MouseButtonState const &buttonState,
+    cagey::math::Point2i const &pos)
+    : MouseEvent{source},
+      mButtonState{buttonState},
+      mPos{pos} {
 }
 
-TEST(Window, DefaultConstructor) {
-  auto win = WindowFactory::createWindow("HelloWorld", VideoMode{640,480});
-  auto inSys = InputSystemFactory::createSystem(win.get(), StringMap{});
-
-  InputManager inputMan{inSys.get()};
-  inputMan.getMouse()->addPressedListener(pressedListener);
-
-
-  while(!pressedState) {
-    inputMan.update();
-  }
-
-  std::this_thread::sleep_for( 2000ms );
+///////////////////////////////////////////////////////////////////////////////
+MouseMotionEvent::MouseMotionEvent(cagey::input::Mouse const *source,
+    cagey::math::Point2i const &pos)
+    : MouseEvent{source},
+      mPos{pos} {
 }
+
+///////////////////////////////////////////////////////////////////////////////
+MouseWindowEvent::MouseWindowEvent(cagey::input::Mouse const *source,
+    cagey::math::Point2i const &pos)
+    : MouseEvent{source},
+      mPos{pos} {
+}
+
+
+
+};}

@@ -34,20 +34,27 @@
 #include <map>
 
 namespace cagey {
-
-//Forward declaration
+///////////////////////////////////////////////////////////////////////////////
+// Forward declaration
+///////////////////////////////////////////////////////////////////////////////
 namespace window {
 class IWindow;
 }
 
 namespace input {
 
+///////////////////////////////////////////////////////////////////////////////
+// Forward declaration
+///////////////////////////////////////////////////////////////////////////////
 class IInputSystem;
 
 class InputSystemFactory {
 public:
   /**
    * Construct a InputSystem for the given Window
+  * @param win pointer to a window
+  * @param map a map of options to pass to the created InputSystem
+  *
    */
   static auto createSystem(cagey::window::IWindow const * win, cagey::input::StringMap const & map) -> std::unique_ptr<cagey::input::IInputSystem>;
 };

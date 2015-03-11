@@ -28,24 +28,39 @@
 #ifndef CAGEY_INPUT_SDL_SDLDEVICEFACTORY_HH_
 #define CAGEY_INPUT_SDL_SDLDEVICEFACTORY_HH_
 
+///////////////////////////////////////////////////////////////////////////////
+// Headers
+///////////////////////////////////////////////////////////////////////////////
 #include <cagey/input/Types.hh>
 #include <string>
 #include <memory>
 #include <map>
 
-namespace cagey {
-namespace input {
+namespace cagey { namespace input {
+
+///////////////////////////////////////////////////////////////////////////////
+// Forward declaration
+///////////////////////////////////////////////////////////////////////////////
 class Device;
 
 namespace sdl {
 
+///////////////////////////////////////////////////////////////////////////////
+// Forward declaration
+///////////////////////////////////////////////////////////////////////////////
 class SdlInputSystem;
 
+/**
+* A factory to create SDL devices
+*/
 class SdlDeviceFactory {
 public:
   /**
-  * Construct a device of the given type
-  */
+   * Construct a device of the given type
+   *
+   * @param is the input system to use to create the device
+  * @param type the type of device to be created
+   */
   static auto createDevice(cagey::input::sdl::SdlInputSystem const &is, cagey::input::DeviceType const &type) -> std::unique_ptr<cagey::input::Device>;
 };
 

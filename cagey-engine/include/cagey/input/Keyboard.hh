@@ -27,25 +27,39 @@
 #ifndef CAGEY_INPUT_KEYBOARD_HH_
 #define CAGEY_INPUT_KEYBOARD_HH_
 
+///////////////////////////////////////////////////////////////////////////////
+// Headers
+///////////////////////////////////////////////////////////////////////////////
 #include <cagey/input/IInputSystem.hh>
 #include "cagey/input/Device.hh"
 
-namespace cagey {
-namespace input {
+namespace cagey { namespace input {
 
+/**
+* Abstract Keyboard Device
+*/
 class Keyboard : public Device {
 public:
+  /**
+  * Construct a keyboard
+  * @param a reference to the inputsystem which owns this device
+  */
   Keyboard(IInputSystem const & inputSystem) : Device{inputSystem}{};
 
+  /**
+  * Default destructor
+  */
   virtual ~Keyboard() = default;
 
+  /**
+  * Poll or update this device
+  */
   virtual auto update() -> void = 0;
 protected:
 
 private:
 
 };
-
 
 
 } //namespace input

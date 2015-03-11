@@ -28,11 +28,13 @@
 #ifndef CAGEY_INPUT_TYPES_HH_
 #define CAGEY_INPUT_TYPES_HH_
 
+///////////////////////////////////////////////////////////////////////////////
+// Headers
+///////////////////////////////////////////////////////////////////////////////
 #include <map>
 #include <string>
 
-namespace cagey {
-namespace input {
+namespace cagey { namespace input {
 
 enum class DeviceType : int {
   Mouse,

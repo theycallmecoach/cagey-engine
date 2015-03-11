@@ -27,14 +27,16 @@
 #ifndef CAGEY_INPUT_DEVICE_HH_
 #define CAGEY_INPUT_DEVICE_HH_
 
+namespace cagey { namespace input {
 
-
-namespace cagey {
-namespace input {
-
-//Forward declarations
+///////////////////////////////////////////////////////////////////////////////
+// Forward declaration
+///////////////////////////////////////////////////////////////////////////////
 class IInputSystem;
 
+/**
+* Abstract base class for all input devices
+*/
 class Device {
 public:
 

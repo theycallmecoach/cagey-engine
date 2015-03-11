@@ -30,6 +30,9 @@
 #include <iostream>
 #include "cagey/input/sdl/SdlMouse.hh"
 #include "cagey/window/IWindow.hh"
+#include "cagey/input/MouseEvent.hh"
+#include <cagey/math/Point.hh>
+
 
 
 namespace {
@@ -64,7 +67,24 @@ auto SdlMouse::update() -> void {
       }
       case SDL_MOUSEBUTTONDOWN: {
         std::cout << "SdlMouse::pressed" << std::endl;
-        mPressed();
+        auto bs = MouseButtonState{};
+        switch (events[i].button.button) {
+          case SDL_BUTTON_LEFT: {
+            bs.set(MouseButton::Left);
+            break;
+          }
+          case SDL_BUTTON_RIGHT: {
+            bs.set(MouseButton::Right);
+            break;
+          };
+          case SDL_BUTTON_MIDDLE: {
+            bs.set(MouseButton::Middle);
+            break;
+          };
+        }
+        auto loc = math::Point2i{events[i].button.x, events[i].button.y};
+        auto me = MouseButtonEvent{this, bs, loc};
+        mPressed(me);
         break;
       }
       case SDL_MOUSEBUTTONUP: {

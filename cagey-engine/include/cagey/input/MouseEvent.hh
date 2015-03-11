@@ -27,39 +27,66 @@
 #ifndef CAGEY_INPUT_MOUSEEVENT_HH_
 #define CAGEY_INPUT_MOUSEEVENT_HH_
 
+
+///////////////////////////////////////////////////////////////////////////////
+// Headers
+///////////////////////////////////////////////////////////////////////////////
 #include <cagey/input/Event.hh>
-#include <cagey/input/Mouse.hh>
 #include <cagey/math/Point.hh>
+#include <cagey/util/EnumClassSet.hh>
 
-namespace cagey {
-namespace input {
+namespace cagey { namespace input {
+
+class Mouse;
+
+/**
+* All supported mouse buttons
+*/
+enum class MouseButton : int {
+  Left,
+  Middle,
+  Right,
+  Extra1,
+  Extra2
+};
+using MouseButtonState = util::EnumClassSet<MouseButton, 5>;
 
 
-class MouseEvent : public Event {
+class MouseEvent : public cagey::input::Event {
 protected:
-  MouseEvent(Mouse const & source, MouseButonState const & buttonState, math::Point2i const & pos);
-  virtual ~Mouse() = default;
+  MouseEvent(cagey::input::Mouse const * source);
+  virtual ~MouseEvent() = default;
 
-protected:
+private:
+};
+
+class MouseButtonEvent : public cagey::input::MouseEvent {
+public:
+  MouseButtonEvent(cagey::input::Mouse const * source,
+      cagey::input::MouseButtonState const & buttonState,
+      cagey::math::Point2i const & pos);
+
+  auto getPosition() const -> math::Point2i { return mPos; };
 
 private:
   MouseButtonState mButtonState;
   math::Point2i mPos;
 };
 
-class MouseButtonEvent : public MouseEvent {
+class MouseMotionEvent : public cagey::input::MouseEvent {
 public:
-  MouseButtonEvent(Mouse const & source, MouseButtonState const & buttonState, math::Point2i const & pos);
+  MouseMotionEvent(cagey::input::Mouse const * source,
+      cagey::math::Point2i const & pos);
+private:
+  math::Point2i mPos;
 };
 
-class MouseMotionEvent : public MouseEvent {
+class MouseWindowEvent : public cagey::input::MouseEvent {
 public:
-  MouseMotionEvent(Mouse const & source, MouseButtonState const & buttonState, math::Point2i const & pos);
-};
-
-class MouseWindowEvent : public MouseEvent {
-public:
-  MouseWindowEvent(Mouse const & source, MouseButtonState const & buttonState, math::Point2i const & pos);
+  MouseWindowEvent(cagey::input::Mouse const * source,
+      cagey::math::Point2i const & pos);
+private:
+  math::Point2i mPos;
 };
 
 

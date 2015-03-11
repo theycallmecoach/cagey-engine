@@ -27,12 +27,14 @@
 #ifndef CAGEY_CORE_SIGNAL_HH_
 #define CAGEY_CORE_SIGNAL_HH_
 
+///////////////////////////////////////////////////////////////////////////////
+// Headers
+///////////////////////////////////////////////////////////////////////////////
 #include <functional>
 #include <map>
 #include <memory>
 
-namespace cagey {
-namespace core {
+namespace cagey { namespace core {
 
 template <typename> class Signal;
 
